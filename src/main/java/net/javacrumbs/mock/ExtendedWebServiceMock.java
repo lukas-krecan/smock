@@ -4,6 +4,7 @@ import javax.xml.transform.Source;
 import org.springframework.util.Assert;
 import org.springframework.ws.mock.client.RequestMatcher;
 import org.springframework.ws.mock.client.WebServiceMock;
+import org.w3c.dom.Document;
 
 /*
  * Copyright 2005-2010 the original author or authors.
@@ -34,6 +35,18 @@ public abstract class ExtendedWebServiceMock  {
      */
     public static RequestMatcher message(Source message) {
         Assert.notNull(message, "'message' must not be null");
-        return new MessageDiffMatcher();
+       	Document document = XmlUtil.getInstance().loadDocument(message);
+		return message(document);
+    }	
+    /**
+     * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
+     * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
+     *
+     * @param message the XML message
+     * @return the request matcher
+     */
+    public static RequestMatcher message(Document message) {
+    	Assert.notNull(message, "'message' must not be null");
+    	return new MessageDiffMatcher(message);
     }	
 }

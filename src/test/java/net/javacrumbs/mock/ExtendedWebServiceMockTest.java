@@ -16,21 +16,22 @@
 
 package net.javacrumbs.mock;
 
-import org.junit.Test;
-import org.springframework.ws.mock.client.RequestMatcher;
-import org.springframework.xml.transform.StringSource;
-
-import static net.javacrumbs.mock.ExtendedWebServiceMock.*;
+import static net.javacrumbs.mock.ExtendedWebServiceMock.message;
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+import org.springframework.xml.transform.StringSource;
 
 
 public class ExtendedWebServiceMockTest {
 
+	private static final String MESSAGE = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header /><soapenv:Body><test/></soapenv:Body></soapenv:Envelope>";
+
 	@Test
 	public void testMessage()
 	{
-		RequestMatcher requestMatcher = message(new StringSource("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header /><soapenv:Body><test/></soapenv:Body></soapenv:Envelope>"));
-		assertNotNull(requestMatcher);
+		MessageDiffMatcher requestMatcher = (MessageDiffMatcher) message(new StringSource(MESSAGE));
+		assertNotNull(requestMatcher.getMessage());
 	}
 	
 }

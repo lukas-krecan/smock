@@ -18,8 +18,12 @@ package net.javacrumbs.mock;
 
 import java.net.URI;
 
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.mock.client.RequestMatcher;
+import org.springframework.ws.soap.SoapMessage;
+import org.w3c.dom.Document;
 
 /**
  * Compares whole messages.
@@ -28,8 +32,28 @@ import org.springframework.ws.mock.client.RequestMatcher;
  */
 class MessageDiffMatcher implements RequestMatcher {
 
-	public void match(URI uri, WebServiceMessage request){
-
+	private final Document controlMessage;
+	
+	static {
+	        XMLUnit.setIgnoreWhitespace(true);
+	}
+	
+	public MessageDiffMatcher(Document controlMessage) {
+		this.controlMessage = controlMessage;
 	}
 
+
+
+	public void match(URI uri, WebServiceMessage request){
+		Document requestDocument = XmlUtil.getInstance().loadDocument(((SoapMessage)request).getEnvelope().getSource());
+		Diff diff = new Diff(controlMessage, requestDocument);
+        if (!diff.similar())
+        {
+        	throw new AssertionError("Messages are different, " + diff.toString());
+        }
+	}
+	
+	Document getMessage() {
+		return controlMessage;
+	}
 }
