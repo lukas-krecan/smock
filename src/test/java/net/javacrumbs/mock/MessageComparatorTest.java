@@ -16,14 +16,14 @@
 
 package net.javacrumbs.mock;
 
-import static net.javacrumbs.mock.ExtendedWebServiceMock.message;
+import static net.javacrumbs.mock.MessageComparator.message;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
 
 
-public class ExtendedWebServiceMockTest {
+public class MessageComparatorTest {
 
 	private static final String MESSAGE = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header /><soapenv:Body><test/></soapenv:Body></soapenv:Envelope>";
 
