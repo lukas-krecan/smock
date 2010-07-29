@@ -16,20 +16,27 @@
 
 package net.javacrumbs.mock;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import java.net.URI;
 
 import org.junit.Test;
-import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.soap.SoapEnvelope;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
-import static org.easymock.EasyMock.*;
 
 
 public class MessageDiffMatcherTest {
+	private static final URI TEST_URI = URI.create("http://localhost");
 	private static final String MESSAGE = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header /><soapenv:Body><test/></soapenv:Body></soapenv:Envelope>";
+	private static final String PAYLOAD = "<test/>";
 	private static final String MESSAGE2 = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header /><soapenv:Body><test2/></soapenv:Body></soapenv:Envelope>";
+	private static final String PAYLOAD2 = "<test2/>";
+	
 	
 	@Test
 	public void testSame()
@@ -43,7 +50,7 @@ public class MessageDiffMatcherTest {
 		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE));
 		replay(request, envelope);
 		
-		matcher.match(URI.create("http://localhost"), request);
+		matcher.match(TEST_URI, request);
 		
 		verify(request, envelope);
 	}
@@ -59,8 +66,36 @@ public class MessageDiffMatcherTest {
 		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE2));
 		replay(request, envelope);
 		
-		matcher.match(URI.create("http://localhost"), request);
+		matcher.match(TEST_URI, request);
 		
 		verify(request, envelope);
+	}
+	@Test
+	public void testPayload()
+	{
+		Document document = XmlUtil.getInstance().loadDocument(new StringSource(PAYLOAD));
+		MessageDiffMatcher matcher = new MessageDiffMatcher(document);
+		
+		SoapMessage request = createMock(SoapMessage.class);
+		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD));
+		replay(request);
+		
+		matcher.match(TEST_URI, request);
+		
+		verify(request);
+	}
+	@Test(expected=AssertionError.class)
+	public void testPayloadDifferent()
+	{
+		Document document = XmlUtil.getInstance().loadDocument(new StringSource(PAYLOAD));
+		MessageDiffMatcher matcher = new MessageDiffMatcher(document);
+		
+		SoapMessage request = createMock(SoapMessage.class);
+		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD2));
+		replay(request);
+		
+		matcher.match(TEST_URI, request);
+		
+		verify(request);
 	}
 }

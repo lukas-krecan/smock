@@ -16,15 +16,30 @@
 
 package net.javacrumbs.mock;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 
+import org.springframework.ws.soap.SoapVersion;
 import org.springframework.xml.transform.TransformerObjectSupport;
+import org.springframework.xml.xpath.XPathExpression;
+import org.springframework.xml.xpath.XPathExpressionFactory;
 import org.w3c.dom.Document;
 
 class XmlUtil extends TransformerObjectSupport {
 	private static final XmlUtil INSTANCE = new XmlUtil();
+
+	private static final Map<String, String> SOAP_NAMESPACES = new HashMap<String, String>();
+	
+	static{
+		SOAP_NAMESPACES.put("soap11", SoapVersion.SOAP_11.getEnvelopeNamespaceUri());
+		SOAP_NAMESPACES.put("soap12", SoapVersion.SOAP_12.getEnvelopeNamespaceUri());
+	};
+	
+	
 	
 	private XmlUtil()
 	{
@@ -44,5 +59,17 @@ class XmlUtil extends TransformerObjectSupport {
 		} catch (TransformerException e) {
 			throw new IllegalArgumentException("Can not parse message",e);
 		}
+	}
+	
+	boolean isSoap(Document document) {
+		for (String prefix: SOAP_NAMESPACES.keySet()) {
+			String expression = "/"+prefix+":Envelope";
+			XPathExpression xPathExpression = XPathExpressionFactory.createXPathExpression(expression, SOAP_NAMESPACES);
+			if (xPathExpression.evaluateAsBoolean(document))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

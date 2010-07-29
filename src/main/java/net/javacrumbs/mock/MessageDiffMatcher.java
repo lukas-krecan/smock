@@ -45,14 +45,30 @@ class MessageDiffMatcher implements RequestMatcher {
 
 
 	public void match(URI uri, WebServiceMessage request){
-		Document requestDocument = XmlUtil.getInstance().loadDocument(((SoapMessage)request).getEnvelope().getSource());
+		if (isSoapControl())
+		{
+			Document requestDocument = XmlUtil.getInstance().loadDocument(((SoapMessage)request).getEnvelope().getSource());
+			compare(requestDocument);
+		}
+		else //payload only
+		{
+			Document requestDocument = XmlUtil.getInstance().loadDocument(request.getPayloadSource());
+			compare(requestDocument);
+		}
+	}
+
+	private void compare(Document requestDocument) throws AssertionError {
 		Diff diff = new Diff(controlMessage, requestDocument);
-        if (!diff.similar())
-        {
-        	throw new AssertionError("Messages are different, " + diff.toString());
-        }
+		if (!diff.similar())
+		{
+			throw new AssertionError("Messages are different, " + diff.toString());
+		}
 	}
 	
+	boolean isSoapControl() {
+		return XmlUtil.getInstance().isSoap(controlMessage);
+	}
+
 	Document getMessage() {
 		return controlMessage;
 	}
