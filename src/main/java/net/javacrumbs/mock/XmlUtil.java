@@ -19,11 +19,14 @@ package net.javacrumbs.mock;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
 
 import org.springframework.ws.soap.SoapVersion;
+import org.springframework.xml.transform.StringResult;
 import org.springframework.xml.transform.TransformerObjectSupport;
 import org.springframework.xml.xpath.XPathExpression;
 import org.springframework.xml.xpath.XPathExpressionFactory;
@@ -53,12 +56,8 @@ class XmlUtil extends TransformerObjectSupport {
 	public Document loadDocument(Source source)
 	{
 		DOMResult result = new DOMResult();
-		try {
-			transform(source, result);
-			return (Document)result.getNode();
-		} catch (TransformerException e) {
-			throw new IllegalArgumentException("Can not parse message",e);
-		}
+		doTransform(source, result);
+		return (Document)result.getNode();
 	}
 	
 	boolean isSoap(Document document) {
@@ -71,5 +70,25 @@ class XmlUtil extends TransformerObjectSupport {
 			}
 		}
 		return false;
+	}
+	
+	String serialize(Document document)
+	{
+		return serialize(new DOMSource(document));
+	}
+	String serialize(Source source)
+	{
+		StringResult result = new StringResult();
+		doTransform(source, result);
+		return result.toString();
+		
+	}
+	
+	void doTransform(Source source, Result result) {
+		try {
+			transform(source, result);
+		} catch (TransformerException e) {
+			throw new IllegalArgumentException("Can not transform",e);
+		}
 	}
 }

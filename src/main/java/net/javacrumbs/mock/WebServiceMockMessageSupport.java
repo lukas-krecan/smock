@@ -5,7 +5,9 @@ import javax.xml.transform.Source;
 
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.mock.client.RequestMatcher;
+import org.springframework.ws.mock.client.ResponseCreator;
 import org.springframework.ws.mock.client.WebServiceMock;
 import org.springframework.xml.transform.ResourceSource;
 import org.w3c.dom.Document;
@@ -29,7 +31,7 @@ import org.w3c.dom.Document;
 /**
  * Adds extra features to {@link WebServiceMock}. 
  */
-public abstract class MessageComparator  {
+public abstract class WebServiceMockMessageSupport  {
 	/**
 	 * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
@@ -37,9 +39,9 @@ public abstract class MessageComparator  {
 	 * @param message the XML message
 	 * @return the request matcher
 	 */
-	public static RequestMatcher message(Resource message) {
+	public static RequestMatcher<WebServiceMessage> message(Resource message) {
 		Assert.notNull(message, "'message' must not be null");
-		Document document = XmlUtil.getInstance().loadDocument(createResourceSource(message));
+		Document document = loadDocument(createResourceSource(message));
 		return message(document);
 	}	
     /**
@@ -49,11 +51,12 @@ public abstract class MessageComparator  {
      * @param message the XML message
      * @return the request matcher
      */
-    public static RequestMatcher message(Source message) {
+    public static RequestMatcher<WebServiceMessage> message(Source message) {
         Assert.notNull(message, "'message' must not be null");
-       	Document document = XmlUtil.getInstance().loadDocument(message);
+       	Document document = loadDocument(message);
 		return message(document);
-    }	
+    }
+
     /**
      * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
      * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
@@ -61,10 +64,37 @@ public abstract class MessageComparator  {
      * @param message the XML message
      * @return the request matcher
      */
-    public static RequestMatcher message(Document message) {
+    public static RequestMatcher<WebServiceMessage> message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
     	return new MessageDiffMatcher(message);
     }	
+    
+    /**
+     * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
+     * it will be wrapped into a SOAP.
+     *
+     * @param payload the response message
+     * @return the response callback
+     */
+    public static ResponseCreator<WebServiceMessage> withMessage(Source message) {
+        Assert.notNull(message, "'message' must not be null");
+        return withMessage(loadDocument(message));
+    }
+    /**
+     * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
+     * it will be wrapped into a SOAP.
+     *
+     * @param payload the response message
+     * @return the response callback
+     */
+    public static ResponseCreator<WebServiceMessage> withMessage(Document message) {
+    	Assert.notNull(message, "'message' must not be null");
+    	return new MessageResponseCreator(message);
+    }
+    
+	private static Document loadDocument(Source message) {
+		return XmlUtil.getInstance().loadDocument(message);
+	}	
     
     private static ResourceSource createResourceSource(Resource resource) {
         try {
