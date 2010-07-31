@@ -23,18 +23,33 @@ import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
-public class MessageResponseCreatorTest extends AbstractTest {
+public class MessageResponseCreatorTest extends AbstractSmockTest {
 	@Test
 	public void testReturnMessage() throws Exception
 	{
 		Document sourceDocument = loadDocument(new StringSource(MESSAGE));
-		MessageResponseCreator responseCallback = new MessageResponseCreator(sourceDocument);
+		MessageResponseCreator responseCreator = new MessageResponseCreator(sourceDocument);
 		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
 		messageFactory.afterPropertiesSet();
 		
-		SoapMessage response = (SoapMessage) responseCallback.createResponse(TEST_URI, null, messageFactory);
+		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
 		
 		Document generatedDocument = loadDocument(response.getEnvelope().getSource());
+		System.out.println(XmlUtil.getInstance().serialize(generatedDocument));
+		System.out.println(XmlUtil.getInstance().serialize(sourceDocument));
+		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);
+	}
+	@Test
+	public void testReturnPayload() throws Exception
+	{
+		Document sourceDocument = loadDocument(new StringSource(PAYLOAD));
+		MessageResponseCreator responseCreator = new MessageResponseCreator(sourceDocument);
+		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
+		messageFactory.afterPropertiesSet();
+		
+		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
+		
+		Document generatedDocument = loadDocument(response.getPayloadSource());
 		System.out.println(XmlUtil.getInstance().serialize(generatedDocument));
 		System.out.println(XmlUtil.getInstance().serialize(sourceDocument));
 		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);

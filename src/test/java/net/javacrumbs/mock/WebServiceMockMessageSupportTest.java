@@ -23,13 +23,13 @@ import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
 
 
-public class WebServiceMockMessageSupportTest extends AbstractTest {
+public class WebServiceMockMessageSupportTest extends AbstractSmockTest {
 
 	@Test
 	public void testMessage()
 	{
 		MessageDiffMatcher requestMatcher = (MessageDiffMatcher) message(new StringSource(MESSAGE));
-		assertNotNull(requestMatcher.getMessage());
+		assertNotNull(requestMatcher.getControlMessage());
 	}
 	@Test
 	public void testWithMessage()

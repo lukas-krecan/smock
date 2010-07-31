@@ -28,7 +28,7 @@ import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
 
-public class MessageDiffMatcherTest extends AbstractTest{
+public class MessageDiffMatcherTest extends AbstractSmockTest{
 
 	
 	@Test

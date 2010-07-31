@@ -18,11 +18,12 @@ package net.javacrumbs.mock;
 
 import java.net.URI;
 
+import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
 import org.w3c.dom.Document;
 
-public abstract class AbstractTest {
+public abstract class AbstractSmockTest {
 
 	protected static final URI TEST_URI = URI.create("http://localhost");
 	protected static final String MESSAGE = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header ><m:Trans xmlns:m=\"http://www.w3schools.com/transaction/\" soapenv:mustUnderstand=\"1\">234</m:Trans></soapenv:Header><soapenv:Body><test/></soapenv:Body></soapenv:Envelope>";
@@ -33,5 +34,8 @@ public abstract class AbstractTest {
 	protected Document loadDocument(Source source) {
 		return XmlUtil.getInstance().loadDocument(source);
 	}
-
+	
+	protected void transform(Source source, Result result) {
+		XmlUtil.getInstance().doTransform(source, result);
+	}
 }

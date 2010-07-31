@@ -58,18 +58,24 @@ class MessageDiffMatcher implements RequestMatcher<WebServiceMessage> {
 	}
 
 	private void compare(Document requestDocument) throws AssertionError {
-		Diff diff = new Diff(controlMessage, requestDocument);
+		Diff diff = createDiff(controlMessage, requestDocument);
 		if (!diff.similar())
 		{
 			throw new AssertionError("Messages are different, " + diff.toString());
 		}
+	}
+
+
+
+	Diff createDiff(Document controlMessage, Document requestDocument) {
+		return new Diff(controlMessage, requestDocument);
 	}
 	
 	boolean isSoapControl() {
 		return XmlUtil.getInstance().isSoap(controlMessage);
 	}
 
-	Document getMessage() {
+	Document getControlMessage() {
 		return controlMessage;
 	}
 }

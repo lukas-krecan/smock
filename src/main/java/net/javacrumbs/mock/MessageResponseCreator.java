@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.Charset;
 
+import javax.xml.transform.dom.DOMSource;
+
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.mock.client.ResponseCreator;
@@ -37,10 +39,23 @@ class MessageResponseCreator implements ResponseCreator<WebServiceMessage> {
 	}
 
 	public WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory)	throws IOException {
-		return messageFactory.createWebServiceMessage(getResponseAsStream());
+		return createResponseInternal(response, messageFactory);
+	}
+
+	WebServiceMessage createResponseInternal(Document response, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException {
+		if (XmlUtil.getInstance().isSoap(response))
+		{
+			return messageFactory.createWebServiceMessage(getResponseAsStream(response));
+		}
+		else
+		{
+			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
+			XmlUtil.getInstance().doTransform(new DOMSource(response), webServiceMessage.getPayloadResult());
+			return webServiceMessage;
+		}
 	}
 	
-	InputStream getResponseAsStream()
+	InputStream getResponseAsStream(Document response)
 	{
 		return new ByteArrayInputStream(XmlUtil.getInstance().serialize(response).getBytes(UTF8_CHARSET));
 	}
