@@ -6,8 +6,6 @@ import javax.xml.transform.Source;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.mock.client.RequestMatcher;
-import org.springframework.ws.mock.client.ResponseCreator;
 import org.springframework.ws.mock.client.WebServiceMock;
 import org.springframework.xml.transform.ResourceSource;
 import org.w3c.dom.Document;
@@ -39,7 +37,7 @@ public abstract class WebServiceMockMessageSupport  {
 	 * @param message the XML message
 	 * @return the request matcher
 	 */
-	public static RequestMatcher<WebServiceMessage> message(Resource message) {
+	public static ParametrizableRequestMatcher<WebServiceMessage> message(Resource message) {
 		Assert.notNull(message, "'message' must not be null");
 		Document document = loadDocument(createResourceSource(message));
 		return message(document);
@@ -51,7 +49,7 @@ public abstract class WebServiceMockMessageSupport  {
      * @param message the XML message
      * @return the request matcher
      */
-    public static RequestMatcher<WebServiceMessage> message(Source message) {
+    public static ParametrizableRequestMatcher<WebServiceMessage> message(Source message) {
         Assert.notNull(message, "'message' must not be null");
        	Document document = loadDocument(message);
 		return message(document);
@@ -64,9 +62,9 @@ public abstract class WebServiceMockMessageSupport  {
      * @param message the XML message
      * @return the request matcher
      */
-    public static RequestMatcher<WebServiceMessage> message(Document message) {
+    public static ParametrizableRequestMatcher<WebServiceMessage> message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new MessageDiffMatcher(message);
+    	return new XsltMessageDiffMatcher(message);
     }	
     
     /**
@@ -76,7 +74,7 @@ public abstract class WebServiceMockMessageSupport  {
      * @param payload the response message
      * @return the response callback
      */
-    public static ResponseCreator<WebServiceMessage> withMessage(Source message) {
+    public static ParametrizableResponseCreator<WebServiceMessage> withMessage(Source message) {
         Assert.notNull(message, "'message' must not be null");
         return withMessage(loadDocument(message));
     }
@@ -87,9 +85,9 @@ public abstract class WebServiceMockMessageSupport  {
      * @param payload the response message
      * @return the response callback
      */
-    public static ResponseCreator<WebServiceMessage> withMessage(Document message) {
+    public static ParametrizableResponseCreator<WebServiceMessage> withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new MessageResponseCreator(message);
+    	return new XsltMessageResponseCreator(message);
     }
     
 	private static Document loadDocument(Source message) {

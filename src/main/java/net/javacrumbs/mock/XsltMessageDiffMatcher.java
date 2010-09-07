@@ -16,24 +16,32 @@
 
 package net.javacrumbs.mock;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.transform.dom.DOMSource;
 
 import org.custommonkey.xmlunit.Diff;
+import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
-class XsltMessageDiffMatcher extends MessageDiffMatcher {
+class XsltMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher<WebServiceMessage> {
 
-	private final XsltUtil xsltUtil;
+	private final Map<String, Object> parameters;
 	
-	public XsltMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters) {
+	XsltMessageDiffMatcher(Document controlMessage) {
+		this(controlMessage, Collections.<String, Object>emptyMap());
+	}
+	
+	XsltMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters) {
 		super(controlMessage);
-		xsltUtil = new XsltUtil(parameters);
+		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
 	}
 	
 	@Override
 	Diff createDiff(Document controlMessage, Document requestDocument) {
+		XsltUtil xsltUtil = new XsltUtil(parameters);
 		if (xsltUtil.isTemplate(controlMessage))
 			{
 				Document transformedDocument = xsltUtil.transform(controlMessage, new DOMSource());
@@ -43,6 +51,16 @@ class XsltMessageDiffMatcher extends MessageDiffMatcher {
 			{
 				return super.createDiff(controlMessage, requestDocument);
 			}
+	}
+
+	public XsltMessageDiffMatcher withParameter(String name, Object value) {
+		return withParameters(Collections.singletonMap(name, value));
+	}
+
+	public XsltMessageDiffMatcher withParameters(Map<String, Object> additionalParameters) {
+		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
+		newParameters.putAll(additionalParameters);
+		return new XsltMessageDiffMatcher(getControlMessage(), newParameters);
 	}
 
 }
