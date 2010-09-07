@@ -25,7 +25,7 @@ import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
 //TODO support XPath to SOAP Envelope?
-public class XsltMessageResponseCreator extends MessageResponseCreator {
+class XsltMessageResponseCreator extends MessageResponseCreator {
 	private final XsltUtil xsltUtil;
 
 	XsltMessageResponseCreator(Document response, Map<String, Object> parameters) {

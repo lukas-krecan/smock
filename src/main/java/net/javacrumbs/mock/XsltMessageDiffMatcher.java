@@ -23,7 +23,7 @@ import javax.xml.transform.dom.DOMSource;
 import org.custommonkey.xmlunit.Diff;
 import org.w3c.dom.Document;
 
-public class XsltMessageDiffMatcher extends MessageDiffMatcher {
+class XsltMessageDiffMatcher extends MessageDiffMatcher {
 
 	private final XsltUtil xsltUtil;
 	
