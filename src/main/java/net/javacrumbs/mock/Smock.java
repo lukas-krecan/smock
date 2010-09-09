@@ -29,7 +29,7 @@ import org.w3c.dom.Document;
 /**
  * Adds extra features to {@link WebServiceMock}. 
  */
-public abstract class WebServiceMockMessageSupport  {
+public abstract class Smock  {
 	
 	private static TemplateProcessor templateProcessor = new XsltTemplateProcessor();
 	

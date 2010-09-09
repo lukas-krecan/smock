@@ -16,14 +16,14 @@
 
 package net.javacrumbs.mock;
 
-import static net.javacrumbs.mock.WebServiceMockMessageSupport.*;
+import static net.javacrumbs.mock.Smock.*;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
 
 
-public class WebServiceMockMessageSupportTest extends AbstractSmockTest {
+public class SmockTest extends AbstractSmockTest {
 
 	@Test
 	public void testMessage()
