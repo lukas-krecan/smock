@@ -32,7 +32,7 @@ import org.springframework.xml.transform.StringSource;
 import org.xml.sax.SAXException;
 
 
-public class XsltMessageResponseCreatorTest extends AbstractSmockTest{
+public class TemplateAwareMessageResponseCreatorTest extends AbstractSmockTest{
 		private static final SaajSoapMessageFactory FACTORY = new SaajSoapMessageFactory();
 		
 		static
@@ -95,7 +95,7 @@ public class XsltMessageResponseCreatorTest extends AbstractSmockTest{
 		}
 	
 		private void doCallbackTest(String template, String request, String expectedResponse, Map<String, Object> parameters) throws IOException, TransformerException, SAXException {
-			XsltMessageResponseCreator callback = new XsltMessageResponseCreator(loadDocument(new StringSource(template)), parameters);
+			TemplateAwareMessageResponseCreator callback = new TemplateAwareMessageResponseCreator(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
 			
 			
 			WebServiceMessage response = callback.createResponse(TEST_URI, createMessage(request), FACTORY);

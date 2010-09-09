@@ -30,6 +30,9 @@ import org.w3c.dom.Document;
  * Adds extra features to {@link WebServiceMock}. 
  */
 public abstract class WebServiceMockMessageSupport  {
+	
+	private static TemplateProcessor templateProcessor = new XsltTemplateProcessor();
+	
 	/**
 	 * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
@@ -64,7 +67,7 @@ public abstract class WebServiceMockMessageSupport  {
      */
     public static ParametrizableRequestMatcher<WebServiceMessage> message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new XsltMessageDiffMatcher(message);
+    	return new TemplateAwareMessageDiffMatcher(message, templateProcessor);
     }	
     
     /**
@@ -87,7 +90,7 @@ public abstract class WebServiceMockMessageSupport  {
      */
     public static ParametrizableResponseCreator<WebServiceMessage> withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new XsltMessageResponseCreator(message);
+    	return new TemplateAwareMessageResponseCreator(message, templateProcessor);
     }
     
 	private static Document loadDocument(Source message) {

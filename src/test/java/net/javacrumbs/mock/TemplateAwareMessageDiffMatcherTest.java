@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.xml.transform.StringSource;
 
-public class XsltMessageDiffMatcherTest extends AbstractSmockTest {
+public class TemplateAwareMessageDiffMatcherTest extends AbstractSmockTest {
 	@Test
 	public void match() throws Exception {
 		String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"><xsl:template match=\"/\">"
@@ -61,7 +61,7 @@ public class XsltMessageDiffMatcherTest extends AbstractSmockTest {
 		expect(message.getPayloadSource()).andReturn(new StringSource(xml));
 		replay(message);
 
-		XsltMessageDiffMatcher matcher = new XsltMessageDiffMatcher(loadDocument(new StringSource(template)), parameters);
+		TemplateAwareMessageDiffMatcher matcher = new TemplateAwareMessageDiffMatcher(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
 		matcher.match(TEST_URI, message);
 
 		verify(message);
@@ -69,8 +69,8 @@ public class XsltMessageDiffMatcherTest extends AbstractSmockTest {
 
 	@Test
 	public void addParameter() throws Exception {
-		XsltMessageDiffMatcher matcher1 = new XsltMessageDiffMatcher(loadDocument(new StringSource("<element/>")), Collections.<String, Object>emptyMap());
-		XsltMessageDiffMatcher matcher2 = matcher1.withParameter("test", "value");
+		TemplateAwareMessageDiffMatcher matcher1 = new TemplateAwareMessageDiffMatcher(loadDocument(new StringSource("<element/>")), Collections.<String, Object>emptyMap(), new XsltTemplateProcessor());
+		TemplateAwareMessageDiffMatcher matcher2 = matcher1.withParameter("test", "value");
 		assertNotSame(matcher1, matcher2);
 	}
 }

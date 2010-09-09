@@ -20,47 +20,42 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.transform.dom.DOMSource;
-
 import org.custommonkey.xmlunit.Diff;
+import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
-class XsltMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher<WebServiceMessage> {
+class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher<WebServiceMessage> {
 
 	private final Map<String, Object> parameters;
 	
-	XsltMessageDiffMatcher(Document controlMessage) {
-		this(controlMessage, Collections.<String, Object>emptyMap());
+	private final TemplateProcessor templateProcessor;
+	
+	TemplateAwareMessageDiffMatcher(Document controlMessage, TemplateProcessor templateProcessor) {
+		this(controlMessage, Collections.<String, Object>emptyMap(), templateProcessor);
 	}
 	
-	XsltMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters) {
+	TemplateAwareMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(controlMessage);
+		Assert.notNull(templateProcessor,"Templateprocessor is null");
 		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
+		this.templateProcessor = templateProcessor;
 	}
 	
 	@Override
 	Diff createDiff(Document controlMessage, Document requestDocument) {
-		XsltUtil xsltUtil = new XsltUtil(parameters);
-		if (xsltUtil.isTemplate(controlMessage))
-			{
-				Document transformedDocument = xsltUtil.transform(controlMessage, new DOMSource());
-				return super.createDiff(transformedDocument, requestDocument);
-			}
-			else
-			{
-				return super.createDiff(controlMessage, requestDocument);
-			}
+		Document resolvedTemplate = templateProcessor.processTemplate(controlMessage, null, parameters);
+		return super.createDiff(resolvedTemplate, requestDocument);
 	}
 
-	public XsltMessageDiffMatcher withParameter(String name, Object value) {
+	public TemplateAwareMessageDiffMatcher withParameter(String name, Object value) {
 		return withParameters(Collections.singletonMap(name, value));
 	}
 
-	public XsltMessageDiffMatcher withParameters(Map<String, Object> additionalParameters) {
+	public TemplateAwareMessageDiffMatcher withParameters(Map<String, Object> additionalParameters) {
 		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
 		newParameters.putAll(additionalParameters);
-		return new XsltMessageDiffMatcher(getControlMessage(), newParameters);
+		return new TemplateAwareMessageDiffMatcher(getControlMessage(), newParameters, templateProcessor);
 	}
 
 }

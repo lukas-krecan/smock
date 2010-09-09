@@ -22,47 +22,43 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
 //TODO support XPath to SOAP Envelope?
-class XsltMessageResponseCreator extends MessageResponseCreator implements ParametrizableResponseCreator<WebServiceMessage>{
+class TemplateAwareMessageResponseCreator extends MessageResponseCreator implements ParametrizableResponseCreator<WebServiceMessage>{
 	
 	private final Map<String, Object> parameters;
+	
+	private final TemplateProcessor templateProcessor;
 
-	XsltMessageResponseCreator(Document response) {
-		this(response, Collections.<String, Object>emptyMap());
+	TemplateAwareMessageResponseCreator(Document response,  TemplateProcessor templateProcessor) {
+		this(response, Collections.<String, Object>emptyMap(), templateProcessor);
 	}
 
-	XsltMessageResponseCreator(Document response, Map<String, Object> parameters) {
+	TemplateAwareMessageResponseCreator(Document response, Map<String, Object> parameters,  TemplateProcessor templateProcessor) {
 		super(response);
+		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
+		this.templateProcessor = templateProcessor;
 	}
 
 	@Override
 	public WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException {
-		Document responseDocument = getResponse();
-		XsltUtil xsltUtil = new XsltUtil(parameters);
-		if (xsltUtil.isTemplate(responseDocument))
-		{
-			Document transformedResponse = xsltUtil.transform(responseDocument, request.getPayloadSource());
-			return super.createResponseInternal(transformedResponse, messageFactory);
-		}
-		else
-		{
-			return super.createResponseInternal(responseDocument, messageFactory);
-		}
+		Document transformedResponse = templateProcessor.processTemplate(getResponse(), request.getPayloadSource(), parameters);
+		return super.createResponseInternal(transformedResponse, messageFactory);
 	}
 	
-	public XsltMessageResponseCreator withParameter(String name, Object value) {
+	public TemplateAwareMessageResponseCreator withParameter(String name, Object value) {
 		return withParameters(Collections.singletonMap(name, value));
 	}
 
-	public XsltMessageResponseCreator withParameters(Map<String, Object> additionalParameters) {
+	public TemplateAwareMessageResponseCreator withParameters(Map<String, Object> additionalParameters) {
 		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
 		newParameters.putAll(additionalParameters);
-		return new XsltMessageResponseCreator(getResponse(), newParameters);
+		return new TemplateAwareMessageResponseCreator(getResponse(), newParameters, templateProcessor);
 	}
 
 }
