@@ -1,6 +1,6 @@
 package net.javacrumbs.calc;
 
-import static net.javacrumbs.smock.client.Smock.*;
+import static net.javacrumbs.smock.client.SmockClient.*;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.mock.client.WebServiceMock.anything;
 import static org.springframework.ws.mock.client.WebServiceMock.expect;
