@@ -9,3 +9,11 @@ syntax: regexp
 ^\.springBeans$
 syntax: regexp
 ^target$
+syntax: regexp
+^simple-client-test/\.settings$
+syntax: regexp
+^simple-client-test/\.classpath$
+syntax: regexp
+^simple-client-test/\.project$
+syntax: regexp
+^simple-client-test/\.springBeans$
