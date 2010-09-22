@@ -24,25 +24,56 @@ import java.nio.charset.Charset;
 
 import javax.xml.transform.dom.DOMSource;
 
+import net.javacrumbs.smock.common.XmlUtil;
+
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.mock.client.ResponseCreator;
 import org.w3c.dom.Document;
 
-class MessageResponseCreator implements ResponseCreator<WebServiceMessage> {
+/**
+ * Creates response from a {@link Document}. If it's a SOAP message a response is created as it is (including SOAP faults), if it
+ * contains only a payload, it's wrapped in a SOAP envelope.
+ * @author Lukas Krecan
+ *
+ */
+public class MessageResponseCreator implements ResponseCreator<WebServiceMessage> {
 	private static final Charset UTF8_CHARSET = Charset.availableCharsets().get("UTF-8");
 
 	private final Document response;
 	
-	MessageResponseCreator(Document response) {
+	public MessageResponseCreator(Document response) {
 		this.response = response;
 	}
 
-	public WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory)	throws IOException {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory)	throws IOException {
+		Document response = preprocessResponse(uri, request, messageFactory);
 		return createResponseInternal(response, messageFactory);
 	}
 
-	WebServiceMessage createResponseInternal(Document response, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException {
+	/**
+	 * Pre-processes response and returns it as a {@link Document}. Can be overriden.
+	 * @param uri
+	 * @param request
+	 * @param messageFactory
+	 * @return
+	 */
+	protected  Document preprocessResponse(URI uri, WebServiceMessage request,	WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) {
+		return getResponseDocument();
+	}
+
+	/**
+	 * Creates a response. If source document is a SOAP message a response is created as it is (including SOAP faults), if it
+	 * contains only a payload, it's wrapped in a SOAP envelope.
+	 * @param response
+	 * @param messageFactory
+	 * @return
+	 * @throws IOException
+	 */
+	protected final WebServiceMessage createResponseInternal(Document response, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException {
 		if (XmlUtil.getInstance().isSoap(response))
 		{
 			return messageFactory.createWebServiceMessage(getResponseAsStream(response));
@@ -55,15 +86,12 @@ class MessageResponseCreator implements ResponseCreator<WebServiceMessage> {
 		}
 	}
 	
-	InputStream getResponseAsStream(Document response)
+	private InputStream getResponseAsStream(Document response)
 	{
 		return new ByteArrayInputStream(XmlUtil.getInstance().serialize(response).getBytes(UTF8_CHARSET));
 	}
 	
-	Document getResponse() {
+	protected final Document getResponseDocument() {
 		return response;
 	}
-
-
-
 }

@@ -20,22 +20,24 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.custommonkey.xmlunit.Diff;
+import net.javacrumbs.smock.common.TemplateProcessor;
+
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
-class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher<WebServiceMessage> {
+/**
+ * {@link MessageDiffMatcher} that is able to process templates.
+ * @author Lukas Krecan
+ *
+ */
+public class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher<WebServiceMessage> {
 
 	private final Map<String, Object> parameters;
 	
 	private final TemplateProcessor templateProcessor;
 	
-	TemplateAwareMessageDiffMatcher(Document controlMessage, TemplateProcessor templateProcessor) {
-		this(controlMessage, Collections.<String, Object>emptyMap(), templateProcessor);
-	}
-	
-	TemplateAwareMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+	public TemplateAwareMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(controlMessage);
 		Assert.notNull(templateProcessor,"Templateprocessor is null");
 		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
@@ -43,10 +45,13 @@ class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implements Para
 	}
 	
 	@Override
-	Diff createDiff(Document controlMessage, Document requestDocument) {
-		Document resolvedTemplate = templateProcessor.processTemplate(controlMessage, null, parameters);
-		return super.createDiff(resolvedTemplate, requestDocument);
+	/**
+	 * Processes control using template processor.
+	 */
+	protected Document preprocessControlMessage() {
+		return templateProcessor.processTemplate(getControlMessage(), null, parameters);
 	}
+
 
 	public TemplateAwareMessageDiffMatcher withParameter(String name, Object value) {
 		return withParameters(Collections.singletonMap(name, value));

@@ -21,9 +21,27 @@ import java.util.Map;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.mock.client.RequestMatcher;
 
+/**
+ * {@link RequestMatcher} that accepts parameters. 
+ * @author Lukas Krecan
+ *
+ * @param <T>
+ */
 public interface ParametrizableRequestMatcher<T extends WebServiceMessage> extends RequestMatcher<T> {
 
+	/**
+	 * Adds parameter to the {@link RequestMatcher} 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
 	ParametrizableRequestMatcher<T> withParameter(String name, Object value);
 
+	/**
+	 * Adds parameters to the {@link RequestMatcher} 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
 	ParametrizableRequestMatcher<T> withParameters(Map<String, Object> parameters);
 }

@@ -17,7 +17,7 @@
 package net.javacrumbs.smock.client;
 
 import net.javacrumbs.smock.client.MessageResponseCreator;
-import net.javacrumbs.smock.client.XmlUtil;
+import net.javacrumbs.smock.common.XmlUtil;
 
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;

@@ -14,21 +14,35 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.common;
 
 import java.util.Map;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
+
 
 import org.w3c.dom.Document;
 
-public interface TemplateProcessor {
-	/**
-	 * Processes a template.
-	 * @param template
-	 * @param input Template can use values from the input. Can be null. 
-	 * @param parameters
-	 * @return
-	 */
-	public Document processTemplate(Document template, Source input, Map<String, Object> parameters);
+/**
+ * XSLT {@link TemplateProcessor}.
+ * @author Lukas Krecan
+ *
+ */
+public class XsltTemplateProcessor implements TemplateProcessor {
+	public Document processTemplate(Document template, Source input, Map<String, Object> parameters) {
+		XsltUtil xsltUtil = new XsltUtil(parameters);
+		if (xsltUtil.isTemplate(template))
+		{
+			if (input==null)
+			{
+				input = new DOMSource();
+			}
+			return xsltUtil.transform(template, input);
+		}
+		else
+		{
+			return template;
+		}
+	}
 }

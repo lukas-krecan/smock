@@ -18,6 +18,9 @@ package net.javacrumbs.smock.client;
 
 import java.net.URI;
 
+import net.javacrumbs.smock.common.EnhancedDiff;
+import net.javacrumbs.smock.common.XmlUtil;
+
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
@@ -26,25 +29,27 @@ import org.springframework.ws.soap.SoapMessage;
 import org.w3c.dom.Document;
 
 /**
- * Compares whole messages.
+ * Request matcher that compares whole messages. If control document is a SOAP message, 
+ * compares whole message, if not, only payloads are compared.
  * @author Lukas Krecan
  *
  */
-class MessageDiffMatcher implements RequestMatcher<WebServiceMessage> {
+public class MessageDiffMatcher implements RequestMatcher<WebServiceMessage> {
+
+	static {
+		XMLUnit.setIgnoreWhitespace(true);
+	}
 
 	private final Document controlMessage;
-	
-	static {
-	        XMLUnit.setIgnoreWhitespace(true);
-	}
 	
 	public MessageDiffMatcher(Document controlMessage) {
 		this.controlMessage = controlMessage;
 	}
 
-
-
-	public void match(URI uri, WebServiceMessage request){
+	/**
+	 * Checks if control document is a SOAP message. If so, whole message is compared, if not, only payloads are compared.
+	 */
+	public final void match(URI uri, WebServiceMessage request){
 		if (isSoapControl())
 		{
 			Document requestDocument = XmlUtil.getInstance().loadDocument(((SoapMessage)request).getEnvelope().getSource());
@@ -57,7 +62,13 @@ class MessageDiffMatcher implements RequestMatcher<WebServiceMessage> {
 		}
 	}
 
-	private void compare(Document requestDocument) throws AssertionError {
+	/**
+	 * Compares document with control document.
+	 * @param requestDocument
+	 * @throws AssertionError
+	 */
+	protected final void compare(Document requestDocument) throws AssertionError {
+		Document controlMessage = preprocessControlMessage();
 		Diff diff = createDiff(controlMessage, requestDocument);
 		if (!diff.similar())
 		{
@@ -65,17 +76,30 @@ class MessageDiffMatcher implements RequestMatcher<WebServiceMessage> {
 		}
 	}
 
+	/**
+	 * Does control message pre-processing. Can be overriden.
+	 * @param controlMessage
+	 * @return
+	 */
+	protected Document preprocessControlMessage() {
+		return getControlMessage();
+	}
 
-
-	Diff createDiff(Document controlMessage, Document requestDocument) {
+	/**
+	 * Creates Enhanced Diff. Can be overriden. 
+	 * @param controlMessage
+	 * @param requestDocument
+	 * @return
+	 */
+	protected Diff createDiff(Document controlMessage, Document requestDocument) {
 		return new EnhancedDiff(controlMessage, requestDocument);
 	}
 	
-	boolean isSoapControl() {
+	private boolean isSoapControl() {
 		return XmlUtil.getInstance().isSoap(controlMessage);
 	}
 
-	Document getControlMessage() {
+	public final Document getControlMessage() {
 		return controlMessage;
 	}
 }

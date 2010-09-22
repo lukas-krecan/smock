@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.common;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,12 @@ import org.springframework.xml.xpath.XPathExpression;
 import org.springframework.xml.xpath.XPathExpressionFactory;
 import org.w3c.dom.Document;
 
-class XmlUtil extends TransformerObjectSupport {
+/**
+ * Helper class for work with XML.
+ * @author Lukas Krecan
+ *
+ */
+public class XmlUtil extends TransformerObjectSupport {
 	private static final XmlUtil INSTANCE = new XmlUtil();
 
 	private static final Map<String, String> SOAP_NAMESPACES = new HashMap<String, String>();
@@ -49,7 +54,7 @@ class XmlUtil extends TransformerObjectSupport {
 		
 	}
 	
-	static XmlUtil getInstance() {
+	public static XmlUtil getInstance() {
 		return INSTANCE;
 	}
 
@@ -60,7 +65,7 @@ class XmlUtil extends TransformerObjectSupport {
 		return (Document)result.getNode();
 	}
 	
-	boolean isSoap(Document document) {
+	public boolean isSoap(Document document) {
 		for (String prefix: SOAP_NAMESPACES.keySet()) {
 			String expression = "/"+prefix+":Envelope";
 			XPathExpression xPathExpression = XPathExpressionFactory.createXPathExpression(expression, SOAP_NAMESPACES);
@@ -72,7 +77,7 @@ class XmlUtil extends TransformerObjectSupport {
 		return false;
 	}
 	
-	String serialize(Document document)
+	public String serialize(Document document)
 	{
 		return serialize(new DOMSource(document));
 	}
@@ -84,7 +89,7 @@ class XmlUtil extends TransformerObjectSupport {
 		
 	}
 	
-	void doTransform(Source source, Result result) {
+	public void doTransform(Source source, Result result) {
 		try {
 			transform(source, result);
 		} catch (TransformerException e) {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.common;
 
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
@@ -27,8 +27,8 @@ import org.w3c.dom.Node;
  * @author Lukas Krecan
  *
  */
-final class EnhancedDiff extends Diff {
-	EnhancedDiff(Document controlDoc, Document testDoc) {
+public final class EnhancedDiff extends Diff {
+	public EnhancedDiff(Document controlDoc, Document testDoc) {
 		super(controlDoc, testDoc);
 	}
 
@@ -52,7 +52,7 @@ final class EnhancedDiff extends Diff {
 
 	}
 
-	boolean isDifferenceOnlyInAttributeValuePrefix(Difference difference) {
+	protected final boolean isDifferenceOnlyInAttributeValuePrefix(Difference difference) {
 		Node testNode = difference.getTestNodeDetail().getNode();
 		if (testNode==null)
 		{

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.common;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;

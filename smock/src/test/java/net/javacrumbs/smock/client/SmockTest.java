@@ -16,7 +16,7 @@
 
 package net.javacrumbs.smock.client;
 
-import static net.javacrumbs.smock.client.Smock.*;
+import static net.javacrumbs.smock.client.SmockClient.*;
 import static org.junit.Assert.assertNotNull;
 
 import net.javacrumbs.smock.client.MessageDiffMatcher;
@@ -38,7 +38,7 @@ public class SmockTest extends AbstractSmockTest {
 	public void testWithMessage()
 	{
 		MessageResponseCreator responseCallback = (MessageResponseCreator) withMessage(new StringSource(MESSAGE));
-		assertNotNull(responseCallback.getResponse());
+		assertNotNull(responseCallback.getResponseDocument());
 	}
 	
 }

@@ -1,15 +1,14 @@
 package net.javacrumbs.smock.client;
-import java.io.IOException;
+import java.util.Collections;
 
 import javax.xml.transform.Source;
 
-import org.springframework.core.io.DefaultResourceLoader;
+import net.javacrumbs.smock.common.SmockCommon;
+
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.mock.client.WebServiceMock;
-import org.springframework.xml.transform.ResourceSource;
 import org.w3c.dom.Document;
 
 /*
@@ -31,12 +30,8 @@ import org.w3c.dom.Document;
 /**
  * Adds extra features to {@link WebServiceMock}. 
  */
-public abstract class Smock  {
-	
-	private static TemplateProcessor templateProcessor = new XsltTemplateProcessor();
-	
-	private static ResourceLoader resourceLoader = new DefaultResourceLoader();
-	
+public abstract class SmockClient extends SmockCommon {
+			
 	/**
 	 * Expects the given XML message loaded from resource with given name. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
@@ -82,7 +77,7 @@ public abstract class Smock  {
      */
     public static ParametrizableRequestMatcher<WebServiceMessage> message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new TemplateAwareMessageDiffMatcher(message, templateProcessor);
+    	return new TemplateAwareMessageDiffMatcher(message, Collections.<String,Object>emptyMap(), getTemplateProcessor());
     }	
     
     /**
@@ -116,51 +111,6 @@ public abstract class Smock  {
      */
     public static ParametrizableResponseCreator<WebServiceMessage> withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new TemplateAwareMessageResponseCreator(message, templateProcessor);
+    	return new TemplateAwareMessageResponseCreator(message, getTemplateProcessor());
     }
-    
-	private static Document loadDocument(Source message) {
-		return XmlUtil.getInstance().loadDocument(message);
-	}	
-    
-    private static ResourceSource createResourceSource(Resource resource) {
-        try {
-            return new ResourceSource(resource);
-        }
-        catch (IOException ex) {
-            throw new IllegalArgumentException(resource + " could not be opened", ex);
-        }
-    }
-    
-    /**
-     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
-     * @param location Location of the resource 
-     */
-    public static Source fromResource(String location)
-    {
-    	return createResourceSource(resource(location));
-    }
-    /**
-     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
-     * @param location Location of the resource 
-     */
-    public static Resource resource(String location)
-    {
-    	return resourceLoader.getResource(location);
-    }
-    
-    public static TemplateProcessor getTemplateProcessor() {
-		return templateProcessor;
-	}
-    public static void setTemplateProcessor(TemplateProcessor templateProcessor) {
-    	Assert.notNull(templateProcessor, "'templateProcessor' can not be null");
-		Smock.templateProcessor = templateProcessor;
-	}
-    public static ResourceLoader getResourceLoader() {
-		return resourceLoader;
-	}
-    public static void setResourceLoader(ResourceLoader resourceLoader) {
-    	Assert.notNull(resourceLoader, "'resourceLoader' can not be null");
-		Smock.resourceLoader = resourceLoader;
-	}
 }

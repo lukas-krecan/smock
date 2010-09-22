@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.javacrumbs.smock.client.TemplateAwareMessageDiffMatcher;
-import net.javacrumbs.smock.client.XsltTemplateProcessor;
+import net.javacrumbs.smock.common.XsltTemplateProcessor;
 
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
