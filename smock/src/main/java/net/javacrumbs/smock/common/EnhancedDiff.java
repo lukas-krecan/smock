@@ -16,11 +16,14 @@
 
 package net.javacrumbs.smock.common;
 
+import java.io.IOException;
+
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  * Diff that ignores "${IGNORE}" placeholder and is able to correctly compare namespace prefixes in the attribute values.
@@ -30,6 +33,10 @@ import org.w3c.dom.Node;
 public final class EnhancedDiff extends Diff {
 	public EnhancedDiff(Document controlDoc, Document testDoc) {
 		super(controlDoc, testDoc);
+	}
+
+	EnhancedDiff(String control, String test) throws SAXException, IOException {
+		super(control, test);
 	}
 
 	public int differenceFound(Difference difference) {
