@@ -27,7 +27,7 @@ import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
-//TODO support XPath to SOAP Envelope?
+
 class TemplateAwareMessageResponseCreator extends MessageResponseCreator implements ParametrizableResponseCreator<WebServiceMessage>{
 	
 	private final Map<String, Object> parameters;

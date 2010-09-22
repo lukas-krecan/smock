@@ -3,7 +3,9 @@ import java.io.IOException;
 
 import javax.xml.transform.Source;
 
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.mock.client.WebServiceMock;
@@ -33,8 +35,21 @@ public abstract class Smock  {
 	
 	private static TemplateProcessor templateProcessor = new XsltTemplateProcessor();
 	
+	private static ResourceLoader resourceLoader = new DefaultResourceLoader();
+	
 	/**
-	 * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
+	 * Expects the given XML message loaded from resource with given name. Message can either be whole SOAP message or just a payload.
+	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
+	 *
+	 * @param location of the resource where the message is stored.
+	 * @return the request matcher
+	 */
+	public static ParametrizableRequestMatcher<WebServiceMessage> message(String location) {
+		Assert.notNull(location, "'location' must not be null");
+		return message(fromResource(location));
+	}	
+	/**
+	 * Expects the given {@link Resource} XML message. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
 	 *
 	 * @param message the XML message
@@ -71,6 +86,17 @@ public abstract class Smock  {
     }	
     
     /**
+     * Respond with the given XML loaded from resource as response. If message is SOAP, it will be returned as response, if message is payload, 
+     * it will be wrapped into a SOAP.
+     *
+     * @param loaction of the resource
+     * @return the response callback
+     */
+    public static ParametrizableResponseCreator<WebServiceMessage> withMessage(String location) {
+    	Assert.notNull(location, "'location' must not be null");
+    	return withMessage(fromResource(location));
+    }
+    /**
      * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
      * it will be wrapped into a SOAP.
      *
@@ -105,10 +131,36 @@ public abstract class Smock  {
             throw new IllegalArgumentException(resource + " could not be opened", ex);
         }
     }
-	static TemplateProcessor getTemplateProcessor() {
+    
+    /**
+     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+     * @param location Location of the resource 
+     */
+    public static Source fromResource(String location)
+    {
+    	return createResourceSource(resource(location));
+    }
+    /**
+     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+     * @param location Location of the resource 
+     */
+    public static Resource resource(String location)
+    {
+    	return resourceLoader.getResource(location);
+    }
+    
+    public static TemplateProcessor getTemplateProcessor() {
 		return templateProcessor;
 	}
-	static void setTemplateProcessor(TemplateProcessor templateProcessor) {
+    public static void setTemplateProcessor(TemplateProcessor templateProcessor) {
+    	Assert.notNull(templateProcessor, "'templateProcessor' can not be null");
 		Smock.templateProcessor = templateProcessor;
+	}
+    public static ResourceLoader getResourceLoader() {
+		return resourceLoader;
+	}
+    public static void setResourceLoader(ResourceLoader resourceLoader) {
+    	Assert.notNull(resourceLoader, "'resourceLoader' can not be null");
+		Smock.resourceLoader = resourceLoader;
 	}
 }

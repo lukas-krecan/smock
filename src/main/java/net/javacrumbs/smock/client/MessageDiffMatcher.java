@@ -68,7 +68,7 @@ class MessageDiffMatcher implements RequestMatcher<WebServiceMessage> {
 
 
 	Diff createDiff(Document controlMessage, Document requestDocument) {
-		return new Diff(controlMessage, requestDocument);
+		return new EnhancedDiff(controlMessage, requestDocument);
 	}
 	
 	boolean isSoapControl() {
