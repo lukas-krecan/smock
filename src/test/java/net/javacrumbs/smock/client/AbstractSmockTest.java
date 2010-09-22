@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 
 import java.net.URI;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
+
+import net.javacrumbs.smock.client.XmlUtil;
 
 import org.w3c.dom.Document;
 

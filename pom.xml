@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock</artifactId>
@@ -19,58 +20,36 @@
 
 	</developers>
 
-<!--
-	<scm>
-		<connection>scm:svn:https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</connection>
-		<developerConnection>scm:svn:https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</developerConnection>
-		<url>https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</url>
-	</scm>
-
-	<issueManagement>
-		<system>JIRA</system>
-		<url>http://mvnindex.org/jira/browse/SWST</url>
-	</issueManagement>
-
-
-
-	<distributionManagement>
-		<site>
-			<id>website</id>
-			<url>
-				scp://mvnindex.org:/var/www/vhosts/javacrumbs.net/httpdocs/spring-ws-test
-			</url>
-		</site>
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Nexus Release Repository</name>
-			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/
-			</url>
-		</repository>
-
-		<snapshotRepository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshots</name>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-	<properties>
-		<currentVersion>0.19</currentVersion>
-	</properties>
--->
+	<!-- <scm> <connection>scm:svn:https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</connection> 
+		<developerConnection>scm:svn:https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</developerConnection> 
+		<url>https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</url> 
+		</scm> <issueManagement> <system>JIRA</system> <url>http://mvnindex.org/jira/browse/SWST</url> 
+		</issueManagement> <distributionManagement> <site> <id>website</id> <url> 
+		scp://mvnindex.org:/var/www/vhosts/javacrumbs.net/httpdocs/spring-ws-test 
+		</url> </site> <repository> <id>sonatype-nexus-staging</id> <name>Nexus Release 
+		Repository</name> <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/ 
+		</url> </repository> <snapshotRepository> <id>sonatype-nexus-snapshots</id> 
+		<name>Sonatype Nexus Snapshots</name> <url>http://oss.sonatype.org/content/repositories/snapshots</url> 
+		</snapshotRepository> </distributionManagement> <properties> <currentVersion>0.19</currentVersion> 
+		</properties> -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
-   			<artifactId>spring-ws-test</artifactId>
-			<version>2.0.0-M3-SNAPSHOT</version>
+			<artifactId>spring-ws-test</artifactId>
+			<version>2.0.0-M4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.1</version>
-            <scope>test</scope>
-        </dependency>
-       	<dependency>
+			<groupId>org.fusesource.scalate</groupId>
+			<artifactId>scalate-core</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>2.5.1</version>
@@ -86,40 +65,30 @@
 					<target>1.5</target>
 				</configuration>
 			</plugin>
-<!--						<plugin>-->
-<!--							<groupId>com.mycila.maven-license-plugin</groupId>-->
-<!--							<artifactId>maven-license-plugin</artifactId>-->
-<!--							<version>1.6.0</version>-->
-<!--							<configuration>-->
-<!--								<header>src/etc/header.txt</header>-->
-<!--							    <excludes>-->
-<!--				                    <exclude>src/test/resources/**</exclude>-->
-<!--				                    <exclude>LICENSE.txt</exclude>-->
-<!--				                </excludes>-->
-<!--							</configuration>-->
-<!--							<executions>-->
-<!--								<execution>-->
-<!--									<goals>-->
-<!--										<goal>check</goal>-->
-<!--									</goals>-->
-<!--								</execution>-->
-<!--							</executions>-->
-<!--						</plugin>-->
-<!--			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>2.0.1</version>
-				<configuration>
-					<templateFile>${basedir}/src/site/template/default-site.vm
-					</templateFile>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<mavenExecutorId>forked-path</mavenExecutorId>
-				</configuration>
-			</plugin>
--->
+			<!-- <plugin> -->
+			<!-- <groupId>com.mycila.maven-license-plugin</groupId> -->
+			<!-- <artifactId>maven-license-plugin</artifactId> -->
+			<!-- <version>1.6.0</version> -->
+			<!-- <configuration> -->
+			<!-- <header>src/etc/header.txt</header> -->
+			<!-- <excludes> -->
+			<!-- <exclude>src/test/resources/**</exclude> -->
+			<!-- <exclude>LICENSE.txt</exclude> -->
+			<!-- </excludes> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <goals> -->
+			<!-- <goal>check</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
+			<!-- <plugin> <artifactId>maven-site-plugin</artifactId> <version>2.0.1</version> 
+				<configuration> <templateFile>${basedir}/src/site/template/default-site.vm 
+				</templateFile> </configuration> </plugin> <plugin> <artifactId>maven-release-plugin</artifactId> 
+				<configuration> <mavenExecutorId>forked-path</mavenExecutorId> </configuration> 
+				</plugin> -->
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>
@@ -194,31 +163,23 @@
 			</build>
 		</profile>
 	</profiles>
-<!--	
-	<mailingLists>
-	    <mailingList>
-	      <name>Spring WS Test mailing list</name>
-	      <subscribe>spring-ws-test+subscribe@googlegroups.com</subscribe>
-	      <unsubscribe>spring-ws-test+unsubscribe@googlegroups.com</unsubscribe>
-	      <post>spring-ws-test@googlegroups.com</post>
-	      <archive>http://groups.google.com/group/spring-ws-test/</archive>
-	    </mailingList>
-	</mailingLists>
-	
--->
-<!--		<pluginRepositories>-->
-<!--			<pluginRepository>-->
-<!--			    <id>mc-release</id>-->
-<!--			    <name>Local Maven repository of releases</name>-->
-<!--	-->
-<!--		<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>-->
-<!--	-->
-<!--			    <snapshots>-->
-<!--			        <enabled>false</enabled>-->
-<!--			    </snapshots>-->
-<!--			    <releases>-->
-<!--			        <enabled>true</enabled>-->
-<!--			    </releases>-->
-<!--			</pluginRepository>-->
-<!--		</pluginRepositories>-->
+	<!-- <mailingLists> <mailingList> <name>Spring WS Test mailing list</name> 
+		<subscribe>spring-ws-test+subscribe@googlegroups.com</subscribe> <unsubscribe>spring-ws-test+unsubscribe@googlegroups.com</unsubscribe> 
+		<post>spring-ws-test@googlegroups.com</post> <archive>http://groups.google.com/group/spring-ws-test/</archive> 
+		</mailingList> </mailingLists> -->
+	<!-- <pluginRepositories> -->
+	<!-- <pluginRepository> -->
+	<!-- <id>mc-release</id> -->
+	<!-- <name>Local Maven repository of releases</name> -->
+	<!-- -->
+	<!-- <url>http://mc-repo.googlecode.com/svn/maven2/releases</url> -->
+	<!-- -->
+	<!-- <snapshots> -->
+	<!-- <enabled>false</enabled> -->
+	<!-- </snapshots> -->
+	<!-- <releases> -->
+	<!-- <enabled>true</enabled> -->
+	<!-- </releases> -->
+	<!-- </pluginRepository> -->
+	<!-- </pluginRepositories> -->
 </project>

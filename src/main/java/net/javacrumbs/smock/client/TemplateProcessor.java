@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 
 import java.util.Map;
 
-import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.mock.client.ResponseCreator;
+import javax.xml.transform.Source;
 
-public interface ParametrizableResponseCreator<T extends WebServiceMessage> extends ResponseCreator<T>{
-	
-	ParametrizableResponseCreator<T> withParameter(String name, Object value);
+import org.w3c.dom.Document;
 
-	ParametrizableResponseCreator<T> withParameters(Map<String, Object> parameters);
+public interface TemplateProcessor {
+	/**
+	 * Processes a template.
+	 * @param template
+	 * @param input Template can use values from the input. Can be null. 
+	 * @param parameters
+	 * @return
+	 */
+	public Document processTemplate(Document template, Source input, Map<String, Object> parameters);
 }

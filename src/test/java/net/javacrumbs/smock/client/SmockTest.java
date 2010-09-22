@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 
-import static net.javacrumbs.mock.Smock.*;
+import static net.javacrumbs.smock.client.Smock.*;
 import static org.junit.Assert.assertNotNull;
+
+import net.javacrumbs.smock.client.MessageDiffMatcher;
+import net.javacrumbs.smock.client.MessageResponseCreator;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;

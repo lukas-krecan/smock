@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 import java.io.IOException;
 
 import javax.xml.transform.Source;
@@ -105,4 +105,10 @@ public abstract class Smock  {
             throw new IllegalArgumentException(resource + " could not be opened", ex);
         }
     }
+	static TemplateProcessor getTemplateProcessor() {
+		return templateProcessor;
+	}
+	static void setTemplateProcessor(TemplateProcessor templateProcessor) {
+		Smock.templateProcessor = templateProcessor;
+	}
 }

@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+
+import net.javacrumbs.smock.client.MessageDiffMatcher;
 
 import org.junit.Test;
 import org.springframework.ws.soap.SoapEnvelope;

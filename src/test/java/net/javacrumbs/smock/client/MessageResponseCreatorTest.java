@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
+
+import net.javacrumbs.smock.client.MessageResponseCreator;
+import net.javacrumbs.smock.client.XmlUtil;
 
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;

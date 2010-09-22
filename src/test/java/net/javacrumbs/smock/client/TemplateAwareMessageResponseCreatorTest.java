@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
 import javax.xml.transform.TransformerException;
+
+import net.javacrumbs.smock.client.TemplateAwareMessageResponseCreator;
+import net.javacrumbs.smock.client.XsltTemplateProcessor;
 
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;

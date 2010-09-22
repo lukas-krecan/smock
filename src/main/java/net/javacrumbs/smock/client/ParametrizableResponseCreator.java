@@ -14,29 +14,16 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.mock;
+package net.javacrumbs.smock.client;
 
 import java.util.Map;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.mock.client.ResponseCreator;
 
-import org.w3c.dom.Document;
+public interface ParametrizableResponseCreator<T extends WebServiceMessage> extends ResponseCreator<T>{
+	
+	ParametrizableResponseCreator<T> withParameter(String name, Object value);
 
-class XsltTemplateProcessor implements TemplateProcessor {
-	public Document processTemplate(Document template, Source input, Map<String, Object> parameters) {
-		XsltUtil xsltUtil = new XsltUtil(parameters);
-		if (xsltUtil.isTemplate(template))
-		{
-			if (input==null)
-			{
-				input = new DOMSource();
-			}
-			return xsltUtil.transform(template, input);
-		}
-		else
-		{
-			return template;
-		}
-	}
+	ParametrizableResponseCreator<T> withParameters(Map<String, Object> parameters);
 }
