@@ -118,12 +118,6 @@ public class CalcTest {
 		expect(validPayload(resource("xsd/calc.xsd")))
 			.andExpect(message("request-context-xslt.xml").withParameter("a",1).withParameter("b", 4))
 			.andRespond(withMessage("response2.xml"));
-//		mockControl
-//			.setTestContextAttribute("a", 1)
-//			.setTestContextAttribute("b", 4)
-//			.useFreeMarkerTemplateProcessor()
-//			.expectRequest("request-context.xml")
-//			.returnResponse("response2.xml");
 		
 		int result = calc.plus(1, 4);
 		assertEquals(5, result);
