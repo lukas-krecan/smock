@@ -117,7 +117,7 @@ public class CalcTest {
 	{
 		expect(validPayload(resource("xsd/calc.xsd")))
 			.andExpect(message("request-context-xslt.xml").withParameter("a",1).withParameter("b", 4))
-			.andRespond(withMessage("response2.xml"));
+			.andRespond(withMessage("response-template.xml"));
 		
 		int result = calc.plus(1, 4);
 		assertEquals(5, result);
