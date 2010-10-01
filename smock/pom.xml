@@ -1,6 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.javacrumbs</groupId>
+		<artifactId>smock-parent</artifactId>
+		<version>2.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock</artifactId>
 	<packaging>jar</packaging>
@@ -11,170 +17,18 @@
 		Spring WS Mock extension.	
 	</description>
 
-	<developers>
-		<developer>
-			<id>lukas</id>
-			<name>Lukas Krecan</name>
-			<url>http://blog.krecan.net</url>
-		</developer>
-
-	</developers>
-
-	<!-- <scm> <connection>scm:svn:https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</connection> 
-		<developerConnection>scm:svn:https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</developerConnection> 
-		<url>https://java-crumbs.svn.sourceforge.net/svnroot/java-crumbs/spring-ws-test/trunk</url> 
-		</scm> <issueManagement> <system>JIRA</system> <url>http://mvnindex.org/jira/browse/SWST</url> 
-		</issueManagement> <distributionManagement> <site> <id>website</id> <url> 
-		scp://mvnindex.org:/var/www/vhosts/javacrumbs.net/httpdocs/spring-ws-test 
-		</url> </site> <repository> <id>sonatype-nexus-staging</id> <name>Nexus Release 
-		Repository</name> <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/ 
-		</url> </repository> <snapshotRepository> <id>sonatype-nexus-snapshots</id> 
-		<name>Sonatype Nexus Snapshots</name> <url>http://oss.sonatype.org/content/repositories/snapshots</url> 
-		</snapshotRepository> </distributionManagement> <properties> <currentVersion>0.19</currentVersion> 
-		</properties> -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-ws-test</artifactId>
-			<version>2.0.0-M4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
-			<version>2.5.1</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>com.mycila.maven-license-plugin</groupId> -->
-			<!-- <artifactId>maven-license-plugin</artifactId> -->
-			<!-- <version>1.6.0</version> -->
-			<!-- <configuration> -->
-			<!-- <header>src/etc/header.txt</header> -->
-			<!-- <excludes> -->
-			<!-- <exclude>src/test/resources/**</exclude> -->
-			<!-- <exclude>LICENSE.txt</exclude> -->
-			<!-- </excludes> -->
-			<!-- </configuration> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <goals> -->
-			<!-- <goal>check</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
-			<!-- <plugin> <artifactId>maven-site-plugin</artifactId> <version>2.0.1</version> 
-				<configuration> <templateFile>${basedir}/src/site/template/default-site.vm 
-				</templateFile> </configuration> </plugin> <plugin> <artifactId>maven-release-plugin</artifactId> 
-				<configuration> <mavenExecutorId>forked-path</mavenExecutorId> </configuration> 
-				</plugin> -->
-			<plugin>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<additionalProjectnatures>
-						<projectnature>org.springframework.ide.eclipse.core.springnature
-						</projectnature>
-					</additionalProjectnatures>
-					<additionalBuildcommands>
-						<buildcommand>org.springframework.ide.eclipse.core.springbuilder
-						</buildcommand>
-					</additionalBuildcommands>
-
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin
-				</artifactId>
-				<version>2.3</version>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.0.1</version>
-			</plugin>
-		</plugins>
-	</reporting>
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>LICENSE.txt</url>
-		</license>
-	</licenses>
-	<profiles>
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<configuration>
-							<keyname>572516F4</keyname>
-						</configuration>
-						<version>1.0</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	<!-- <mailingLists> <mailingList> <name>Spring WS Test mailing list</name> 
-		<subscribe>spring-ws-test+subscribe@googlegroups.com</subscribe> <unsubscribe>spring-ws-test+unsubscribe@googlegroups.com</unsubscribe> 
-		<post>spring-ws-test@googlegroups.com</post> <archive>http://groups.google.com/group/spring-ws-test/</archive> 
-		</mailingList> </mailingLists> -->
-	<!-- <pluginRepositories> -->
-	<!-- <pluginRepository> -->
-	<!-- <id>mc-release</id> -->
-	<!-- <name>Local Maven repository of releases</name> -->
-	<!-- -->
-	<!-- <url>http://mc-repo.googlecode.com/svn/maven2/releases</url> -->
-	<!-- -->
-	<!-- <snapshots> -->
-	<!-- <enabled>false</enabled> -->
-	<!-- </snapshots> -->
-	<!-- <releases> -->
-	<!-- <enabled>true</enabled> -->
-	<!-- </releases> -->
-	<!-- </pluginRepository> -->
-	<!-- </pluginRepositories> -->
 </project>

@@ -17,3 +17,15 @@ syntax: regexp
 ^simple-client-test/\.project$
 syntax: regexp
 ^simple-client-test/\.springBeans$
+syntax: regexp
+^simple-client-test/target$
+syntax: regexp
+^smock/\.classpath$
+syntax: regexp
+^smock/\.project$
+syntax: regexp
+^smock/\.springBeans$
+syntax: regexp
+^smock/\.settings$
+syntax: regexp
+^smock/target$
