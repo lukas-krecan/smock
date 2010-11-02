@@ -45,11 +45,11 @@ public class TemplateAwareMessageRequestCreator extends MessageRequestCreator im
 		return templateProcessor.processTemplate(getSourceDocument(), null, parameters);
 	}
 
-	public ParametrizableRequestCreator<WebServiceMessage> withParameter(String name, Object value) {
+	public TemplateAwareMessageRequestCreator withParameter(String name, Object value) {
 		return withParameters(Collections.singletonMap(name, value));
 	}
 
-	public ParametrizableRequestCreator<WebServiceMessage> withParameters(Map<String, Object> additionalParameters) {
+	public TemplateAwareMessageRequestCreator withParameters(Map<String, Object> additionalParameters) {
 		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
 		newParameters.putAll(additionalParameters);
 		return new TemplateAwareMessageRequestCreator(getSourceDocument(), newParameters, templateProcessor);

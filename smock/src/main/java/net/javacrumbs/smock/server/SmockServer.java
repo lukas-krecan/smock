@@ -16,8 +16,6 @@
 
 package net.javacrumbs.smock.server;
 
-import static org.springframework.ws.test.server.ResponseMatchers.payload;
-
 import java.util.Collections;
 
 import javax.xml.transform.Source;
@@ -25,7 +23,6 @@ import javax.xml.transform.Source;
 import net.javacrumbs.smock.common.SmockCommon;
 
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.test.server.ResponseMatcher;
 
 public class SmockServer extends SmockCommon {
 	//TODO add all variants of methods (Source, Resource, String args)
@@ -49,8 +46,12 @@ public class SmockServer extends SmockCommon {
     	return withContent(fromResource(contentResource));
     }
     
-    public static ResponseMatcher message(String messageResource)
+    public static ParametrizableResponseMatcher<WebServiceMessage> message(String messageResource)
     {
-    	return payload(fromResource(messageResource));
+    	return message(fromResource(messageResource));
     }
+    
+	public static ParametrizableResponseMatcher<WebServiceMessage> message(Source content) {
+		return new TemplateAwareMessageResponseMatcher(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
+	}
 }

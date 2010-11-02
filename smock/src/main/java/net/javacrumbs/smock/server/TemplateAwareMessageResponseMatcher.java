@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.server;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,45 +26,38 @@ import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
-/**
- * {@link MessageDiffMatcher} that is able to process templates.
- * @author Lukas Krecan
- *
- */
-public class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher<WebServiceMessage> {
+public class TemplateAwareMessageResponseMatcher extends MessageResponseMatcher implements	ParametrizableResponseMatcher<WebServiceMessage> {
 
 	private final Map<String, Object> parameters;
 	
 	private final TemplateProcessor templateProcessor;
 	
-	public TemplateAwareMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+	public TemplateAwareMessageResponseMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(controlMessage);
-		Assert.notNull(templateProcessor,"Templateprocessor is null");
+		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
 		this.templateProcessor = templateProcessor;
 	}
 	
 	@Override
-	/**
-	 * Processes control using template processor.
-	 */
-	protected Document preprocessControlMessage() {
+	protected Document preprocessControlMessage()
+	{
 		return templateProcessor.processTemplate(getControlMessage(), null, parameters);
 	}
 
-
-	public TemplateAwareMessageDiffMatcher withParameter(String name, Object value) {
+	public TemplateAwareMessageResponseMatcher withParameter(String name, Object value) {
 		return withParameters(Collections.singletonMap(name, value));
 	}
 
-	public TemplateAwareMessageDiffMatcher withParameters(Map<String, Object> additionalParameters) {
+	public TemplateAwareMessageResponseMatcher withParameters(Map<String, Object> additionalParameters) {
 		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
 		newParameters.putAll(additionalParameters);
-		return new TemplateAwareMessageDiffMatcher(getControlMessage(), newParameters, templateProcessor);
+		return new TemplateAwareMessageResponseMatcher(getControlMessage(), newParameters, templateProcessor);
 	}
 
 	Map<String, Object> getParameters() {
 		return parameters;
 	}
+
 
 }
