@@ -37,30 +37,30 @@ public abstract class AbstractMatcher {
 	}
 
 	public AbstractMatcher(Document controlMessage) {
-		super();
 		this.controlMessage = controlMessage;
 	}
 
 	protected final void matchInternal(WebServiceMessage message) throws AssertionError {
-		if (isSoapControl())
+		Document controlMessage = preprocessControlMessage();
+		if (isSoapControl(controlMessage))
 		{
 			Document messageDocument = XmlUtil.getInstance().loadDocument(((SoapMessage)message).getEnvelope().getSource());
-			compare(messageDocument);
+			compare(controlMessage, messageDocument);
 		}
 		else //payload only
 		{
 			Document messageDocument = XmlUtil.getInstance().loadDocument(message.getPayloadSource());
-			compare(messageDocument);
+			compare(controlMessage, messageDocument);
 		}
 	}
 
 	/**
 	 * Compares document with control document.
 	 * @param messageDocument
+	 * @param messageDocument 
 	 * @throws AssertionError
 	 */
-	protected final void compare(Document messageDocument) throws AssertionError {
-		Document controlMessage = preprocessControlMessage();
+	protected final void compare(Document controlMessage, Document messageDocument) {
 		Diff diff = createDiff(controlMessage, messageDocument);
 		if (!diff.similar())
 		{
@@ -87,7 +87,7 @@ public abstract class AbstractMatcher {
 		return new EnhancedDiff(controlMessage, messageDocument);
 	}
 
-	private boolean isSoapControl() {
+	private boolean isSoapControl(Document controlMessage) {
 		return XmlUtil.getInstance().isSoap(controlMessage);
 	}
 
