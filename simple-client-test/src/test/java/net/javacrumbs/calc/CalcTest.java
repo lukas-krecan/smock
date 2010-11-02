@@ -1,12 +1,9 @@
 package net.javacrumbs.calc;
 
-import static net.javacrumbs.smock.client.SmockClient.*;
+import static net.javacrumbs.smock.client.SmockClient.message;
+import static net.javacrumbs.smock.client.SmockClient.withMessage;
+import static net.javacrumbs.smock.common.SmockCommon.resource;
 import static org.junit.Assert.assertEquals;
-import static org.springframework.ws.mock.client.WebServiceMock.anything;
-import static org.springframework.ws.mock.client.WebServiceMock.expect;
-import static org.springframework.ws.mock.client.WebServiceMock.mockWebServiceTemplate;
-import static org.springframework.ws.mock.client.WebServiceMock.validPayload;
-import static org.springframework.ws.mock.client.WebServiceMock.verifyConnections;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.client.SoapFaultClientException;
+
+import static org.springframework.ws.test.client.WebServiceMock.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:client-config.xml"})
