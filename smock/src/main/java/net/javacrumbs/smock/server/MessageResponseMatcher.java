@@ -14,34 +14,23 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
-
-import java.net.URI;
+package net.javacrumbs.smock.server;
 
 import net.javacrumbs.smock.common.AbstractMatcher;
 
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.test.client.RequestMatcher;
+import org.springframework.ws.test.server.ResponseMatcher;
 import org.w3c.dom.Document;
 
-/**
- * Request matcher that compares whole messages. If control document is a SOAP message, 
- * compares whole message, if not, only payloads are compared.
- * @author Lukas Krecan
- *
- */
-public class MessageDiffMatcher extends AbstractMatcher implements RequestMatcher<WebServiceMessage> {
+public class MessageResponseMatcher extends AbstractMatcher implements ResponseMatcher {
 
-	public MessageDiffMatcher(Document controlMessage) {
+	public MessageResponseMatcher(Document controlMessage) {
 		super(controlMessage);
 	}
-
-	/**
-	 * Checks if control document is a SOAP message. If so, whole message is compared, if not, only payloads are compared.
-	 */
-	public final void match(URI uri, WebServiceMessage request){
-		matchInternal(request);
+	
+	public void match(WebServiceMessage response)
+	{
+		matchInternal(response);
 	}
-
 
 }

@@ -39,7 +39,7 @@ public class SmockTest extends AbstractSmockTest {
 	public void testWithMessage()
 	{
 		MessageResponseCreator responseCallback = (MessageResponseCreator) withMessage(new StringSource(MESSAGE));
-		assertNotNull(responseCallback.getResponseDocument());
+		assertNotNull(responseCallback.getSourceDocument());
 	}
 	
 }

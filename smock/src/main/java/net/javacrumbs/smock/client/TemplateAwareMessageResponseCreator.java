@@ -53,7 +53,7 @@ public class TemplateAwareMessageResponseCreator extends MessageResponseCreator 
 
 	@Override
 	protected Document preprocessResponse(URI uri, WebServiceMessage request,	WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) {
-		return templateProcessor.processTemplate(getResponseDocument(), request.getPayloadSource(), parameters);
+		return templateProcessor.processTemplate(getSourceDocument(), request.getPayloadSource(), parameters);
 	}
 	
 	public TemplateAwareMessageResponseCreator withParameter(String name, Object value) {
@@ -63,7 +63,7 @@ public class TemplateAwareMessageResponseCreator extends MessageResponseCreator 
 	public TemplateAwareMessageResponseCreator withParameters(Map<String, Object> additionalParameters) {
 		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
 		newParameters.putAll(additionalParameters);
-		return new TemplateAwareMessageResponseCreator(getResponseDocument(), newParameters, templateProcessor);
+		return new TemplateAwareMessageResponseCreator(getSourceDocument(), newParameters, templateProcessor);
 	}
 
 }

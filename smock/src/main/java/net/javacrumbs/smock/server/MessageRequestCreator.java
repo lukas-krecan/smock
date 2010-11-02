@@ -18,9 +18,7 @@ package net.javacrumbs.smock.server;
 
 import java.io.IOException;
 
-import javax.xml.transform.dom.DOMSource;
-
-import net.javacrumbs.smock.common.XmlUtil;
+import net.javacrumbs.smock.common.AbstractMessageCreator;
 
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -32,17 +30,15 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class MessageRequestCreator implements RequestCreator {
-
-	private final Document sourceDocument;
+public class MessageRequestCreator extends AbstractMessageCreator implements RequestCreator {
 	
 	public MessageRequestCreator(Document sourceDocument) {
-		this.sourceDocument = sourceDocument;
+		super(sourceDocument);
 	}
 
 	public WebServiceMessage createRequest(WebServiceMessageFactory messageFactory) throws IOException {
 		Document document = preprocessRequest();
-		return createRequestInternal(document, messageFactory);
+		return createMessageInternal(document, messageFactory);
 		
 	}
 
@@ -51,25 +47,6 @@ public class MessageRequestCreator implements RequestCreator {
 	 * @return
 	 */
 	protected Document preprocessRequest() {
-		return sourceDocument;
+		return getSourceDocument();
 	}
-
-	protected final WebServiceMessage createRequestInternal(Document document, WebServiceMessageFactory messageFactory)
-			throws IOException {
-		if (XmlUtil.getInstance().isSoap(document))
-		{
-			return messageFactory.createWebServiceMessage(XmlUtil.getInstance().getResponseAsStream(document));
-		}
-		else
-		{
-			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
-			XmlUtil.getInstance().doTransform(new DOMSource(document), webServiceMessage.getPayloadResult());
-			return webServiceMessage;
-		}
-	}
-
-	Document getSourceDocument() {
-		return sourceDocument;
-	}
-
 }

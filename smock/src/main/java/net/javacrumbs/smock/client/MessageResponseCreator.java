@@ -19,9 +19,7 @@ package net.javacrumbs.smock.client;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.xml.transform.dom.DOMSource;
-
-import net.javacrumbs.smock.common.XmlUtil;
+import net.javacrumbs.smock.common.AbstractMessageCreator;
 
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -34,21 +32,21 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class MessageResponseCreator implements ResponseCreator<WebServiceMessage> {
-	private final Document response;
-	
+public class MessageResponseCreator extends AbstractMessageCreator implements ResponseCreator<WebServiceMessage> {
 	public MessageResponseCreator(Document response) {
-		this.response = response;
+		super(response);
 	}
-
+	
 	/**
 	 * {@inheritDoc}
+	 * @throws IOException 
 	 */
-	public final WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory)	throws IOException {
-		Document response = preprocessResponse(uri, request, messageFactory);
-		return createResponseInternal(response, messageFactory);
+	public final WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException
+	{
+			Document response = preprocessResponse(uri, request, messageFactory);
+			return createMessageInternal(response, messageFactory);
 	}
-
+	
 	/**
 	 * Pre-processes response and returns it as a {@link Document}. Can be overriden.
 	 * @param uri
@@ -56,34 +54,9 @@ public class MessageResponseCreator implements ResponseCreator<WebServiceMessage
 	 * @param messageFactory
 	 * @return
 	 */
-	protected  Document preprocessResponse(URI uri, WebServiceMessage request,	WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) {
-		return getResponseDocument();
+	protected Document preprocessResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) {
+		return getSourceDocument();
 	}
 
-	/**
-	 * Creates a response. If source document is a SOAP message a response is created as it is (including SOAP faults), if it
-	 * contains only a payload, it's wrapped in a SOAP envelope.
-	 * @param response
-	 * @param messageFactory
-	 * @return
-	 * @throws IOException
-	 */
-	protected final WebServiceMessage createResponseInternal(Document response, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException {
-		if (XmlUtil.getInstance().isSoap(response))
-		{
-			return messageFactory.createWebServiceMessage(XmlUtil.getInstance().getResponseAsStream(response));
-		}
-		else
-		{
-			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
-			XmlUtil.getInstance().doTransform(new DOMSource(response), webServiceMessage.getPayloadResult());
-			return webServiceMessage;
-		}
-	}
-	
 
-	
-	protected final Document getResponseDocument() {
-		return response;
-	}
 }
