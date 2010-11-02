@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.server;
 
-import net.javacrumbs.smock.client.MessageResponseCreator;
 import net.javacrumbs.smock.common.AbstractSmockTest;
 import net.javacrumbs.smock.common.XmlUtil;
 
@@ -27,16 +26,17 @@ import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
-public class MessageResponseCreatorTest extends AbstractSmockTest {
+
+public class MessageRequestCreatorTest extends AbstractSmockTest{
 	@Test
-	public void testReturnMessage() throws Exception
+	public void testCreateFromMessage() throws Exception
 	{
 		Document sourceDocument = loadDocument(new StringSource(MESSAGE));
-		MessageResponseCreator responseCreator = new MessageResponseCreator(sourceDocument);
+		MessageRequestCreator requestCreator = new MessageRequestCreator(sourceDocument);
 		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
 		messageFactory.afterPropertiesSet();
 		
-		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
+		SoapMessage response = (SoapMessage) requestCreator.createRequest(messageFactory);
 		
 		Document generatedDocument = loadDocument(response.getEnvelope().getSource());
 		System.out.println(XmlUtil.getInstance().serialize(generatedDocument));
@@ -44,14 +44,14 @@ public class MessageResponseCreatorTest extends AbstractSmockTest {
 		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);
 	}
 	@Test
-	public void testReturnPayload() throws Exception
+	public void testCreateFromPayload() throws Exception
 	{
 		Document sourceDocument = loadDocument(new StringSource(PAYLOAD));
-		MessageResponseCreator responseCreator = new MessageResponseCreator(sourceDocument);
+		MessageRequestCreator requestCreator = new MessageRequestCreator(sourceDocument);
 		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
 		messageFactory.afterPropertiesSet();
 		
-		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
+		SoapMessage response = (SoapMessage) requestCreator.createRequest(messageFactory);
 		
 		Document generatedDocument = loadDocument(response.getPayloadSource());
 		System.out.println(XmlUtil.getInstance().serialize(generatedDocument));

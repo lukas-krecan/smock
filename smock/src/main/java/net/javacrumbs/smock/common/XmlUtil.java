@@ -16,6 +16,9 @@
 
 package net.javacrumbs.smock.common;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +42,8 @@ import org.w3c.dom.Document;
  */
 public class XmlUtil extends TransformerObjectSupport {
 	private static final XmlUtil INSTANCE = new XmlUtil();
+	
+	private static final Charset UTF8_CHARSET = Charset.availableCharsets().get("UTF-8");
 
 	private static final Map<String, String> SOAP_NAMESPACES = new HashMap<String, String>();
 	
@@ -95,5 +100,10 @@ public class XmlUtil extends TransformerObjectSupport {
 		} catch (TransformerException e) {
 			throw new IllegalArgumentException("Can not transform",e);
 		}
+	}
+	
+	public InputStream getResponseAsStream(Document response)
+	{
+		return new ByteArrayInputStream(XmlUtil.getInstance().serialize(response).getBytes(UTF8_CHARSET));
 	}
 }

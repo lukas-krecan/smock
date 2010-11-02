@@ -16,14 +16,15 @@
 
 package net.javacrumbs.smock.server;
 
-import static org.springframework.ws.test.server.RequestCreators.*;
-import static org.springframework.ws.test.server.ResponseMatchers.*;
+import static org.springframework.ws.test.server.ResponseMatchers.payload;
+
+import java.util.Collections;
 
 import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.SmockCommon;
 
-import org.springframework.ws.test.server.RequestCreator;
+import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.server.ResponseMatcher;
 
 public class SmockServer extends SmockCommon {
@@ -34,8 +35,9 @@ public class SmockServer extends SmockCommon {
      * @param payload the request payload
      * @return the request creator
      */
-    public static RequestCreator withContent(Source content) {
-    	return withPayload(content);
+    public static ParametrizableRequestCreator<WebServiceMessage> withContent(Source content) {
+    	
+    	return new TemplateAwareMessageRequestCreator(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
     }
     /**
      * Create a request with the given {@link Source} XML as payload.
@@ -43,8 +45,8 @@ public class SmockServer extends SmockCommon {
      * @param payload the request payload
      * @return the request creator
      */
-    public static RequestCreator withContent(String contentResource) {
-    	return withPayload(fromResource(contentResource));
+    public static ParametrizableRequestCreator<WebServiceMessage> withContent(String contentResource) {
+    	return withContent(fromResource(contentResource));
     }
     
     public static ResponseMatcher message(String messageResource)

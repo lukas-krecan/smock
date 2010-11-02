@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 
 import net.javacrumbs.smock.client.MessageDiffMatcher;
 import net.javacrumbs.smock.client.MessageResponseCreator;
+import net.javacrumbs.smock.common.AbstractSmockTest;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;

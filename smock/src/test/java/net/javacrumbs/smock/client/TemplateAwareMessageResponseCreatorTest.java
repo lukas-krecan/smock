@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.xml.transform.TransformerException;
 
 import net.javacrumbs.smock.client.TemplateAwareMessageResponseCreator;
+import net.javacrumbs.smock.common.AbstractSmockTest;
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
 
 import org.custommonkey.xmlunit.XMLAssert;

@@ -22,6 +22,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import net.javacrumbs.smock.client.MessageDiffMatcher;
+import net.javacrumbs.smock.common.AbstractSmockTest;
 
 import org.junit.Test;
 import org.springframework.ws.soap.SoapEnvelope;

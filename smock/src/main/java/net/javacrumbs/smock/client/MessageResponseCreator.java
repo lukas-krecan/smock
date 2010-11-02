@@ -16,11 +16,8 @@
 
 package net.javacrumbs.smock.client;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
-import java.nio.charset.Charset;
 
 import javax.xml.transform.dom.DOMSource;
 
@@ -38,8 +35,6 @@ import org.w3c.dom.Document;
  *
  */
 public class MessageResponseCreator implements ResponseCreator<WebServiceMessage> {
-	private static final Charset UTF8_CHARSET = Charset.availableCharsets().get("UTF-8");
-
 	private final Document response;
 	
 	public MessageResponseCreator(Document response) {
@@ -76,7 +71,7 @@ public class MessageResponseCreator implements ResponseCreator<WebServiceMessage
 	protected final WebServiceMessage createResponseInternal(Document response, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException {
 		if (XmlUtil.getInstance().isSoap(response))
 		{
-			return messageFactory.createWebServiceMessage(getResponseAsStream(response));
+			return messageFactory.createWebServiceMessage(XmlUtil.getInstance().getResponseAsStream(response));
 		}
 		else
 		{
@@ -86,10 +81,7 @@ public class MessageResponseCreator implements ResponseCreator<WebServiceMessage
 		}
 	}
 	
-	private InputStream getResponseAsStream(Document response)
-	{
-		return new ByteArrayInputStream(XmlUtil.getInstance().serialize(response).getBytes(UTF8_CHARSET));
-	}
+
 	
 	protected final Document getResponseDocument() {
 		return response;
