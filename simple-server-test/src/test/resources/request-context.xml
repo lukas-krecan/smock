@@ -1,5 +1,0 @@
-<!-- Freemarker template -->
-<plusRequest xmlns="http://javacrumbs.net/calc">
-  <a>${a}</a>
-  <b>${b}</b>
-</plusRequest>
