@@ -14,6 +14,7 @@
 	<modules>
 		<module>smock</module>
 		<module>simple-client-test</module>
+		<module>simple-server-test</module>
 	</modules>
 
 

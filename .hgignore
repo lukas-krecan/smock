@@ -29,3 +29,11 @@ syntax: regexp
 ^smock/\.settings$
 syntax: regexp
 ^smock/target$
+syntax: regexp
+^simple-server-test/target$
+syntax: regexp
+^simple-server-test/\.classpath$
+syntax: regexp
+^simple-server-test/\.project$
+syntax: regexp
+^simple-server-test/\.settings$
