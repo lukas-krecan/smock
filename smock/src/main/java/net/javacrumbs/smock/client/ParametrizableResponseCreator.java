@@ -19,7 +19,7 @@ package net.javacrumbs.smock.client;
 import java.util.Map;
 
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.mock.client.ResponseCreator;
+import org.springframework.ws.test.client.ResponseCreator;
 
 /**
  * {@link ResponseCreator} that can be parametrized.

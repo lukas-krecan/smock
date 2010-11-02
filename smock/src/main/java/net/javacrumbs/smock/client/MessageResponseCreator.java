@@ -28,7 +28,7 @@ import net.javacrumbs.smock.common.XmlUtil;
 
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
-import org.springframework.ws.mock.client.ResponseCreator;
+import org.springframework.ws.test.client.ResponseCreator;
 import org.w3c.dom.Document;
 
 /**

@@ -7,7 +7,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
-import org.springframework.ws.mock.client.WebServiceMock;
+import org.springframework.ws.test.client.WebServiceMock;
 import org.springframework.xml.transform.ResourceSource;
 import org.w3c.dom.Document;
 

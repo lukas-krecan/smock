@@ -24,8 +24,8 @@ import net.javacrumbs.smock.common.XmlUtil;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.mock.client.RequestMatcher;
 import org.springframework.ws.soap.SoapMessage;
+import org.springframework.ws.test.client.RequestMatcher;
 import org.w3c.dom.Document;
 
 /**

@@ -8,7 +8,7 @@ import net.javacrumbs.smock.common.SmockCommon;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.mock.client.WebServiceMock;
+import org.springframework.ws.test.client.WebServiceMock;
 import org.w3c.dom.Document;
 
 /*
