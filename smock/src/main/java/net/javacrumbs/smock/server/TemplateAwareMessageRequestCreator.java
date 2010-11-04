@@ -23,10 +23,9 @@ import java.util.Map;
 import net.javacrumbs.smock.common.TemplateProcessor;
 
 import org.springframework.util.Assert;
-import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
-public class TemplateAwareMessageRequestCreator extends MessageRequestCreator implements ParametrizableRequestCreator<WebServiceMessage>{
+public class TemplateAwareMessageRequestCreator extends MessageRequestCreator implements ParametrizableRequestCreator{
 
 
 	private final Map<String, Object> parameters;

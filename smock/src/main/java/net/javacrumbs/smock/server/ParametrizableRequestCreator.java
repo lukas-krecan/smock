@@ -18,22 +18,21 @@ package net.javacrumbs.smock.server;
 
 import java.util.Map;
 
-import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.server.RequestCreator;
 
-public interface ParametrizableRequestCreator<T extends WebServiceMessage> extends RequestCreator {
+public interface ParametrizableRequestCreator extends RequestCreator {
 	/**
 	 * Adds parameter to the {@link RequestCreator} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableRequestCreator<T> withParameter(String name, Object value);
+	ParametrizableRequestCreator withParameter(String name, Object value);
 	/**
 	 * Adds parameters to the {@link RequestCreator} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableRequestCreator<T> withParameters(Map<String, Object> parameters);
+	ParametrizableRequestCreator withParameters(Map<String, Object> parameters);
 }

@@ -18,22 +18,21 @@ package net.javacrumbs.smock.server;
 
 import java.util.Map;
 
-import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.server.ResponseMatcher;
 
-public interface ParametrizableResponseMatcher<T extends WebServiceMessage> extends ResponseMatcher {
+public interface ParametrizableResponseMatcher extends ResponseMatcher {
 	/**
 	 * Adds parameter to the {@link ResponseMatcher} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseMatcher<T> withParameter(String name, Object value);
+	ParametrizableResponseMatcher withParameter(String name, Object value);
 	/**
 	 * Adds parameters to the {@link ResponseMatcher} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseMatcher<T> withParameters(Map<String, Object> parameters);
+	ParametrizableResponseMatcher withParameters(Map<String, Object> parameters);
 }

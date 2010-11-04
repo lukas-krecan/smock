@@ -22,8 +22,6 @@ import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.SmockCommon;
 
-import org.springframework.ws.WebServiceMessage;
-
 public class SmockServer extends SmockCommon {
 	//TODO add all variants of methods (Source, Resource, String args)
     /**
@@ -32,7 +30,7 @@ public class SmockServer extends SmockCommon {
      * @param payload the request payload
      * @return the request creator
      */
-    public static ParametrizableRequestCreator<WebServiceMessage> withContent(Source content) {
+    public static ParametrizableRequestCreator withContent(Source content) {
     	
     	return new TemplateAwareMessageRequestCreator(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
     }
@@ -42,16 +40,16 @@ public class SmockServer extends SmockCommon {
      * @param payload the request payload
      * @return the request creator
      */
-    public static ParametrizableRequestCreator<WebServiceMessage> withContent(String contentResource) {
+    public static ParametrizableRequestCreator withContent(String contentResource) {
     	return withContent(fromResource(contentResource));
     }
     
-    public static ParametrizableResponseMatcher<WebServiceMessage> message(String messageResource)
+    public static ParametrizableResponseMatcher message(String messageResource)
     {
     	return message(fromResource(messageResource));
     }
     
-	public static ParametrizableResponseMatcher<WebServiceMessage> message(Source content) {
+	public static ParametrizableResponseMatcher message(Source content) {
 		return new TemplateAwareMessageResponseMatcher(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
 	}
 }
