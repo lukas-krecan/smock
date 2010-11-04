@@ -21,8 +21,6 @@ import java.net.URI;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
-import net.javacrumbs.smock.common.XmlUtil;
-
 import org.w3c.dom.Document;
 
 public abstract class AbstractSmockTest {

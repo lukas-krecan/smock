@@ -17,7 +17,6 @@
 package net.javacrumbs.smock.common;
 
 import java.io.IOException;
-import java.net.URI;
 
 import javax.xml.transform.dom.DOMSource;
 

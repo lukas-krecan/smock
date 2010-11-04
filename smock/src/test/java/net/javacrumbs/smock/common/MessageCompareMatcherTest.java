@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.common;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-
-import net.javacrumbs.smock.client.MessageDiffMatcher;
-import net.javacrumbs.smock.common.AbstractSmockTest;
 
 import org.junit.Test;
 import org.springframework.ws.soap.SoapEnvelope;
@@ -31,14 +28,14 @@ import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
 
-public class MessageDiffMatcherTest extends AbstractSmockTest{
+public class MessageCompareMatcherTest extends AbstractSmockTest{
 
 	
 	@Test
 	public void testSame()
 	{
 		Document document = loadDocument(new StringSource(MESSAGE));
-		MessageDiffMatcher matcher = new MessageDiffMatcher(document);
+		MessageCompareMatcher matcher = new MessageCompareMatcher(document);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		SoapEnvelope envelope = createMock(SoapEnvelope.class);
@@ -54,7 +51,7 @@ public class MessageDiffMatcherTest extends AbstractSmockTest{
 	public void testDifferent()
 	{
 		Document document = loadDocument(new StringSource(MESSAGE));
-		MessageDiffMatcher matcher = new MessageDiffMatcher(document);
+		MessageCompareMatcher matcher = new MessageCompareMatcher(document);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		SoapEnvelope envelope = createMock(SoapEnvelope.class);
@@ -70,7 +67,7 @@ public class MessageDiffMatcherTest extends AbstractSmockTest{
 	public void testPayload()
 	{
 		Document document = loadDocument(new StringSource(PAYLOAD));
-		MessageDiffMatcher matcher = new MessageDiffMatcher(document);
+		MessageCompareMatcher matcher = new MessageCompareMatcher(document);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD));
@@ -84,7 +81,7 @@ public class MessageDiffMatcherTest extends AbstractSmockTest{
 	public void testPayloadDifferent()
 	{
 		Document document = loadDocument(new StringSource(PAYLOAD));
-		MessageDiffMatcher matcher = new MessageDiffMatcher(document);
+		MessageCompareMatcher matcher = new MessageCompareMatcher(document);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD2));

@@ -16,12 +16,11 @@
 
 package net.javacrumbs.smock.client;
 
-import static net.javacrumbs.smock.client.SmockClient.*;
+import static net.javacrumbs.smock.client.SmockClient.message;
+import static net.javacrumbs.smock.client.SmockClient.withMessage;
 import static org.junit.Assert.assertNotNull;
-
-import net.javacrumbs.smock.client.MessageDiffMatcher;
-import net.javacrumbs.smock.client.MessageResponseCreator;
 import net.javacrumbs.smock.common.AbstractSmockTest;
+import net.javacrumbs.smock.common.MessageCompareMatcher;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
@@ -32,7 +31,7 @@ public class SmockTest extends AbstractSmockTest {
 	@Test
 	public void testMessage()
 	{
-		MessageDiffMatcher requestMatcher = (MessageDiffMatcher) message(new StringSource(MESSAGE));
+		MessageCompareMatcher requestMatcher = (MessageCompareMatcher) message(new StringSource(MESSAGE));
 		assertNotNull(requestMatcher.getControlMessage());
 	}
 	@Test

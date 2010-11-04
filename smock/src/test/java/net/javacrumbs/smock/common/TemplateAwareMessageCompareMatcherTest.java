@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.server;
+package net.javacrumbs.smock.common;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -27,15 +27,11 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
-import net.javacrumbs.smock.common.AbstractSmockTest;
-import net.javacrumbs.smock.common.XsltTemplateProcessor;
-
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.xml.transform.StringSource;
 
-
-public class TemplateAwareMessageResponseMatcherTest extends AbstractSmockTest{
+public class TemplateAwareMessageCompareMatcherTest extends AbstractSmockTest {
 	@Test
 	public void match() throws Exception {
 		String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"><xsl:template match=\"/\">"
@@ -54,34 +50,35 @@ public class TemplateAwareMessageResponseMatcherTest extends AbstractSmockTest{
 		String xml = "<element xmlns='http://example.com'>5</element>";
 		doTest(template, xml, Collections.<String, Object> singletonMap("a", 5));
 	}
+
 	@Test
 	public void matchTemplateFromRequest() throws Exception {
 		String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">"
 			+ "<xsl:template match=\"/\">"
 			+ "<element xmlns='http://example.com'><xsl:value-of select=\"//x\" /></element>"
 			+ "</xsl:template></xsl:stylesheet>";
-		String request = "<x>6</x>";
+		String input = "<x>6</x>";
 		String xml = "<element xmlns='http://example.com'>6</element>";
-		doTest(template, xml, Collections.<String, Object> emptyMap(), request);
+		doTest(template, xml, Collections.<String, Object> emptyMap(), input);
 	}
-
+	
 	@Test
 	public void matchNoTemplate() throws Exception {
 		String xml = "<element xmlns='http://example.com'/>";
 		doTest(xml, xml, Collections.<String, Object> emptyMap());
 	}
 
-	private void doTest(String template, String response, Map<String, Object> parameters) throws IOException {
-		doTest(template, response, parameters, "<a/>");
+	private void doTest(String template, String message, Map<String, Object> parameters) throws IOException {
+		doTest(template, message, parameters, "<a/>");
 	}
-	private void doTest(String template, String response, Map<String, Object> parameters, String request) throws IOException {
+	private void doTest(String template, String message, Map<String, Object> parameters, String input) throws IOException {
 		WebServiceMessage requestMessage = createMock(WebServiceMessage.class);
 		WebServiceMessage responseMessage = createMock(WebServiceMessage.class);
-		expect(requestMessage.getPayloadSource()).andReturn(new StringSource(request));
-		expect(responseMessage.getPayloadSource()).andReturn(new StringSource(response));
+		expect(requestMessage.getPayloadSource()).andReturn(new StringSource(input));
+		expect(responseMessage.getPayloadSource()).andReturn(new StringSource(message));
 		replay(requestMessage, responseMessage);
 
-		TemplateAwareMessageResponseMatcher matcher = new TemplateAwareMessageResponseMatcher(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
+		TemplateAwareMessageCompareMatcher matcher = new TemplateAwareMessageCompareMatcher(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
 		matcher.match(requestMessage, responseMessage);
 
 		verify(requestMessage, responseMessage);
@@ -89,8 +86,8 @@ public class TemplateAwareMessageResponseMatcherTest extends AbstractSmockTest{
 
 	@Test
 	public void addParameter() throws Exception {
-		TemplateAwareMessageResponseMatcher matcher1 = new TemplateAwareMessageResponseMatcher(loadDocument(new StringSource("<element/>")), Collections.<String, Object>emptyMap(), new XsltTemplateProcessor());
-		TemplateAwareMessageResponseMatcher matcher2 = matcher1.withParameter("test", "value");
+		TemplateAwareMessageCompareMatcher matcher1 = new TemplateAwareMessageCompareMatcher(loadDocument(new StringSource("<element/>")), Collections.<String, Object>emptyMap(), new XsltTemplateProcessor());
+		TemplateAwareMessageCompareMatcher matcher2 = matcher1.withParameter("test", "value");
 		assertNotSame(matcher1, matcher2);
 		assertEquals(Collections.singletonMap("test", "value"), matcher2.getParameters());
 	}

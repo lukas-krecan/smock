@@ -4,6 +4,7 @@ import java.util.Collections;
 import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.SmockCommon;
+import net.javacrumbs.smock.common.TemplateAwareMessageCompareMatcher;
 
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -75,7 +76,7 @@ public abstract class SmockClient extends SmockCommon {
      */
     public static ParametrizableRequestMatcher message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new TemplateAwareMessageDiffMatcher(message, Collections.<String,Object>emptyMap(), getTemplateProcessor());
+    	return new TemplateAwareMessageCompareMatcher(message, Collections.<String,Object>emptyMap(), getTemplateProcessor());
     }	
     
     /**

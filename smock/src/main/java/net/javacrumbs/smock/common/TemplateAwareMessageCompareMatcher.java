@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.server;
+package net.javacrumbs.smock.common;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,19 +22,20 @@ import java.util.Map;
 
 import javax.xml.transform.Source;
 
-import net.javacrumbs.smock.common.TemplateProcessor;
+import net.javacrumbs.smock.client.ParametrizableRequestMatcher;
+import net.javacrumbs.smock.server.ParametrizableResponseMatcher;
 
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
-public class TemplateAwareMessageResponseMatcher extends MessageResponseMatcher implements ParametrizableResponseMatcher {
+public class TemplateAwareMessageCompareMatcher extends MessageCompareMatcher implements ParametrizableResponseMatcher, ParametrizableRequestMatcher {
 
 	private final Map<String, Object> parameters;
 	
 	private final TemplateProcessor templateProcessor;
 	
-	public TemplateAwareMessageResponseMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+	public TemplateAwareMessageCompareMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(controlMessage);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
@@ -48,14 +49,14 @@ public class TemplateAwareMessageResponseMatcher extends MessageResponseMatcher 
 		return templateProcessor.processTemplate(getControlMessage(), inputSource, parameters);
 	}
 
-	public TemplateAwareMessageResponseMatcher withParameter(String name, Object value) {
+	public TemplateAwareMessageCompareMatcher withParameter(String name, Object value) {
 		return withParameters(Collections.singletonMap(name, value));
 	}
 
-	public TemplateAwareMessageResponseMatcher withParameters(Map<String, Object> additionalParameters) {
+	public TemplateAwareMessageCompareMatcher withParameters(Map<String, Object> additionalParameters) {
 		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
 		newParameters.putAll(additionalParameters);
-		return new TemplateAwareMessageResponseMatcher(getControlMessage(), newParameters, templateProcessor);
+		return new TemplateAwareMessageCompareMatcher(getControlMessage(), newParameters, templateProcessor);
 	}
 
 	Map<String, Object> getParameters() {

@@ -17,10 +17,14 @@
 package net.javacrumbs.smock.common;
 
 
+import java.net.URI;
+
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.soap.SoapMessage;
+import org.springframework.ws.test.client.RequestMatcher;
+import org.springframework.ws.test.server.ResponseMatcher;
 import org.w3c.dom.Document;
 
 /**
@@ -28,7 +32,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public abstract class AbstractMatcher {
+public class MessageCompareMatcher implements RequestMatcher, ResponseMatcher{
 
 	protected final Document controlMessage;
 
@@ -36,11 +40,11 @@ public abstract class AbstractMatcher {
 		XMLUnit.setIgnoreWhitespace(true);
 	}
 
-	public AbstractMatcher(Document controlMessage) {
+	public MessageCompareMatcher(Document controlMessage) {
 		this.controlMessage = controlMessage;
 	}
 
-	protected final void matchInternal(WebServiceMessage input, WebServiceMessage message) throws AssertionError {
+	protected final void matchInternal(WebServiceMessage input, WebServiceMessage message) {
 		Document controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))
 		{
@@ -52,6 +56,22 @@ public abstract class AbstractMatcher {
 			Document messageDocument = XmlUtil.getInstance().loadDocument(message.getPayloadSource());
 			compare(controlMessage, messageDocument);
 		}
+	}
+	
+	/*
+	 * RequestMatcher
+	 * @see org.springframework.ws.test.client.RequestMatcher#match(java.net.URI, org.springframework.ws.WebServiceMessage)
+	 */
+	public void match(URI uri, WebServiceMessage request)  {
+		matchInternal(null, request);		
+	}
+	
+	/*
+	 * Response matcher.
+	 * @see org.springframework.ws.test.server.ResponseMatcher#match(org.springframework.ws.WebServiceMessage, org.springframework.ws.WebServiceMessage)
+	 */
+	public void match(WebServiceMessage request, WebServiceMessage response) {
+		matchInternal(request, response);
 	}
 
 	/**

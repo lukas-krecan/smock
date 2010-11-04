@@ -21,6 +21,7 @@ import java.util.Collections;
 import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.SmockCommon;
+import net.javacrumbs.smock.common.TemplateAwareMessageCompareMatcher;
 
 public class SmockServer extends SmockCommon {
 	//TODO add all variants of methods (Source, Resource, String args)
@@ -50,6 +51,6 @@ public class SmockServer extends SmockCommon {
     }
     
 	public static ParametrizableResponseMatcher message(Source content) {
-		return new TemplateAwareMessageResponseMatcher(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
+		return new TemplateAwareMessageCompareMatcher(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
 	}
 }
