@@ -17,19 +17,31 @@
 package net.javacrumbs.smock.common;
 
 import java.io.IOException;
+import java.net.URI;
 
 import javax.xml.transform.dom.DOMSource;
 
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.test.client.ResponseCreator;
+import org.springframework.ws.test.server.RequestCreator;
 import org.w3c.dom.Document;
 
-public abstract class AbstractMessageCreator {
+public class MessageCreator implements RequestCreator, ResponseCreator{
 
 	private final Document sourceDocument;
 
-	public AbstractMessageCreator(Document sourceDocument) {
+	public MessageCreator(Document sourceDocument) {
 		this.sourceDocument = sourceDocument;
+	}
+	
+	public final WebServiceMessage createRequest(WebServiceMessageFactory messageFactory) throws IOException {
+		return createMessageInternal(null, null, messageFactory);
+	}
+
+
+	public WebServiceMessage createResponse(URI uri, WebServiceMessage request,	WebServiceMessageFactory messageFactory) throws IOException {
+		return createMessageInternal(uri, request, messageFactory);
 	}
 
 
@@ -41,17 +53,22 @@ public abstract class AbstractMessageCreator {
 	 * @return
 	 * @throws IOException
 	 */
-	protected final WebServiceMessage createMessageInternal(Document response, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException {
-		if (XmlUtil.getInstance().isSoap(response))
+	protected final WebServiceMessage createMessageInternal(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) throws IOException {
+		Document source = preprocessSource(uri, input, messageFactory);
+		if (XmlUtil.getInstance().isSoap(source))
 		{
-			return messageFactory.createWebServiceMessage(XmlUtil.getInstance().getResponseAsStream(response));
+			return messageFactory.createWebServiceMessage(XmlUtil.getInstance().getResponseAsStream(source));
 		}
 		else
 		{
 			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
-			XmlUtil.getInstance().doTransform(new DOMSource(response), webServiceMessage.getPayloadResult());
+			XmlUtil.getInstance().doTransform(new DOMSource(source), webServiceMessage.getPayloadResult());
 			return webServiceMessage;
 		}
+	}
+
+	protected Document preprocessSource(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) {
+		return getSourceDocument();
 	}
 
 	public final Document getSourceDocument() {

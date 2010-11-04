@@ -21,6 +21,7 @@ import static net.javacrumbs.smock.client.SmockClient.withMessage;
 import static org.junit.Assert.assertNotNull;
 import net.javacrumbs.smock.common.AbstractSmockTest;
 import net.javacrumbs.smock.common.MessageCompareMatcher;
+import net.javacrumbs.smock.common.MessageCreator;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
@@ -37,7 +38,7 @@ public class SmockTest extends AbstractSmockTest {
 	@Test
 	public void testWithMessage()
 	{
-		MessageResponseCreator responseCallback = (MessageResponseCreator) withMessage(new StringSource(MESSAGE));
+		MessageCreator responseCallback = (MessageCreator) withMessage(new StringSource(MESSAGE));
 		assertNotNull(responseCallback.getSourceDocument());
 	}
 	

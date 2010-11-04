@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.common;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
-import net.javacrumbs.smock.common.AbstractSmockTest;
+import net.javacrumbs.smock.common.TemplateAwareMessageCreator;
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
 
 import org.custommonkey.xmlunit.XMLAssert;
@@ -48,7 +48,7 @@ public class TemplateAwareMessageResponseCreatorTest extends AbstractSmockTest{
 		}
 		
 		@Test
-		public void callbackTemplate() throws IOException, TransformerException, SAXException
+		public void createTemplate() throws IOException, TransformerException, SAXException
 		{
 			String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"><xsl:template match=\"/\">" + 
 							  "<element xmlns='http://example.com'/></xsl:template></xsl:stylesheet>";
@@ -57,7 +57,7 @@ public class TemplateAwareMessageResponseCreatorTest extends AbstractSmockTest{
 			doCallbackTest(template, request, expectedResponse);
 		}
 		@Test
-		public void callbackTemplateParameters() throws IOException, TransformerException, SAXException
+		public void createWithTemplateParameters() throws IOException, TransformerException, SAXException
 		{
 			String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">" + 
 			"<xsl:param name=\"a\"/>" +
@@ -70,7 +70,7 @@ public class TemplateAwareMessageResponseCreatorTest extends AbstractSmockTest{
 			doCallbackTest(template, request, expectedResponse, Collections.<String, Object>singletonMap("a", 5));
 		}
 		@Test
-		public void callbackTemplateRequest() throws IOException, TransformerException, SAXException
+		public void createTemplateRequest() throws IOException, TransformerException, SAXException
 		{
 			String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">" +
 			"<xsl:param name=\"a\"/>" +
@@ -84,7 +84,7 @@ public class TemplateAwareMessageResponseCreatorTest extends AbstractSmockTest{
 		}
 	
 		@Test
-		public void callbackNoTemplate() throws IOException, TransformerException, SAXException
+		public void createNoTemplate() throws IOException, TransformerException, SAXException
 		{
 			
 			String request = "<element xmlns='http://example.com'/>";
@@ -92,13 +92,13 @@ public class TemplateAwareMessageResponseCreatorTest extends AbstractSmockTest{
 			doCallbackTest(expectedResponse, request, expectedResponse);
 		}
 		
-		private void doCallbackTest(String template, String request, String expectedResponse) throws IOException, TransformerException, SAXException {
-			doCallbackTest(template, request, expectedResponse, Collections.<String, Object>emptyMap());
+		private void doCallbackTest(String template, String input, String expectedResponse) throws IOException, TransformerException, SAXException {
+			doCallbackTest(template, input, expectedResponse, Collections.<String, Object>emptyMap());
 			
 		}
 	
 		private void doCallbackTest(String template, String request, String expectedResponse, Map<String, Object> parameters) throws IOException, TransformerException, SAXException {
-			TemplateAwareMessageResponseCreator callback = new TemplateAwareMessageResponseCreator(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
+			TemplateAwareMessageCreator callback = new TemplateAwareMessageCreator(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
 			
 			
 			WebServiceMessage response = callback.createResponse(TEST_URI, createMessage(request), FACTORY);

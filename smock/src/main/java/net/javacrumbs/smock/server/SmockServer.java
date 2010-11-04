@@ -22,6 +22,7 @@ import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.SmockCommon;
 import net.javacrumbs.smock.common.TemplateAwareMessageCompareMatcher;
+import net.javacrumbs.smock.common.TemplateAwareMessageCreator;
 
 public class SmockServer extends SmockCommon {
 	//TODO add all variants of methods (Source, Resource, String args)
@@ -33,7 +34,7 @@ public class SmockServer extends SmockCommon {
      */
     public static ParametrizableRequestCreator withContent(Source content) {
     	
-    	return new TemplateAwareMessageRequestCreator(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
+    	return new TemplateAwareMessageCreator(loadDocument(content),Collections.<String, Object>emptyMap(), getTemplateProcessor());
     }
     /**
      * Create a request with the given {@link Source} XML as payload.

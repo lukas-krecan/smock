@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.client;
+package net.javacrumbs.smock.common;
 
-import net.javacrumbs.smock.common.AbstractSmockTest;
 import net.javacrumbs.smock.common.XmlUtil;
 
 import org.custommonkey.xmlunit.XMLAssert;
@@ -26,12 +25,12 @@ import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
-public class MessageResponseCreatorTest extends AbstractSmockTest {
+public class MessageCreatorTest extends AbstractSmockTest {
 	@Test
 	public void testReturnMessage() throws Exception
 	{
 		Document sourceDocument = loadDocument(new StringSource(MESSAGE));
-		MessageResponseCreator responseCreator = new MessageResponseCreator(sourceDocument);
+		MessageCreator responseCreator = new MessageCreator(sourceDocument);
 		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
 		messageFactory.afterPropertiesSet();
 		
@@ -46,7 +45,7 @@ public class MessageResponseCreatorTest extends AbstractSmockTest {
 	public void testReturnPayload() throws Exception
 	{
 		Document sourceDocument = loadDocument(new StringSource(PAYLOAD));
-		MessageResponseCreator responseCreator = new MessageResponseCreator(sourceDocument);
+		MessageCreator responseCreator = new MessageCreator(sourceDocument);
 		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
 		messageFactory.afterPropertiesSet();
 		

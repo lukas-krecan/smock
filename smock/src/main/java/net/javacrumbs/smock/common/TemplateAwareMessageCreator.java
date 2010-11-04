@@ -14,49 +14,56 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.server;
+package net.javacrumbs.smock.common;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.javacrumbs.smock.common.TemplateProcessor;
+import javax.xml.transform.Source;
+
+import net.javacrumbs.smock.client.ParametrizableResponseCreator;
+import net.javacrumbs.smock.server.ParametrizableRequestCreator;
 
 import org.springframework.util.Assert;
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
-public class TemplateAwareMessageRequestCreator extends MessageRequestCreator implements ParametrizableRequestCreator{
 
-
+/**
+ * {@link MessageResponseCreator} that preprocesses response using {@link TemplateProcessor}.
+ * @author Lukas Krecan
+ *
+ */
+public class TemplateAwareMessageCreator extends MessageCreator implements ParametrizableResponseCreator, ParametrizableRequestCreator{
+	
 	private final Map<String, Object> parameters;
 	
 	private final TemplateProcessor templateProcessor;
 
-	public TemplateAwareMessageRequestCreator(Document sourceDocument,	Map<String, Object> parameters,	TemplateProcessor templateProcessor) {
-		super(sourceDocument);
+	public TemplateAwareMessageCreator(Document response, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+		super(response);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
 		this.templateProcessor = templateProcessor;
 	}
-	
-	@Override
-	protected Document preprocessRequest() {
-		return templateProcessor.processTemplate(getSourceDocument(), null, parameters);
-	}
 
-	public TemplateAwareMessageRequestCreator withParameter(String name, Object value) {
+	@Override
+	protected Document preprocessSource(URI uri, WebServiceMessage input,	WebServiceMessageFactory messageFactory) {
+		Source inputSource = input!=null?input.getPayloadSource():null;
+		return templateProcessor.processTemplate(getSourceDocument(), inputSource, parameters);
+	}
+	
+	public TemplateAwareMessageCreator withParameter(String name, Object value) {
 		return withParameters(Collections.singletonMap(name, value));
 	}
 
-	public TemplateAwareMessageRequestCreator withParameters(Map<String, Object> additionalParameters) {
+	public TemplateAwareMessageCreator withParameters(Map<String, Object> additionalParameters) {
 		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
 		newParameters.putAll(additionalParameters);
-		return new TemplateAwareMessageRequestCreator(getSourceDocument(), newParameters, templateProcessor);
+		return new TemplateAwareMessageCreator(getSourceDocument(), newParameters, templateProcessor);
 	}
-
-	Map<String, Object> getParameters() {
-		return parameters;
-	}
-	
 
 }
