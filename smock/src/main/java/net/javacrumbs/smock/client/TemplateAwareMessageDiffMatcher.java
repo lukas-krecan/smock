@@ -23,6 +23,7 @@ import java.util.Map;
 import net.javacrumbs.smock.common.TemplateProcessor;
 
 import org.springframework.util.Assert;
+import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
 /**
@@ -38,16 +39,16 @@ public class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implemen
 	
 	public TemplateAwareMessageDiffMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(controlMessage);
-		Assert.notNull(templateProcessor,"Templateprocessor is null");
+		Assert.notNull(templateProcessor,"TemplateProcessor is null");
 		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
 		this.templateProcessor = templateProcessor;
 	}
 	
-	@Override
 	/**
 	 * Processes control using template processor.
 	 */
-	protected Document preprocessControlMessage() {
+	@Override
+	protected Document preprocessControlMessage(WebServiceMessage input) {
 		return templateProcessor.processTemplate(getControlMessage(), null, parameters);
 	}
 

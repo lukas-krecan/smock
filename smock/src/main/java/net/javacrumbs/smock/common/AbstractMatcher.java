@@ -40,8 +40,8 @@ public abstract class AbstractMatcher {
 		this.controlMessage = controlMessage;
 	}
 
-	protected final void matchInternal(WebServiceMessage message) throws AssertionError {
-		Document controlMessage = preprocessControlMessage();
+	protected final void matchInternal(WebServiceMessage input, WebServiceMessage message) throws AssertionError {
+		Document controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))
 		{
 			Document messageDocument = XmlUtil.getInstance().loadDocument(((SoapMessage)message).getEnvelope().getSource());
@@ -70,10 +70,11 @@ public abstract class AbstractMatcher {
 	
 	/**
 	 * Does control message pre-processing. Can be overriden.
+	 * @param input 
 	 * @param controlMessage
 	 * @return
 	 */
-	protected Document preprocessControlMessage() {
+	protected Document preprocessControlMessage(WebServiceMessage input) {
 		return getControlMessage();
 	}
 

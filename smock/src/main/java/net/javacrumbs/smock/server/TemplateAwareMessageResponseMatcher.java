@@ -20,12 +20,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.transform.Source;
+
 import net.javacrumbs.smock.common.TemplateProcessor;
 
 import org.springframework.util.Assert;
+import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
-public class TemplateAwareMessageResponseMatcher extends MessageResponseMatcher implements	ParametrizableResponseMatcher {
+public class TemplateAwareMessageResponseMatcher extends MessageResponseMatcher implements ParametrizableResponseMatcher {
 
 	private final Map<String, Object> parameters;
 	
@@ -39,9 +42,10 @@ public class TemplateAwareMessageResponseMatcher extends MessageResponseMatcher 
 	}
 	
 	@Override
-	protected Document preprocessControlMessage()
+	protected Document preprocessControlMessage(WebServiceMessage input)
 	{
-		return templateProcessor.processTemplate(getControlMessage(), null, parameters);
+		Source inputSource = input!=null?input.getPayloadSource():null;
+		return templateProcessor.processTemplate(getControlMessage(), inputSource, parameters);
 	}
 
 	public TemplateAwareMessageResponseMatcher withParameter(String name, Object value) {

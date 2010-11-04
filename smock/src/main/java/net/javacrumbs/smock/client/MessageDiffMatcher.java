@@ -40,7 +40,7 @@ public class MessageDiffMatcher extends AbstractMatcher implements RequestMatche
 	 * Checks if control document is a SOAP message. If so, whole message is compared, if not, only payloads are compared.
 	 */
 	public final void match(URI uri, WebServiceMessage request){
-		matchInternal(request);
+		matchInternal(null, request);
 	}
 
 

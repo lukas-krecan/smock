@@ -54,6 +54,16 @@ public class TemplateAwareMessageResponseMatcherTest extends AbstractSmockTest{
 		String xml = "<element xmlns='http://example.com'>5</element>";
 		doTest(template, xml, Collections.<String, Object> singletonMap("a", 5));
 	}
+	@Test
+	public void matchTemplateFromRequest() throws Exception {
+		String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">"
+			+ "<xsl:template match=\"/\">"
+			+ "<element xmlns='http://example.com'><xsl:value-of select=\"//x\" /></element>"
+			+ "</xsl:template></xsl:stylesheet>";
+		String request = "<x>6</x>";
+		String xml = "<element xmlns='http://example.com'>6</element>";
+		doTest(template, xml, Collections.<String, Object> emptyMap(), request);
+	}
 
 	@Test
 	public void matchNoTemplate() throws Exception {
@@ -61,15 +71,20 @@ public class TemplateAwareMessageResponseMatcherTest extends AbstractSmockTest{
 		doTest(xml, xml, Collections.<String, Object> emptyMap());
 	}
 
-	private void doTest(String template, String xml, Map<String, Object> parameters) throws IOException {
-		WebServiceMessage message = createMock(WebServiceMessage.class);
-		expect(message.getPayloadSource()).andReturn(new StringSource(xml));
-		replay(message);
+	private void doTest(String template, String response, Map<String, Object> parameters) throws IOException {
+		doTest(template, response, parameters, "<a/>");
+	}
+	private void doTest(String template, String response, Map<String, Object> parameters, String request) throws IOException {
+		WebServiceMessage requestMessage = createMock(WebServiceMessage.class);
+		WebServiceMessage responseMessage = createMock(WebServiceMessage.class);
+		expect(requestMessage.getPayloadSource()).andReturn(new StringSource(request));
+		expect(responseMessage.getPayloadSource()).andReturn(new StringSource(response));
+		replay(requestMessage, responseMessage);
 
 		TemplateAwareMessageResponseMatcher matcher = new TemplateAwareMessageResponseMatcher(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
-		matcher.match(null, message);
+		matcher.match(requestMessage, responseMessage);
 
-		verify(message);
+		verify(requestMessage, responseMessage);
 	}
 
 	@Test

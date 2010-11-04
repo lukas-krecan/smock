@@ -30,7 +30,7 @@ public class MessageResponseMatcher extends AbstractMatcher implements ResponseM
 	
 	public void match(WebServiceMessage request, WebServiceMessage response)
 	{
-		matchInternal(response);
+		matchInternal(request, response);
 	}
 
 }
