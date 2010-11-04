@@ -23,7 +23,6 @@ import java.util.Map;
 import net.javacrumbs.smock.common.TemplateProcessor;
 
 import org.springframework.util.Assert;
-import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
 /**
@@ -31,7 +30,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher<WebServiceMessage> {
+public class TemplateAwareMessageDiffMatcher extends MessageDiffMatcher implements ParametrizableRequestMatcher {
 
 	private final Map<String, Object> parameters;
 	

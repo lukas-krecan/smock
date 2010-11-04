@@ -28,7 +28,7 @@ public class MessageResponseMatcher extends AbstractMatcher implements ResponseM
 		super(controlMessage);
 	}
 	
-	public void match(WebServiceMessage response)
+	public void match(WebServiceMessage request, WebServiceMessage response)
 	{
 		matchInternal(response);
 	}

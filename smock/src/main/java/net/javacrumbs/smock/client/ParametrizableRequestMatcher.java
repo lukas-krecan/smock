@@ -18,7 +18,6 @@ package net.javacrumbs.smock.client;
 
 import java.util.Map;
 
-import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.client.RequestMatcher;
 
 /**
@@ -27,7 +26,7 @@ import org.springframework.ws.test.client.RequestMatcher;
  *
  * @param <T>
  */
-public interface ParametrizableRequestMatcher<T extends WebServiceMessage> extends RequestMatcher<T> {
+public interface ParametrizableRequestMatcher extends RequestMatcher {
 
 	/**
 	 * Adds parameter to the {@link RequestMatcher} 
@@ -35,7 +34,7 @@ public interface ParametrizableRequestMatcher<T extends WebServiceMessage> exten
 	 * @param value
 	 * @return
 	 */
-	ParametrizableRequestMatcher<T> withParameter(String name, Object value);
+	ParametrizableRequestMatcher withParameter(String name, Object value);
 
 	/**
 	 * Adds parameters to the {@link RequestMatcher} 
@@ -43,5 +42,5 @@ public interface ParametrizableRequestMatcher<T extends WebServiceMessage> exten
 	 * @param value
 	 * @return
 	 */
-	ParametrizableRequestMatcher<T> withParameters(Map<String, Object> parameters);
+	ParametrizableRequestMatcher withParameters(Map<String, Object> parameters);
 }

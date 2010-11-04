@@ -36,15 +36,15 @@ public class MessageResponseMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(MESSAGE));
 		MessageResponseMatcher matcher = new MessageResponseMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
+		SoapMessage response = createMock(SoapMessage.class);
 		SoapEnvelope envelope = createMock(SoapEnvelope.class);
-		expect(request.getEnvelope()).andReturn(envelope );
+		expect(response.getEnvelope()).andReturn(envelope );
 		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE));
-		replay(request, envelope);
+		replay(response, envelope);
 		
-		matcher.match(request);
+		matcher.match(null, response);
 		
-		verify(request, envelope);
+		verify(response, envelope);
 	}
 	@Test(expected=AssertionError.class)
 	public void testDifferent()
@@ -52,15 +52,15 @@ public class MessageResponseMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(MESSAGE));
 		MessageResponseMatcher matcher = new MessageResponseMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
+		SoapMessage response = createMock(SoapMessage.class);
 		SoapEnvelope envelope = createMock(SoapEnvelope.class);
-		expect(request.getEnvelope()).andReturn(envelope );
+		expect(response.getEnvelope()).andReturn(envelope );
 		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE2));
-		replay(request, envelope);
+		replay(response, envelope);
 		
-		matcher.match(request);
+		matcher.match(null, response);
 		
-		verify(request, envelope);
+		verify(response, envelope);
 	}
 	@Test
 	public void testPayload()
@@ -68,13 +68,13 @@ public class MessageResponseMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(PAYLOAD));
 		MessageResponseMatcher matcher = new MessageResponseMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
-		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD));
-		replay(request);
+		SoapMessage response = createMock(SoapMessage.class);
+		expect(response.getPayloadSource()).andReturn(new StringSource(PAYLOAD));
+		replay(response);
 		
-		matcher.match(request);
+		matcher.match(null, response);
 		
-		verify(request);
+		verify(response);
 	}
 	@Test(expected=AssertionError.class)
 	public void testPayloadDifferent()
@@ -82,12 +82,12 @@ public class MessageResponseMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(PAYLOAD));
 		MessageResponseMatcher matcher = new MessageResponseMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
-		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD2));
-		replay(request);
+		SoapMessage response = createMock(SoapMessage.class);
+		expect(response.getPayloadSource()).andReturn(new StringSource(PAYLOAD2));
+		replay(response);
 		
-		matcher.match(request);
+		matcher.match(null, response);
 		
-		verify(request);
+		verify(response);
 	}
 }

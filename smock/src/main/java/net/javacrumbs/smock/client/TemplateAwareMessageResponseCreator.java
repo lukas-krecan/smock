@@ -34,7 +34,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class TemplateAwareMessageResponseCreator extends MessageResponseCreator implements ParametrizableResponseCreator<WebServiceMessage>{
+public class TemplateAwareMessageResponseCreator extends MessageResponseCreator implements ParametrizableResponseCreator{
 	
 	private final Map<String, Object> parameters;
 	
@@ -52,7 +52,7 @@ public class TemplateAwareMessageResponseCreator extends MessageResponseCreator 
 	}
 
 	@Override
-	protected Document preprocessResponse(URI uri, WebServiceMessage request,	WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) {
+	protected Document preprocessResponse(URI uri, WebServiceMessage request,	WebServiceMessageFactory messageFactory) {
 		return templateProcessor.processTemplate(getSourceDocument(), request.getPayloadSource(), parameters);
 	}
 	

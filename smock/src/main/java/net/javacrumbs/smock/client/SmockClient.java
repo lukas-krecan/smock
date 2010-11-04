@@ -7,8 +7,6 @@ import net.javacrumbs.smock.common.SmockCommon;
 
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.test.client.WebServiceMock;
 import org.w3c.dom.Document;
 
 /*
@@ -39,7 +37,7 @@ public abstract class SmockClient extends SmockCommon {
 	 * @param location of the resource where the message is stored.
 	 * @return the request matcher
 	 */
-	public static ParametrizableRequestMatcher<WebServiceMessage> message(String location) {
+	public static ParametrizableRequestMatcher message(String location) {
 		Assert.notNull(location, "'location' must not be null");
 		return message(fromResource(location));
 	}	
@@ -50,7 +48,7 @@ public abstract class SmockClient extends SmockCommon {
 	 * @param message the XML message
 	 * @return the request matcher
 	 */
-	public static ParametrizableRequestMatcher<WebServiceMessage> message(Resource message) {
+	public static ParametrizableRequestMatcher message(Resource message) {
 		Assert.notNull(message, "'message' must not be null");
 		Document document = loadDocument(createResourceSource(message));
 		return message(document);
@@ -62,7 +60,7 @@ public abstract class SmockClient extends SmockCommon {
      * @param message the XML message
      * @return the request matcher
      */
-    public static ParametrizableRequestMatcher<WebServiceMessage> message(Source message) {
+    public static ParametrizableRequestMatcher message(Source message) {
         Assert.notNull(message, "'message' must not be null");
        	Document document = loadDocument(message);
 		return message(document);
@@ -75,7 +73,7 @@ public abstract class SmockClient extends SmockCommon {
      * @param message the XML message
      * @return the request matcher
      */
-    public static ParametrizableRequestMatcher<WebServiceMessage> message(Document message) {
+    public static ParametrizableRequestMatcher message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
     	return new TemplateAwareMessageDiffMatcher(message, Collections.<String,Object>emptyMap(), getTemplateProcessor());
     }	
@@ -87,7 +85,7 @@ public abstract class SmockClient extends SmockCommon {
      * @param loaction of the resource
      * @return the response callback
      */
-    public static ParametrizableResponseCreator<WebServiceMessage> withMessage(String location) {
+    public static ParametrizableResponseCreator withMessage(String location) {
     	Assert.notNull(location, "'location' must not be null");
     	return withMessage(fromResource(location));
     }
@@ -98,7 +96,7 @@ public abstract class SmockClient extends SmockCommon {
      * @param payload the response message
      * @return the response callback
      */
-    public static ParametrizableResponseCreator<WebServiceMessage> withMessage(Source message) {
+    public static ParametrizableResponseCreator withMessage(Source message) {
         Assert.notNull(message, "'message' must not be null");
         return withMessage(loadDocument(message));
     }
@@ -109,7 +107,7 @@ public abstract class SmockClient extends SmockCommon {
      * @param payload the response message
      * @return the response callback
      */
-    public static ParametrizableResponseCreator<WebServiceMessage> withMessage(Document message) {
+    public static ParametrizableResponseCreator withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
     	return new TemplateAwareMessageResponseCreator(message, getTemplateProcessor());
     }

@@ -27,13 +27,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
+import net.javacrumbs.smock.common.AbstractSmockTest;
+import net.javacrumbs.smock.common.XsltTemplateProcessor;
+
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.xml.transform.StringSource;
-
-import net.javacrumbs.smock.client.TemplateAwareMessageDiffMatcher;
-import net.javacrumbs.smock.common.AbstractSmockTest;
-import net.javacrumbs.smock.common.XsltTemplateProcessor;
 
 
 public class TemplateAwareMessageResponseMatcherTest extends AbstractSmockTest{
@@ -68,7 +67,7 @@ public class TemplateAwareMessageResponseMatcherTest extends AbstractSmockTest{
 		replay(message);
 
 		TemplateAwareMessageResponseMatcher matcher = new TemplateAwareMessageResponseMatcher(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
-		matcher.match(message);
+		matcher.match(null, message);
 
 		verify(message);
 	}

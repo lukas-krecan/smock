@@ -32,7 +32,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class MessageResponseCreator extends AbstractMessageCreator implements ResponseCreator<WebServiceMessage> {
+public class MessageResponseCreator extends AbstractMessageCreator implements ResponseCreator {
 	public MessageResponseCreator(Document response) {
 		super(response);
 	}
@@ -41,7 +41,7 @@ public class MessageResponseCreator extends AbstractMessageCreator implements Re
 	 * {@inheritDoc}
 	 * @throws IOException 
 	 */
-	public final WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) throws IOException
+	public final WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory messageFactory) throws IOException
 	{
 			Document response = preprocessResponse(uri, request, messageFactory);
 			return createMessageInternal(response, messageFactory);
@@ -54,7 +54,7 @@ public class MessageResponseCreator extends AbstractMessageCreator implements Re
 	 * @param messageFactory
 	 * @return
 	 */
-	protected Document preprocessResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory<? extends WebServiceMessage> messageFactory) {
+	protected Document preprocessResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory messageFactory) {
 		return getSourceDocument();
 	}
 

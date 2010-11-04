@@ -18,7 +18,6 @@ package net.javacrumbs.smock.client;
 
 import java.util.Map;
 
-import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.client.ResponseCreator;
 
 /**
@@ -27,7 +26,7 @@ import org.springframework.ws.test.client.ResponseCreator;
  *
  * @param <T>
  */
-public interface ParametrizableResponseCreator<T extends WebServiceMessage> extends ResponseCreator<T>{
+public interface ParametrizableResponseCreator extends ResponseCreator{
 	
 	/**
 	 * Adds parameter to the {@link ResponseCreator} 
@@ -35,12 +34,12 @@ public interface ParametrizableResponseCreator<T extends WebServiceMessage> exte
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseCreator<T> withParameter(String name, Object value);
+	ParametrizableResponseCreator withParameter(String name, Object value);
 	/**
 	 * Adds parameters to the {@link ResponseCreator} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseCreator<T> withParameters(Map<String, Object> parameters);
+	ParametrizableResponseCreator withParameters(Map<String, Object> parameters);
 }

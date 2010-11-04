@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class MessageDiffMatcher extends AbstractMatcher implements RequestMatcher<WebServiceMessage> {
+public class MessageDiffMatcher extends AbstractMatcher implements RequestMatcher {
 
 	public MessageDiffMatcher(Document controlMessage) {
 		super(controlMessage);
