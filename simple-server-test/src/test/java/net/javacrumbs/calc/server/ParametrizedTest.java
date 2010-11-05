@@ -1,7 +1,7 @@
 package net.javacrumbs.calc.server;
 
 import static net.javacrumbs.smock.server.SmockServer.message;
-import static net.javacrumbs.smock.server.SmockServer.withContent;
+import static net.javacrumbs.smock.server.SmockServer.withMessage;
 import static org.springframework.ws.test.server.MockWebServiceClient.createClient;
 import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 
@@ -62,10 +62,10 @@ public class ParametrizedTest {
 	
 	@Test
 	public void testAssertTemplate() throws Exception {
-		wsMockClient.sendMessage(withContent("request-context-xslt.xml").withParameter("a",a).withParameter("b", b)).andExpect(message("response-context-xslt.xml").withParameter("result", a+b));
+		wsMockClient.sendRequest(withMessage("request-context-xslt.xml").withParameter("a",a).withParameter("b", b)).andExpect(message("response-context-xslt.xml").withParameter("result", a+b));
 	}
 	@Test
 	public void testAssertXpath() throws Exception {
-		wsMockClient.sendMessage(withContent("request-context-xslt.xml").withParameter("a",a).withParameter("b", b)).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(a+b));
+		wsMockClient.sendRequest(withMessage("request-context-xslt.xml").withParameter("a",a).withParameter("b", b)).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(a+b));
 	}
 }

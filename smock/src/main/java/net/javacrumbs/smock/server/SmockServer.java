@@ -42,7 +42,7 @@ public class SmockServer extends SmockCommon {
      * @param payload the request payload
      * @return the request creator
      */
-    public static ParametrizableRequestCreator withContent(String contentResource) {
+    public static ParametrizableRequestCreator withMessage(String contentResource) {
     	return withContent(fromResource(contentResource));
     }
     

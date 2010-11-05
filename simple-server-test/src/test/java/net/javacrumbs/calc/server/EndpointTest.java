@@ -32,33 +32,33 @@ public class EndpointTest {
 	@Test
 	public void testSimple() throws Exception {
 		// simulates request coming to MessageDispatcherServlet
-		wsMockClient.sendMessage(withContent("request1.xml")).andExpect(noFault());
+		wsMockClient.sendRequest(withMessage("request1.xml")).andExpect(noFault());
 	}
 	
 	@Test
 	public void testCompare() throws Exception {
-		wsMockClient.sendMessage(withContent("request1.xml")).andExpect(message("response1.xml"));
+		wsMockClient.sendRequest(withMessage("request1.xml")).andExpect(message("response1.xml"));
 	}
 	@Test
 	public void testValidateResponse() throws Exception {
-		wsMockClient.sendMessage(withContent("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/calc.xsd")));
+		wsMockClient.sendRequest(withMessage("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/calc.xsd")));
 	}
 	@Test
 	public void testAssertXPath() throws Exception {
-		wsMockClient.sendMessage(withContent("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(3));
+		wsMockClient.sendRequest(withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(3));
 	}
 
 	@Test
 	public void testError() throws Exception {
-		wsMockClient.sendMessage(withContent("request-error.xml")).andExpect(message("response-error.xml"));
+		wsMockClient.sendRequest(withMessage("request-error.xml")).andExpect(message("response-error.xml"));
 	}
 	@Test
 	public void testErrorMessage() throws Exception {
-		wsMockClient.sendMessage(withContent("request-error.xml")).andExpect(clientOrSenderFault("Validation error"));
+		wsMockClient.sendRequest(withMessage("request-error.xml")).andExpect(clientOrSenderFault("Validation error"));
 	}
 
 	@Test
 	public void testResponseTemplate() throws Exception {
-		wsMockClient.sendMessage(withContent("request-context-xslt.xml").withParameter("a",1).withParameter("b", 2)).andExpect(message("response-context-xslt.xml").withParameter("result", 3));
+		wsMockClient.sendRequest(withMessage("request-context-xslt.xml").withParameter("a",1).withParameter("b", 2)).andExpect(message("response-context-xslt.xml").withParameter("result", 3));
 	}
 }
