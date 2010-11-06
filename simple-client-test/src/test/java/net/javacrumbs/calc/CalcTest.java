@@ -3,8 +3,11 @@ package net.javacrumbs.calc;
 import static net.javacrumbs.smock.client.SmockClient.message;
 import static net.javacrumbs.smock.client.SmockClient.withMessage;
 import static net.javacrumbs.smock.common.SmockCommon.resource;
-
 import static org.junit.Assert.assertEquals;
+import static org.springframework.ws.test.client.RequestMatchers.anything;
+import static org.springframework.ws.test.client.RequestMatchers.validPayload;
+
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,9 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.ws.test.client.MockWebServiceServer;
-
-import static org.springframework.ws.test.client.RequestMatchers.*;
-import static org.springframework.ws.test.client.ResponseCreators.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:client-config.xml"})
@@ -61,7 +61,7 @@ public class CalcTest {
 		assertEquals(3, result);
 	}
 	@Test
-	public void testSchema()
+	public void testSchema() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request1.xml")).andRespond(withMessage("response1.xml"));
 		
@@ -69,7 +69,7 @@ public class CalcTest {
 		assertEquals(3, result);
 	}
 	@Test
-	public void testIgnore()
+	public void testIgnore() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
 		
@@ -77,7 +77,7 @@ public class CalcTest {
 		assertEquals(5, result);
 	}
 	@Test
-	public void testMultiple()
+	public void testMultiple() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response3.xml"));
@@ -98,7 +98,7 @@ public class CalcTest {
 		assertEquals(3, calc.plus(1, 2));
 	}
 	@Test
-	public void testTemplate()
+	public void testTemplate() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response-template.xml"));
 		
@@ -107,7 +107,7 @@ public class CalcTest {
 	}
 	
 	@Test
-	public void testMultipleTemplate()
+	public void testMultipleTemplate() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response-template.xml"));
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response-template.xml"));
@@ -117,7 +117,7 @@ public class CalcTest {
 	}
 
 	@Test
-	public void testContext()
+	public void testContext() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd")))
 			.andExpect(message("request-context-xslt.xml").withParameter("a",1).withParameter("b", 4))
@@ -128,7 +128,7 @@ public class CalcTest {
 	}
 	
 	@Test(expected=SoapFaultClientException.class)
-	public void testException()
+	public void testException() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("fault.xml"));
 		calc.plus(2, 3);

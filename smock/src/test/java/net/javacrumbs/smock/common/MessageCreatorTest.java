@@ -31,8 +31,7 @@ public class MessageCreatorTest extends AbstractSmockTest {
 	{
 		Document sourceDocument = loadDocument(new StringSource(MESSAGE));
 		MessageCreator responseCreator = new MessageCreator(sourceDocument);
-		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
-		messageFactory.afterPropertiesSet();
+		SaajSoapMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
 		
@@ -46,8 +45,7 @@ public class MessageCreatorTest extends AbstractSmockTest {
 	{
 		Document sourceDocument = loadDocument(new StringSource(PAYLOAD));
 		MessageCreator responseCreator = new MessageCreator(sourceDocument);
-		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
-		messageFactory.afterPropertiesSet();
+		SaajSoapMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
 		
@@ -56,4 +54,5 @@ public class MessageCreatorTest extends AbstractSmockTest {
 		System.out.println(XmlUtil.getInstance().serialize(sourceDocument));
 		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);
 	}
+
 }
