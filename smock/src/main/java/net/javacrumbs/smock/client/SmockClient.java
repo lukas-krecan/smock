@@ -1,5 +1,8 @@
 package net.javacrumbs.smock.client;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import javax.xml.transform.Source;
 
@@ -7,8 +10,15 @@ import net.javacrumbs.smock.common.SmockCommon;
 import net.javacrumbs.smock.common.TemplateAwareMessageCompareMatcher;
 import net.javacrumbs.smock.common.TemplateAwareMessageCreator;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.test.client.MockWebServiceServer;
+import org.springframework.ws.test.support.MockStrategiesHelper;
 import org.w3c.dom.Document;
 
 /*
@@ -102,15 +112,53 @@ public abstract class SmockClient extends SmockCommon {
         Assert.notNull(message, "'message' must not be null");
         return withMessage(loadDocument(message));
     }
-    /**
-     * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
-     * it will be wrapped into a SOAP.
-     *
-     * @param payload the response message
-     * @return the response callback
-     */
+   
     public static ParametrizableResponseCreator withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
     	return new TemplateAwareMessageCreator(message, Collections.<String, Object>emptyMap(), getTemplateProcessor());
     }
+    
+    
+
+    
+    public static MockWebServiceServer createServer(WebServiceTemplate webServiceTemplate, EndpointInterceptor[] interceptors) {
+    	 if (interceptors!=null && interceptors.length>0)
+    	 {
+    		 List<ClientInterceptor> newInterceptors = new ArrayList<ClientInterceptor>();
+    		 if (webServiceTemplate.getInterceptors()!=null)
+    		 {
+    			 newInterceptors.addAll(Arrays.asList(webServiceTemplate.getInterceptors()));
+    		 }
+    		 for (EndpointInterceptor interceptor: interceptors)
+    		 {
+    			 newInterceptors.add(new ClientEndpointIntercptoerAdapter(interceptor));
+    		 }
+    		 webServiceTemplate.setInterceptors(newInterceptors.toArray(new ClientInterceptor[newInterceptors.size()]));
+    	 }
+         return MockWebServiceServer.createServer(webServiceTemplate);
+    }
+
+    
+    public static MockWebServiceServer createServer(WebServiceGatewaySupport gatewaySupport, EndpointInterceptor[] interceptors) {
+    	Assert.notNull(gatewaySupport, "'gatewaySupport' must not be null");
+        return createServer(gatewaySupport.getWebServiceTemplate(), interceptors);
+    }
+
+    public static MockWebServiceServer createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors) {
+    	MockStrategiesHelper strategiesHelper = new MockStrategiesHelper(applicationContext);
+        WebServiceTemplate webServiceTemplate = strategiesHelper.getStrategy(WebServiceTemplate.class);
+        if (webServiceTemplate != null) {
+            return createServer(webServiceTemplate, interceptors);
+        }
+        WebServiceGatewaySupport gatewaySupport = strategiesHelper.getStrategy(WebServiceGatewaySupport.class);
+        if (gatewaySupport != null) {
+            return createServer(gatewaySupport, interceptors);
+        }
+        throw new IllegalArgumentException(
+                "Could not find either WebServiceTemplate or WebServiceGatewaySupport in application context");
+    }
+    
+
+
+
 }
