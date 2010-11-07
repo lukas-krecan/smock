@@ -48,7 +48,7 @@ public class GroovyTemplateProcessorTest {
 	{
 		GroovyTemplateProcessor processor = new GroovyTemplateProcessor();
 		Document template = XmlUtil.getInstance().loadDocument(new StringSource("<a>$value $requestB.b</a>"));
-		Source request = new StringSource("<requestB><b>2</b></requestB>");	
+		Source request = new StringSource("<requestB xmlns:ns=\"http://example.org/abc\"><ns:b>2</ns:b></requestB>");	
 		
 		Document result = processor.processTemplate(template, request, singletonMap("value", (Object)"test"));
 		assertXMLEqual("<a>test 2</a>", XmlUtil.getInstance().serialize(result));
