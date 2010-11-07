@@ -19,6 +19,8 @@ package net.javacrumbs.smock.common;
 
 import java.net.URI;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
@@ -35,6 +37,8 @@ import org.w3c.dom.Document;
 public class MessageCompareMatcher implements RequestMatcher, ResponseMatcher{
 
 	protected final Document controlMessage;
+	
+	private final Log logger = LogFactory.getLog(getClass()); 
 
 	static {
 		XMLUnit.setIgnoreWhitespace(true);
@@ -81,6 +85,10 @@ public class MessageCompareMatcher implements RequestMatcher, ResponseMatcher{
 	 * @throws AssertionError
 	 */
 	protected final void compare(Document controlMessage, Document messageDocument) {
+		if (logger.isDebugEnabled())
+		{
+			logger.debug("Comparing:\n "+XmlUtil.getInstance().serialize(controlMessage)+"\n with:\n"+XmlUtil.getInstance().serialize(messageDocument));
+		}
 		Diff diff = createDiff(controlMessage, messageDocument);
 		if (!diff.similar())
 		{
