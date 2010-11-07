@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.Source;
 
@@ -42,6 +43,8 @@ import org.w3c.dom.Document;
  */
 public abstract class SmockClient extends SmockCommon {
 			
+	private static final Map<String, Object> EMPTY_MAP = Collections.<String, Object>emptyMap();
+
 	/**
 	 * Expects the given XML message loaded from resource with given name. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
@@ -62,21 +65,20 @@ public abstract class SmockClient extends SmockCommon {
 	 */
 	public static ParametrizableRequestMatcher message(Resource message) {
 		Assert.notNull(message, "'message' must not be null");
-		Document document = loadDocument(createResourceSource(message));
-		return message(document);
+		return message(createResourceSource(message));
 	}	
-    /**
-     * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
-     * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
-     *
-     * @param message the XML message
-     * @return the request matcher
-     */
-    public static ParametrizableRequestMatcher message(Source message) {
-        Assert.notNull(message, "'message' must not be null");
-       	Document document = loadDocument(message);
-		return message(document);
-    }
+	/**
+	 * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
+	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
+	 *
+	 * @param message the XML message
+	 * @return the request matcher
+	 */
+	public static ParametrizableRequestMatcher message(Source message) {
+		Assert.notNull(message, "'message' must not be null");
+		return message(loadDocument(message));
+	}
+
 
     /**
      * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
@@ -87,7 +89,7 @@ public abstract class SmockClient extends SmockCommon {
      */
     public static ParametrizableRequestMatcher message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new TemplateAwareMessageCompareMatcher(message, Collections.<String,Object>emptyMap(), getTemplateProcessor());
+    	return new TemplateAwareMessageCompareMatcher(message, EMPTY_MAP, getTemplateProcessor());
     }	
     
     /**
@@ -101,6 +103,11 @@ public abstract class SmockClient extends SmockCommon {
     	Assert.notNull(location, "'location' must not be null");
     	return withMessage(fromResource(location));
     }
+
+    public static ParametrizableResponseCreator withMessage(Resource message) {
+    	Assert.notNull(message, "'message' must not be null");
+    	return withMessage(createResourceSource(message));
+    }
     /**
      * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
      * it will be wrapped into a SOAP.
@@ -113,9 +120,10 @@ public abstract class SmockClient extends SmockCommon {
         return withMessage(loadDocument(message));
     }
    
+    
     public static ParametrizableResponseCreator withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new TemplateAwareMessageCreator(message, Collections.<String, Object>emptyMap(), getTemplateProcessor());
+    	return new TemplateAwareMessageCreator(message, EMPTY_MAP, getTemplateProcessor());
     }
     
     
