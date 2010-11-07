@@ -4,13 +4,9 @@ import static net.javacrumbs.smock.server.SmockServer.createClient;
 import static net.javacrumbs.smock.server.SmockServer.withMessage;
 import static org.springframework.ws.test.server.ResponseMatchers.noFault;
 
-import java.util.List;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

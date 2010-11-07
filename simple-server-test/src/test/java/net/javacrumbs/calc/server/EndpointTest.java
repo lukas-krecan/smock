@@ -7,6 +7,9 @@ import static org.springframework.ws.test.server.ResponseMatchers.*;
 import java.util.Collections;
 import java.util.Map;
 
+import net.javacrumbs.smock.common.XsltTemplateProcessor;
+import net.javacrumbs.smock.server.SmockServer;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,10 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring-ws-servlet.xml"})
 public class EndpointTest {
-
+	static
+	{
+		SmockServer.setTemplateProcessor(new XsltTemplateProcessor());
+	}
 	
 	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
 	private MockWebServiceClient wsMockClient;

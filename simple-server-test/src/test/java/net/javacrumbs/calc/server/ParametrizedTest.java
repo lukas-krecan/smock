@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+import net.javacrumbs.smock.common.XsltTemplateProcessor;
+import net.javacrumbs.smock.server.SmockServer;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +28,7 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring-ws-servlet.xml"})
 public class ParametrizedTest {
 
-	
+		
 	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
 	private MockWebServiceClient wsMockClient;
 	private int a;
@@ -40,6 +43,7 @@ public class ParametrizedTest {
 	
 	@Before
 	public void injectDependencies() throws Throwable {
+		SmockServer.setTemplateProcessor(new XsltTemplateProcessor());
 		this.testContextManager.prepareTestInstance(this);
 	}
 	
