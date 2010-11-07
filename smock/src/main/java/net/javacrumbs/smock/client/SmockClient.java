@@ -131,7 +131,7 @@ public abstract class SmockClient extends SmockCommon {
     		 }
     		 for (EndpointInterceptor interceptor: interceptors)
     		 {
-    			 newInterceptors.add(new ClientEndpointIntercptoerAdapter(interceptor));
+    			 newInterceptors.add(new ClientEndpointInterceptorAdapter(interceptor));
     		 }
     		 webServiceTemplate.setInterceptors(newInterceptors.toArray(new ClientInterceptor[newInterceptors.size()]));
     	 }

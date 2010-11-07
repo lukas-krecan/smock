@@ -26,10 +26,10 @@ import org.springframework.ws.server.EndpointInterceptor;
  * @author Lukas Krecan
  *
  */
-class ClientEndpointIntercptoerAdapter implements ClientInterceptor {
+class ClientEndpointInterceptorAdapter implements ClientInterceptor {
 	private final EndpointInterceptor interceptor;
 	
-	ClientEndpointIntercptoerAdapter(EndpointInterceptor interceptor) {
+	ClientEndpointInterceptorAdapter(EndpointInterceptor interceptor) {
 		this.interceptor = interceptor;
 	}
 
