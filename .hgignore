@@ -37,3 +37,11 @@ syntax: regexp
 ^simple-server-test/\.project$
 syntax: regexp
 ^simple-server-test/\.settings$
+syntax: regexp
+^smock-groovy-template/\.settings$
+syntax: regexp
+^smock-groovy-template/target$
+syntax: regexp
+^smock-groovy-template/\.classpath$
+syntax: regexp
+^smock-groovy-template/\.project$
