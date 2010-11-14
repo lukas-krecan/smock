@@ -50,7 +50,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * @param payload the request payload
      * @return the request creator
      */
-    public static RequestCreator withPayload(Source payload) {
+    public  RequestCreator withPayload(Source payload) {
         return RequestCreators.withPayload(payload);
     }
 
@@ -60,7 +60,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * @param payload the request payload
      * @return the request creator
      */
-    public static RequestCreator withPayload(Resource payload) throws IOException {
+    public  RequestCreator withPayload(Resource payload) throws IOException {
     	return RequestCreators.withPayload(payload);
     }
     
@@ -70,7 +70,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * @param payload the XML payload
      * @return the response matcher
      */
-    public static ResponseMatcher payload(Source payload) {
+    public  ResponseMatcher payload(Source payload) {
         return ResponseMatchers.payload(payload);
     }
 
@@ -92,7 +92,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * @param furtherSchemas further schemas, if necessary
      * @return the response matcher
      */
-    public static ResponseMatcher validPayload(Resource schema, Resource... furtherSchemas) throws IOException {
+    public  ResponseMatcher validPayload(Resource schema, Resource... furtherSchemas) throws IOException {
     	return ResponseMatchers.validPayload(schema, furtherSchemas);
     }
 
@@ -102,7 +102,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * @param xpathExpression the XPath expression
      * @return the XPath expectations, to be further configured
      */
-    public static ResponseXPathExpectations xpath(String xpathExpression) {
+    public  ResponseXPathExpectations xpath(String xpathExpression) {
     	return ResponseMatchers.xpath(xpathExpression);
     }
 
@@ -113,7 +113,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * @param namespaceMapping the namespaces
      * @return the XPath expectations, to be further configured
      */
-    public static ResponseXPathExpectations xpath(String xpathExpression, Map<String, String> namespaceMapping) {
+    public  ResponseXPathExpectations xpath(String xpathExpression, Map<String, String> namespaceMapping) {
     	return ResponseMatchers.xpath(xpathExpression, namespaceMapping);
     }
 
@@ -126,7 +126,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * @param soapHeaderName the qualified name of the SOAP header to expect
      * @return the request matcher
      */
-    public static ResponseMatcher soapHeader(QName soapHeaderName) {
+    public  ResponseMatcher soapHeader(QName soapHeaderName) {
     	return ResponseMatchers.soapHeader(soapHeaderName);
     }
 
@@ -135,7 +135,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      *
      * @return the response matcher
      */
-    public static ResponseMatcher noFault() {
+    public  ResponseMatcher noFault() {
     	return ResponseMatchers.noFault();
     }
 
@@ -144,7 +144,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      *
      * @see org.springframework.ws.soap.SoapBody#addMustUnderstandFault(String, Locale)
      */
-    public static ResponseMatcher mustUnderstandFault() {
+    public  ResponseMatcher mustUnderstandFault() {
         return ResponseMatchers.mustUnderstandFault();
     }
 
@@ -155,7 +155,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * reason text will not be verified
      * @see org.springframework.ws.soap.SoapBody#addMustUnderstandFault(String, Locale)
      */
-    public static ResponseMatcher mustUnderstandFault(String faultStringOrReason) {
+    public  ResponseMatcher mustUnderstandFault(String faultStringOrReason) {
     	return ResponseMatchers.mustUnderstandFault(faultStringOrReason);
     }
 
@@ -164,7 +164,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      *
      * @see org.springframework.ws.soap.SoapBody#addClientOrSenderFault(String, Locale)
      */
-    public static ResponseMatcher clientOrSenderFault() {
+    public  ResponseMatcher clientOrSenderFault() {
         return ResponseMatchers.clientOrSenderFault();
     }
 
@@ -175,7 +175,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * reason text will not be verified
      * @see org.springframework.ws.soap.SoapBody#addClientOrSenderFault(String, Locale)
      */
-    public static ResponseMatcher clientOrSenderFault(String faultStringOrReason) {
+    public  ResponseMatcher clientOrSenderFault(String faultStringOrReason) {
     	return ResponseMatchers.clientOrSenderFault(faultStringOrReason);
     }
 
@@ -184,7 +184,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      *
      * @see org.springframework.ws.soap.SoapBody#addServerOrReceiverFault(String, java.util.Locale)
      */
-    public static ResponseMatcher serverOrReceiverFault() {
+    public  ResponseMatcher serverOrReceiverFault() {
     	return ResponseMatchers.serverOrReceiverFault();
     }
 
@@ -195,7 +195,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * reason text will not be verified
      * @see org.springframework.ws.soap.SoapBody#addClientOrSenderFault(String, Locale)
      */
-    public static ResponseMatcher serverOrReceiverFault(String faultStringOrReason) {
+    public  ResponseMatcher serverOrReceiverFault(String faultStringOrReason) {
     	return ResponseMatchers.clientOrSenderFault(faultStringOrReason);
     }
 
@@ -204,7 +204,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      *
      * @see org.springframework.ws.soap.SoapBody#addVersionMismatchFault(String, java.util.Locale)
      */
-    public static ResponseMatcher versionMismatchFault() {
+    public  ResponseMatcher versionMismatchFault() {
     	return ResponseMatchers.versionMismatchFault();
     }
 
@@ -215,9 +215,13 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
      * reason text will not be verified
      * @see org.springframework.ws.soap.SoapBody#addClientOrSenderFault(String, Locale)
      */
-    public static ResponseMatcher versionMismatchFault(String faultStringOrReason) {
+    public  ResponseMatcher versionMismatchFault(String faultStringOrReason) {
     	return ResponseMatchers.versionMismatchFault(faultStringOrReason);
     }
+    
+	public MockWebServiceClient createClient(ApplicationContext applicationContext) {
+		return MockWebServiceClient.createClient(applicationContext);
+	}
 	
 	
 	
@@ -226,7 +230,10 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
 	}
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
+		this.mockWebServiceClient = createClient(applicationContext);
 	}
+
+
 	public MockWebServiceClient getMockWebServiceClient() {
 		return mockWebServiceClient;
 	}

@@ -30,7 +30,7 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
 	 * @param location of the resource where the message is stored.
 	 * @return the request matcher
 	 */
-	public static ParametrizableRequestMatcher message(String location) {
+	public  ParametrizableRequestMatcher message(String location) {
 		return SmockClient.message(location);
 	}	
 	/**
@@ -40,7 +40,7 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
 	 * @param message the XML message
 	 * @return the request matcher
 	 */
-	public static ParametrizableRequestMatcher message(Resource message) {
+	public  ParametrizableRequestMatcher message(Resource message) {
 		return SmockClient.message(message);
 	}	
 	/**
@@ -50,7 +50,7 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
 	 * @param message the XML message
 	 * @return the request matcher
 	 */
-	public static ParametrizableRequestMatcher message(Source message) {
+	public  ParametrizableRequestMatcher message(Source message) {
 		return SmockClient.message(message);
 	}
 
@@ -62,7 +62,7 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
      * @param message the XML message
      * @return the request matcher
      */
-    public static ParametrizableRequestMatcher message(Document message) {
+    public  ParametrizableRequestMatcher message(Document message) {
     	return SmockClient.message(message);
     }	
     
@@ -73,11 +73,11 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
      * @param loaction of the resource
      * @return the response callback
      */
-    public static ParametrizableResponseCreator withMessage(String location) {
+    public  ParametrizableResponseCreator withMessage(String location) {
     	return SmockClient.withMessage(location);
     }
 
-    public static ParametrizableResponseCreator withMessage(Resource message) {
+    public  ParametrizableResponseCreator withMessage(Resource message) {
     	return SmockClient.withMessage(message);
     }
     /**
@@ -87,7 +87,7 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
      * @param payload the response message
      * @return the response callback
      */
-    public static ParametrizableResponseCreator withMessage(Source message) {
+    public  ParametrizableResponseCreator withMessage(Source message) {
     	return SmockClient.withMessage(message);
     }
 }

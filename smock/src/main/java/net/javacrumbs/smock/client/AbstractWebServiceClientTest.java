@@ -16,8 +16,6 @@
 
 package net.javacrumbs.smock.client;
 
-import static org.springframework.ws.test.client.MockWebServiceServer.createServer;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.Locale;
@@ -74,7 +72,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param payload the response payload
      * @return the response callback
      */
-    public static ResponseCreator withPayload(Source payload) {
+    public  ResponseCreator withPayload(Source payload) {
         return ResponseCreators.withPayload(payload);
     }
 
@@ -84,7 +82,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param payload the response payload
      * @return the response callback
      */
-    public static ResponseCreator withPayload(Resource payload) throws IOException {
+    public  ResponseCreator withPayload(Resource payload) throws IOException {
     	return ResponseCreators.withPayload(payload);
     }
 
@@ -96,7 +94,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @see org.springframework.ws.transport.WebServiceConnection#hasError()
      * @see org.springframework.ws.transport.WebServiceConnection#getErrorMessage()
      */
-    public static ResponseCreator withError(String errorMessage) {
+    public  ResponseCreator withError(String errorMessage) {
     	return ResponseCreators.withError(errorMessage);
     }
 
@@ -106,7 +104,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param ioException the exception to be thrown
      * @return the response callback
      */
-    public static ResponseCreator withException(IOException ioException) {
+    public  ResponseCreator withException(IOException ioException) {
         return ResponseCreators.withException(ioException);
     }
 
@@ -116,7 +114,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param ex the runtime exception to be thrown
      * @return the response callback
      */
-    public static ResponseCreator withException(RuntimeException ex) {
+    public  ResponseCreator withException(RuntimeException ex) {
         return ResponseCreators.withException(ex);
     }
 
@@ -127,7 +125,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param locale              the language of faultStringOrReason. Optional for SOAP 1.1
      * @see SoapBody#addMustUnderstandFault(String, java.util.Locale)
      */
-    public static ResponseCreator withMustUnderstandFault(final String faultStringOrReason, final Locale locale) {
+    public  ResponseCreator withMustUnderstandFault(final String faultStringOrReason, final Locale locale) {
         return ResponseCreators.withMustUnderstandFault(faultStringOrReason, locale);
     }
 
@@ -138,7 +136,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param locale              the language of faultStringOrReason. Optional for SOAP 1.1
      * @see org.springframework.ws.soap.SoapBody#addClientOrSenderFault(String, Locale)
      */
-    public static ResponseCreator withClientOrSenderFault(final String faultStringOrReason, final Locale locale) {
+    public  ResponseCreator withClientOrSenderFault(final String faultStringOrReason, final Locale locale) {
         return ResponseCreators.withClientOrSenderFault(faultStringOrReason, locale);
     }
 
@@ -149,7 +147,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param locale              the language of faultStringOrReason. Optional for SOAP 1.1
      * @see org.springframework.ws.soap.SoapBody#addServerOrReceiverFault(String, Locale)
      */
-    public static ResponseCreator withServerOrReceiverFault(final String faultStringOrReason, final Locale locale) {
+    public  ResponseCreator withServerOrReceiverFault(final String faultStringOrReason, final Locale locale) {
     	return ResponseCreators.withServerOrReceiverFault(faultStringOrReason, locale);
     }
 
@@ -160,7 +158,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
      * @param locale              the language of faultStringOrReason. Optional for SOAP 1.1
      * @see org.springframework.ws.soap.SoapBody#addVersionMismatchFault(String, Locale)
      */
-    public static ResponseCreator withVersionMismatchFault(final String faultStringOrReason, final Locale locale) {
+    public  ResponseCreator withVersionMismatchFault(final String faultStringOrReason, final Locale locale) {
     	return ResponseCreators.withVersionMismatchFault(faultStringOrReason, locale);
     }
     
@@ -169,7 +167,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     *
     * @return the request matcher
     */
-   public static RequestMatcher anything() {
+   public  RequestMatcher anything() {
        return RequestMatchers.anything();
    }
 
@@ -179,7 +177,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param payload the XML payload
     * @return the request matcher
     */
-   public static RequestMatcher payload(Source payload) {
+   public  RequestMatcher payload(Source payload) {
 	   return RequestMatchers.payload(payload);
    }
 
@@ -189,7 +187,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param payload the XML payload
     * @return the request matcher
     */
-   public static RequestMatcher payload(Resource payload) throws IOException {
+   public  RequestMatcher payload(Resource payload) throws IOException {
 	   return RequestMatchers.payload(payload);
    }
 
@@ -200,7 +198,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param furtherSchemas further schemas, if necessary
     * @return the request matcher
     */
-   public static RequestMatcher validPayload(Resource schema, Resource... furtherSchemas) throws IOException {
+   public  RequestMatcher validPayload(Resource schema, Resource... furtherSchemas) throws IOException {
 	   return RequestMatchers.validPayload(schema, furtherSchemas);
    }
 
@@ -210,7 +208,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param xpathExpression the XPath expression
     * @return the XPath expectations, to be further configured
     */
-   public static RequestXPathExpectations xpath(String xpathExpression) {
+   public  RequestXPathExpectations xpath(String xpathExpression) {
 	   return RequestMatchers.xpath(xpathExpression);
    }
 
@@ -221,7 +219,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param namespaceMapping the namespaces
     * @return the XPath expectations, to be further configured
     */
-   public static RequestXPathExpectations xpath(String xpathExpression, Map<String, String> namespaceMapping) {
+   public  RequestXPathExpectations xpath(String xpathExpression, Map<String, String> namespaceMapping) {
 	   return RequestMatchers.xpath(xpathExpression, namespaceMapping);
    }
 
@@ -231,7 +229,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param soapHeaderName the qualified name of the SOAP header to expect
     * @return the request matcher
     */
-   public static RequestMatcher soapHeader(QName soapHeaderName) {
+   public  RequestMatcher soapHeader(QName soapHeaderName) {
 	   return RequestMatchers.soapHeader(soapHeaderName);
    }
 
@@ -241,7 +239,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param uri the String uri expected to connect to
     * @return the request matcher
     */
-   public static RequestMatcher connectionTo(String uri) {
+   public  RequestMatcher connectionTo(String uri) {
 	   return RequestMatchers.connectionTo(uri);
    }
 
@@ -251,9 +249,14 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
     * @param uri the String uri expected to connect to
     * @return the request matcher
     */
-   public static RequestMatcher connectionTo(URI uri) {
+   public  RequestMatcher connectionTo(URI uri) {
 	   return RequestMatchers.connectionTo(uri);
    }
+   
+
+	public MockWebServiceServer createServer(ApplicationContext applicationContext) {
+		return MockWebServiceServer.createServer(applicationContext);
+	}
 
 	public final ApplicationContext getApplicationContext() {
 		return applicationContext;
@@ -263,6 +266,7 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
 		this.applicationContext = applicationContext;
 		this.mockWebServiceServer = createServer(applicationContext);
 	}
+
 
 	public MockWebServiceServer getMockWebServiceServer() {
 		return mockWebServiceServer;
