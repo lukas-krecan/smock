@@ -22,6 +22,7 @@ import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
 
 public class AbstractSmockServerTest extends AbstractWebServiceServerTest {
+	
 	/**
 	 * Create a request with the given {@link Source} XML as payload.
 	 *

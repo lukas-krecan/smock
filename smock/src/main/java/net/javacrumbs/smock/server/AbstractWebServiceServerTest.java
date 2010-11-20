@@ -29,6 +29,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
+import org.springframework.ws.test.server.ResponseActions;
 import org.springframework.ws.test.server.ResponseMatcher;
 import org.springframework.ws.test.server.ResponseMatchers;
 import org.springframework.ws.test.server.ResponseXPathExpectations;
@@ -44,6 +45,18 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
 	protected  ApplicationContext applicationContext;
 	protected  MockWebServiceClient mockWebServiceClient;
 	
+	
+	/**
+     * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request
+     * creators provided by {@link RequestCreators}.
+     *
+     * @param requestCreator the request creator
+     * @return the response actions
+     * @see RequestCreators
+     */
+    public ResponseActions sendRequest(RequestCreator requestCreator) {
+       return mockWebServiceClient.sendRequest(requestCreator);
+    }
 	 /**
      * Create a request with the given {@link Source} XML as payload.
      *
