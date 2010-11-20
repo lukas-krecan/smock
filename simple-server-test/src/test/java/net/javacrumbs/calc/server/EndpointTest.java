@@ -1,7 +1,5 @@
 package net.javacrumbs.calc.server;
 
-import static net.javacrumbs.smock.common.SmockCommon.resource;
-
 import java.util.Collections;
 import java.util.Map;
 

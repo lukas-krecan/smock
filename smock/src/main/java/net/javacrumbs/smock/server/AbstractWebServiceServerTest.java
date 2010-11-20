@@ -26,6 +26,7 @@ import javax.xml.transform.Source;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
@@ -44,7 +45,23 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
 
 	protected  ApplicationContext applicationContext;
 	protected  MockWebServiceClient mockWebServiceClient;
-	
+   
+	/**
+     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+     * @param location Location of the resource 
+     */
+    public static Source fromResource(String location)
+    {
+    	return SmockServer.fromResource(location);
+    }
+    /**
+     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+     * @param location Location of the resource 
+     */
+    public static Resource resource(String location)
+    {
+    	return SmockServer.resource(location);
+    }
 	
 	/**
      * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request

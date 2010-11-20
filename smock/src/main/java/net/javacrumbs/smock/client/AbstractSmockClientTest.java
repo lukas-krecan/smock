@@ -18,13 +18,32 @@ package net.javacrumbs.smock.client;
 
 import javax.xml.transform.Source;
 
+import net.javacrumbs.smock.server.SmockServer;
+
 import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
 
 
 public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTest {
 	 
-	 /** Expects the given XML message loaded from resource with given name. Message can either be whole SOAP message or just a payload.
+	/**
+     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+     * @param location Location of the resource 
+     */
+    public static Source fromResource(String location)
+    {
+    	return SmockServer.fromResource(location);
+    }
+    /**
+     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+     * @param location Location of the resource 
+     */
+    public static Resource resource(String location)
+    {
+    	return SmockServer.resource(location);
+    }
+	/** 
+	 * Expects the given XML message loaded from resource with given name. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
 	 *
 	 * @param location of the resource where the message is stored.
