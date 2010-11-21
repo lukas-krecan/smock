@@ -10,7 +10,6 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-// your endpoint configuration + secured helper config
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/secured-spring-ws-servlet.xml"})
 public class SecuredEndpointSimpleTest extends AbstractSmockServerTest{
 

@@ -15,7 +15,6 @@ import org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor;
 import org.springframework.ws.test.server.MockWebServiceClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-// your endpoint configuration + secured helper config
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/secured-spring-ws-servlet.xml"})
 public class SecuredEndpointTest {
 
