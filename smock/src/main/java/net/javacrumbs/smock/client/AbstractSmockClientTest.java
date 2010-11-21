@@ -20,8 +20,12 @@ import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.TemplateProcessor;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.test.client.MockWebServiceServer;
 import org.w3c.dom.Document;
 
 /**
@@ -135,4 +139,24 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
     public  ParametrizableResponseCreator withMessage(Source message) {
     	return SmockClient.withMessage(message);
     }
+    /**
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
+     * Supports interceptors that will be applied on the incomming message. Please note that acctually the interceptoes will
+     * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
+     * without reimplementing the whole testing library. I hope it will change in next releases.
+     * @param applicationContext
+     * @return
+     */
+    @Override
+    public MockWebServiceServer createServer(ApplicationContext applicationContext) {
+      	return SmockClient.createServer(applicationContext, getInterceptors());
+    }
+
+    /**
+     * To be overriden if subclass needs to create {@link MockWebServiceServer} with interceptors.
+     * @return
+     */
+	protected EndpointInterceptor[] getInterceptors() {
+		return null;
+	}
 }
