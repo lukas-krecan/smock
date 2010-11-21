@@ -16,6 +16,10 @@
 
 package net.javacrumbs.smock.common;
 
+import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+import static net.javacrumbs.smock.common.XmlUtil.getDocumentAsStream;
+import static net.javacrumbs.smock.common.XmlUtil.isSoap;
+
 import java.io.IOException;
 import java.net.URI;
 
@@ -27,6 +31,11 @@ import org.springframework.ws.test.client.ResponseCreator;
 import org.springframework.ws.test.server.RequestCreator;
 import org.w3c.dom.Document;
 
+/**
+ * Common class that is able to create a message for both client and server.
+ * @author Lukas Krecan
+ *
+ */
 public class MessageCreator implements RequestCreator, ResponseCreator{
 
 	private final Document sourceDocument;
@@ -55,18 +64,25 @@ public class MessageCreator implements RequestCreator, ResponseCreator{
 	 */
 	protected final WebServiceMessage createMessageInternal(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) throws IOException {
 		Document source = preprocessSource(uri, input, messageFactory);
-		if (XmlUtil.getInstance().isSoap(source))
+		if (isSoap(source))
 		{
-			return messageFactory.createWebServiceMessage(XmlUtil.getInstance().getResponseAsStream(source));
+			return messageFactory.createWebServiceMessage(getDocumentAsStream(source));
 		}
 		else
 		{
 			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
-			XmlUtil.getInstance().doTransform(new DOMSource(source), webServiceMessage.getPayloadResult());
+			doTransform(new DOMSource(source), webServiceMessage.getPayloadResult());
 			return webServiceMessage;
 		}
 	}
 
+	/**
+	 * To be overriden by subclasses.
+	 * @param uri
+	 * @param input
+	 * @param messageFactory
+	 * @return
+	 */
 	protected Document preprocessSource(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) {
 		return getSourceDocument();
 	}

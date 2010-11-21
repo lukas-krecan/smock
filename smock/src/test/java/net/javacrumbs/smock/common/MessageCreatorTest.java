@@ -16,8 +16,6 @@
 
 package net.javacrumbs.smock.common;
 
-import net.javacrumbs.smock.common.XmlUtil;
-
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;
 import org.springframework.ws.soap.SoapMessage;
@@ -36,8 +34,6 @@ public class MessageCreatorTest extends AbstractSmockTest {
 		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
 		
 		Document generatedDocument = loadDocument(response.getEnvelope().getSource());
-		System.out.println(XmlUtil.getInstance().serialize(generatedDocument));
-		System.out.println(XmlUtil.getInstance().serialize(sourceDocument));
 		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);
 	}
 	@Test
@@ -50,8 +46,6 @@ public class MessageCreatorTest extends AbstractSmockTest {
 		SoapMessage response = (SoapMessage) responseCreator.createResponse(TEST_URI, null, messageFactory);
 		
 		Document generatedDocument = loadDocument(response.getPayloadSource());
-		System.out.println(XmlUtil.getInstance().serialize(generatedDocument));
-		System.out.println(XmlUtil.getInstance().serialize(sourceDocument));
 		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);
 	}
 

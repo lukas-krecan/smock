@@ -17,6 +17,10 @@
 package net.javacrumbs.smock.common;
 
 
+import static net.javacrumbs.smock.common.XmlUtil.isSoap;
+import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
+import static net.javacrumbs.smock.common.XmlUtil.serialize;
+
 import java.net.URI;
 
 import org.apache.commons.logging.Log;
@@ -52,12 +56,12 @@ public class MessageCompareMatcher implements RequestMatcher, ResponseMatcher{
 		Document controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))
 		{
-			Document messageDocument = XmlUtil.getInstance().loadDocument(((SoapMessage)message).getEnvelope().getSource());
+			Document messageDocument = loadDocument(((SoapMessage)message).getEnvelope().getSource());
 			compare(controlMessage, messageDocument);
 		}
 		else //payload only
 		{
-			Document messageDocument = XmlUtil.getInstance().loadDocument(message.getPayloadSource());
+			Document messageDocument = loadDocument(message.getPayloadSource());
 			compare(controlMessage, messageDocument);
 		}
 	}
@@ -87,7 +91,7 @@ public class MessageCompareMatcher implements RequestMatcher, ResponseMatcher{
 	protected final void compare(Document controlMessage, Document messageDocument) {
 		if (logger.isDebugEnabled())
 		{
-			logger.debug("Comparing:\n "+XmlUtil.getInstance().serialize(controlMessage)+"\n with:\n"+XmlUtil.getInstance().serialize(messageDocument));
+			logger.debug("Comparing:\n "+serialize(controlMessage)+"\n with:\n"+serialize(messageDocument));
 		}
 		Diff diff = createDiff(controlMessage, messageDocument);
 		if (!diff.similar())
@@ -117,7 +121,7 @@ public class MessageCompareMatcher implements RequestMatcher, ResponseMatcher{
 	}
 
 	private boolean isSoapControl(Document controlMessage) {
-		return XmlUtil.getInstance().isSoap(controlMessage);
+		return isSoap(controlMessage);
 	}
 
 	public final Document getControlMessage() {

@@ -16,6 +16,8 @@
 
 package net.javacrumbs.smock.common;
 
+import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+
 import java.net.URI;
 
 import javax.xml.transform.Result;
@@ -33,11 +35,11 @@ public abstract class AbstractSmockTest {
 	protected static final String PAYLOAD2 = "<test2/>";
 	
 	protected Document loadDocument(Source source) {
-		return XmlUtil.getInstance().loadDocument(source);
+		return XmlUtil.loadDocument(source);
 	}
 	
 	protected void transform(Source source, Result result) {
-		XmlUtil.getInstance().doTransform(source, result);
+		doTransform(source, result);
 	}
 	
 	protected SaajSoapMessageFactory getMessageFactory() {

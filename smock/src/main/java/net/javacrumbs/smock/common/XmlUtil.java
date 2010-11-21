@@ -30,7 +30,7 @@ import javax.xml.transform.dom.DOMSource;
 
 import org.springframework.ws.soap.SoapVersion;
 import org.springframework.xml.transform.StringResult;
-import org.springframework.xml.transform.TransformerObjectSupport;
+import org.springframework.xml.transform.TransformerHelper;
 import org.springframework.xml.xpath.XPathExpression;
 import org.springframework.xml.xpath.XPathExpressionFactory;
 import org.w3c.dom.Document;
@@ -40,9 +40,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class XmlUtil extends TransformerObjectSupport {
-	private static final XmlUtil INSTANCE = new XmlUtil();
-	
+public class XmlUtil {
 	private static final Charset UTF8_CHARSET = Charset.availableCharsets().get("UTF-8");
 
 	private static final Map<String, String> SOAP_NAMESPACES = new HashMap<String, String>();
@@ -51,26 +49,30 @@ public class XmlUtil extends TransformerObjectSupport {
 		SOAP_NAMESPACES.put("soap11", SoapVersion.SOAP_11.getEnvelopeNamespaceUri());
 		SOAP_NAMESPACES.put("soap12", SoapVersion.SOAP_12.getEnvelopeNamespaceUri());
 	};
-	
-	
-	
+		
 	private XmlUtil()
 	{
 		
 	}
 	
-	public static XmlUtil getInstance() {
-		return INSTANCE;
-	}
-
-	public Document loadDocument(Source source)
+	/**
+	 * Loads document from source.
+	 * @param source
+	 * @return
+	 */
+	public static Document loadDocument(Source source)
 	{
 		DOMResult result = new DOMResult();
 		doTransform(source, result);
 		return (Document)result.getNode();
 	}
 	
-	public boolean isSoap(Document document) {
+	/**
+	 * Returns true if the documents root is SOAP envelope.
+	 * @param document
+	 * @return
+	 */
+	public static boolean isSoap(Document document) {
 		for (String prefix: SOAP_NAMESPACES.keySet()) {
 			String expression = "/"+prefix+":Envelope";
 			XPathExpression xPathExpression = XPathExpressionFactory.createXPathExpression(expression, SOAP_NAMESPACES);
@@ -82,11 +84,22 @@ public class XmlUtil extends TransformerObjectSupport {
 		return false;
 	}
 	
-	public String serialize(Document document)
+	/**
+	 * Converts {@link document} to {@link String}.
+	 * @param document
+	 * @return
+	 */
+	public static String serialize(Document document)
 	{
 		return serialize(new DOMSource(document));
 	}
-	String serialize(Source source)
+	
+	/**
+	 * Converts {@link Source} to {@link String}.
+	 * @param source
+	 * @return
+	 */
+	public static String serialize(Source source)
 	{
 		StringResult result = new StringResult();
 		doTransform(source, result);
@@ -94,16 +107,26 @@ public class XmlUtil extends TransformerObjectSupport {
 		
 	}
 	
-	public void doTransform(Source source, Result result) {
+	/**
+	 * Does transofrmation.
+	 * @param source
+	 * @param result
+	 */
+	public static void doTransform(Source source, Result result) {
 		try {
-			transform(source, result);
+			new TransformerHelper().transform(source, result);
 		} catch (TransformerException e) {
 			throw new IllegalArgumentException("Can not transform",e);
 		}
 	}
 	
-	public InputStream getResponseAsStream(Document response)
+	/**
+	 * Streams the document as UTF-8 encoded stream.
+	 * @param document
+	 * @return
+	 */
+	public static InputStream getDocumentAsStream(Document document)
 	{
-		return new ByteArrayInputStream(XmlUtil.getInstance().serialize(response).getBytes(UTF8_CHARSET));
+		return new ByteArrayInputStream(serialize(document).getBytes(UTF8_CHARSET));
 	}
 }

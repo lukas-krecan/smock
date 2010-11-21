@@ -16,6 +16,8 @@
 
 package net.javacrumbs.smock.groovy;
 
+import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
+import static net.javacrumbs.smock.common.XmlUtil.serialize;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.TemplateEngine;
 import groovy.util.XmlSlurper;
@@ -27,7 +29,6 @@ import java.util.Map;
 import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.TemplateProcessor;
-import net.javacrumbs.smock.common.XmlUtil;
 
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
@@ -59,12 +60,5 @@ public class GroovyTemplateProcessor implements TemplateProcessor {
 		}
 	}
 
-	private Document loadDocument(Source input) {
-		return XmlUtil.getInstance().loadDocument(input);
-	}
-
-	private String serialize(Document inputDocument) {
-		return XmlUtil.getInstance().serialize(inputDocument);
-	}
 
 }

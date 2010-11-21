@@ -24,6 +24,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.w3c.dom.Document;
 
+/**
+ * Extends {@link AbstractWebServiceServerTest} and adds Smock specific methods.
+ * @author Lukas Krecan
+ *
+ */
 public class AbstractSmockServerTest extends AbstractWebServiceServerTest {
 	/**
 	 * Sets {@link TemplateProcessor} used by Smock.
@@ -57,7 +62,8 @@ public class AbstractSmockServerTest extends AbstractWebServiceServerTest {
 		return SmockServer.resource(location);
 	}
 	/**
-	 * Create a request with the given {@link Source} XML as payload.
+	 * Create a request with the given {@link Resource} as content. If the content is payload it will be wrapped into a SOAP, 
+	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
 	 *
 	 * @param payload the request payload
 	 * @return the request creator
@@ -66,7 +72,8 @@ public class AbstractSmockServerTest extends AbstractWebServiceServerTest {
 		return SmockServer.withMessage(messageResource);
 	}
 	/**
-	 * Create a request with the given {@link Source} XML as payload.
+	 * Create a request with the given {@link Resource} as content. If the content is payload it will be wrapped into a SOAP, 
+	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
 	 *
 	 * @param payload the request payload
 	 * @return the request creator
@@ -74,32 +81,63 @@ public class AbstractSmockServerTest extends AbstractWebServiceServerTest {
 	public  ParametrizableRequestCreator withMessage(Resource messageResource) {
 		return SmockServer.withMessage(messageResource);
 	}
-	/**
-	 * Create a request with the given {@link Source} XML as payload.
-	 *
-	 * @param payload the request payload
-	 * @return the request creator
-	 */
+    /**
+     * Create a request with the given {@link Source} XML as content. If the content is payload it will be wrapped into a SOAP, 
+	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
+     *
+     * @param message 
+     * @return the request creator
+     */
 	public  ParametrizableRequestCreator withMessage(Source message) {
 		return SmockServer.withMessage(message);
 	}
+    /**
+     * Create a request with the given {@link Document} XML as content. If the content is payload it will be wrapped into a SOAP, 
+	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
+     *
+     * @param message 
+     * @return the request creator
+     */
 	public  ParametrizableRequestCreator withMessage(Document message) {
 		return SmockServer.withMessage(message);
 	}
-
+    /**
+     * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
+     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
+     *
+     * @param message 
+     * @return the request creator
+     */
 	public  ParametrizableResponseMatcher message(String messageResource)
 	{
 		return SmockServer.message(messageResource);
 	}
-
+    /**
+     * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
+     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
+     *
+     * @param message 
+     * @return the request creator
+     */
 	public  ParametrizableResponseMatcher message(Resource messageResource)
 	{
 		return SmockServer.message(messageResource);
 	}
-
+	/**
+	 * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
+     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
+	 * @param content
+	 * @return
+	 */
 	public  ParametrizableResponseMatcher message(Source content) {
 		return SmockServer.message(content);
 	}
+	/**
+     * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
+     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
+	 * @param message
+	 * @return
+	 */
 	public  ParametrizableResponseMatcher message(Document message) {
 		return SmockServer.message(message);
 	}

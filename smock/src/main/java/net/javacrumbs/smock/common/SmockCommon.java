@@ -37,7 +37,7 @@ public abstract class SmockCommon  {
 	
 	
 	protected static Document loadDocument(Source message) {
-		return XmlUtil.getInstance().loadDocument(message);
+		return XmlUtil.loadDocument(message);
 	}	
     
     protected static ResourceSource createResourceSource(Resource resource) {

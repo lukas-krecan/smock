@@ -24,7 +24,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.w3c.dom.Document;
 
-
+/**
+ * Extends {@link AbstractWebServiceClientTest} and gives access to Smock specific methods.
+ * @author Lukas Krecan
+ *
+ */
 public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTest {
 	/**
 	 * Sets {@link TemplateProcessor} used by Smock.
@@ -111,7 +115,13 @@ public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTe
     public  ParametrizableResponseCreator withMessage(String location) {
     	return SmockClient.withMessage(location);
     }
-
+    /**
+     * Respond with the given XML loaded from resource as response. If message is SOAP, it will be returned as response, if message is payload, 
+     * it will be wrapped into a SOAP.
+     *
+     * @param loaction of the resource
+     * @return the response callback
+     */
     public  ParametrizableResponseCreator withMessage(Resource message) {
     	return SmockClient.withMessage(message);
     }

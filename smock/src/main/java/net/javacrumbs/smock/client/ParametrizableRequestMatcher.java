@@ -24,7 +24,6 @@ import org.springframework.ws.test.client.RequestMatcher;
  * {@link RequestMatcher} that accepts parameters. 
  * @author Lukas Krecan
  *
- * @param <T>
  */
 public interface ParametrizableRequestMatcher extends RequestMatcher {
 

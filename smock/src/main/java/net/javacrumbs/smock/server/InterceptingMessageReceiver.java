@@ -26,11 +26,12 @@ import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
 /**
+ * Message receiver that intercpets messages using {@link ClientInterceptor}s. 
  * Code taken from {@link WebServiceTemplate}.
  * @author Lukas Krecan
  *
  */
-public class InterceptingMessageReceiver implements	WebServiceMessageReceiver {
+class InterceptingMessageReceiver implements WebServiceMessageReceiver {
 
 	private final WebServiceMessageReceiver wrappedMessageReceiver;
 	

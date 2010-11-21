@@ -17,13 +17,13 @@
 package net.javacrumbs.smock.groovy;
 
 import static java.util.Collections.singletonMap;
+import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
+import static net.javacrumbs.smock.common.XmlUtil.serialize;
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 
 import java.io.IOException;
 
 import javax.xml.transform.Source;
-
-import net.javacrumbs.smock.common.XmlUtil;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
@@ -37,20 +37,20 @@ public class GroovyTemplateProcessorTest {
 	public void testSimple() throws SAXException, IOException
 	{
 		GroovyTemplateProcessor processor = new GroovyTemplateProcessor();
-		Document template = XmlUtil.getInstance().loadDocument(new StringSource("<a>$value</a>"));
+		Document template = loadDocument(new StringSource("<a>$value</a>"));
 		
 		
 		Document result = processor.processTemplate(template, null, singletonMap("value", (Object)"test"));
-		assertXMLEqual("<a>test</a>", XmlUtil.getInstance().serialize(result));
+		assertXMLEqual("<a>test</a>", serialize(result));
 	}
 	@Test
 	public void testWithRequest() throws SAXException, IOException
 	{
 		GroovyTemplateProcessor processor = new GroovyTemplateProcessor();
-		Document template = XmlUtil.getInstance().loadDocument(new StringSource("<a>$value $requestB.b</a>"));
+		Document template = loadDocument(new StringSource("<a>$value $requestB.b</a>"));
 		Source request = new StringSource("<requestB xmlns:ns=\"http://example.org/abc\"><ns:b>2</ns:b></requestB>");	
 		
 		Document result = processor.processTemplate(template, request, singletonMap("value", (Object)"test"));
-		assertXMLEqual("<a>test 2</a>", XmlUtil.getInstance().serialize(result));
+		assertXMLEqual("<a>test 2</a>", serialize(result));
 	}
 }

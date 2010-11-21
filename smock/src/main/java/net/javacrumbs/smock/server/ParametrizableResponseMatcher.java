@@ -20,6 +20,11 @@ import java.util.Map;
 
 import org.springframework.ws.test.server.ResponseMatcher;
 
+/**
+ * {@link ResponseMatcher} that can be parametrized.
+ * @author Lukas Krecan
+ *
+ */
 public interface ParametrizableResponseMatcher extends ResponseMatcher {
 	/**
 	 * Adds parameter to the {@link ResponseMatcher} 

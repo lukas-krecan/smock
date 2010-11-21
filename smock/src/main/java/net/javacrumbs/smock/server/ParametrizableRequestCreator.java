@@ -20,6 +20,11 @@ import java.util.Map;
 
 import org.springframework.ws.test.server.RequestCreator;
 
+/**
+ * {@link RequestCreator} that can be parametrized. 
+ * @author Lukas Krecan
+ *
+ */
 public interface ParametrizableRequestCreator extends RequestCreator {
 	/**
 	 * Adds parameter to the {@link RequestCreator} 

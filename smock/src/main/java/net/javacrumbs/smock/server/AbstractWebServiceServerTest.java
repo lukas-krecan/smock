@@ -26,6 +26,9 @@ import javax.xml.transform.Source;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
+import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
+import org.springframework.ws.soap.server.SoapMessageDispatcher;
 import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
@@ -33,10 +36,12 @@ import org.springframework.ws.test.server.ResponseActions;
 import org.springframework.ws.test.server.ResponseMatcher;
 import org.springframework.ws.test.server.ResponseMatchers;
 import org.springframework.ws.test.server.ResponseXPathExpectations;
+import org.springframework.ws.transport.WebServiceMessageReceiver;
 import org.springframework.xml.transform.ResourceSource;
 
 /**
- * Superclass that can be extended by Spring WS server test. 
+ * Simplifies usage of Spring WS testing framework. Wraps static methods of {@link RequestCreators}, {@link ResponseMatchers} and {@link MockWebServiceClient}. 
+ * Moreover it automatically creates {@link MockWebServiceClient} instance. 
  * @author Lukas Krecan
  *
  */
@@ -44,7 +49,7 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
 
 	protected  ApplicationContext applicationContext;
 	protected  MockWebServiceClient mockWebServiceClient;
-	
+
 
 	/**
 	 * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request
@@ -231,7 +236,21 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
 	public  ResponseMatcher versionMismatchFault(String faultStringOrReason) {
 		return ResponseMatchers.versionMismatchFault(faultStringOrReason);
 	}
-
+	/**
+	 * Creates a {@code MockWebServiceClient} instance based on the given {@link ApplicationContext}.
+	 *
+	 * This factory method works in a similar fashion as the standard
+	 * {@link org.springframework.ws.transport.http.MessageDispatcherServlet MessageDispatcherServlet}. That is:
+	 * <ul>
+	 * <li>If a {@link WebServiceMessageReceiver} is configured in the given application context, it will use that.
+	 * If no message receiver is configured, it will create a default {@link SoapMessageDispatcher}.</li>
+	 * <li>If a {@link WebServiceMessageFactory} is configured in the given application context, it will use that.
+	 * If no message factory is configured, it will create a default {@link SaajSoapMessageFactory}.</li>
+	 * </ul>
+	 *
+	 * @param applicationContext the application context to base the client on
+	 * @return the created client
+	 */
 	public MockWebServiceClient createClient(ApplicationContext applicationContext) {
 		return MockWebServiceClient.createClient(applicationContext);
 	}
@@ -241,16 +260,17 @@ public abstract class AbstractWebServiceServerTest implements ApplicationContext
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
+	
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 		this.mockWebServiceClient = createClient(applicationContext);
 	}
 
 
-	public MockWebServiceClient getMockWebServiceClient() {
+	protected MockWebServiceClient getMockWebServiceClient() {
 		return mockWebServiceClient;
 	}
-	public void setMockWebServiceClient(MockWebServiceClient mockWebServiceClient) {
+	protected void setMockWebServiceClient(MockWebServiceClient mockWebServiceClient) {
 		this.mockWebServiceClient = mockWebServiceClient;
 	} 
 

@@ -10,6 +10,7 @@ import javax.xml.transform.Source;
 import net.javacrumbs.smock.common.SmockCommon;
 import net.javacrumbs.smock.common.TemplateAwareMessageCompareMatcher;
 import net.javacrumbs.smock.common.TemplateAwareMessageCreator;
+import net.javacrumbs.smock.common.TemplateProcessor;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -39,7 +40,8 @@ import org.w3c.dom.Document;
  */
 
 /**
- * Adds extra features to {@link WebServiceMock}. 
+ * Adds extra features to Spring WS client test support.
+ * @author Lukas Krecan
  */
 public abstract class SmockClient extends SmockCommon {
 			
@@ -47,7 +49,8 @@ public abstract class SmockClient extends SmockCommon {
 
 	/**
 	 * Expects the given XML message loaded from resource with given name. Message can either be whole SOAP message or just a payload.
-	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
+	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared. 
+	 * Message will be preprocessed by {@link TemplateProcessor}.
 	 *
 	 * @param location of the resource where the message is stored.
 	 * @return the request matcher
@@ -59,6 +62,7 @@ public abstract class SmockClient extends SmockCommon {
 	/**
 	 * Expects the given {@link Resource} XML message. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
+	 * Message will be preprocessed by {@link TemplateProcessor}.
 	 *
 	 * @param message the XML message
 	 * @return the request matcher
@@ -70,6 +74,7 @@ public abstract class SmockClient extends SmockCommon {
 	/**
 	 * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
+	 * Message will be preprocessed by {@link TemplateProcessor}.
 	 *
 	 * @param message the XML message
 	 * @return the request matcher
@@ -83,6 +88,7 @@ public abstract class SmockClient extends SmockCommon {
     /**
      * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
      * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.
+     * Message will be preprocessed by {@link TemplateProcessor}.
      *
      * @param message the XML message
      * @return the request matcher
@@ -95,6 +101,7 @@ public abstract class SmockClient extends SmockCommon {
     /**
      * Respond with the given XML loaded from resource as response. If message is SOAP, it will be returned as response, if message is payload, 
      * it will be wrapped into a SOAP.
+     * Message will be preprocessed by {@link TemplateProcessor}.
      *
      * @param loaction of the resource
      * @return the response callback
@@ -103,7 +110,14 @@ public abstract class SmockClient extends SmockCommon {
     	Assert.notNull(location, "'location' must not be null");
     	return withMessage(fromResource(location));
     }
-
+    /**
+     * Respond with the given XML loaded from resource as response. If message is SOAP, it will be returned as response, if message is payload, 
+     * it will be wrapped into a SOAP.
+     * Message will be preprocessed by {@link TemplateProcessor}.
+     *
+     * @param loaction of the resource
+     * @return the response callback
+     */
     public static ParametrizableResponseCreator withMessage(Resource message) {
     	Assert.notNull(message, "'message' must not be null");
     	return withMessage(createResourceSource(message));
@@ -111,6 +125,7 @@ public abstract class SmockClient extends SmockCommon {
     /**
      * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
      * it will be wrapped into a SOAP.
+     * Message will be preprocessed by {@link TemplateProcessor}.
      *
      * @param payload the response message
      * @return the response callback
@@ -120,15 +135,29 @@ public abstract class SmockClient extends SmockCommon {
         return withMessage(loadDocument(message));
     }
    
-    
+    /**
+     * Respond with the given {@link Document} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
+     * it will be wrapped into a SOAP.
+     * Message will be preprocessed by {@link TemplateProcessor}.
+     *
+     * @param payload the response message
+     * @return the response callback
+     */
     public static ParametrizableResponseCreator withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
     	return new TemplateAwareMessageCreator(message, EMPTY_MAP, getTemplateProcessor());
     }
     
-    
 
-    
+    /**
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link WebServiceTemplate}.
+     * Supports interceptors that will be applied on the incomming message. Please note that acctually the interceptoes will
+     * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
+     * without reimplementing the whole testing library. I hope it will change in next releases.
+     *
+     * @param webServiceTemplate the web service template
+     * @return the created server
+     */
     public static MockWebServiceServer createServer(WebServiceTemplate webServiceTemplate, EndpointInterceptor[] interceptors) {
     	 if (interceptors!=null && interceptors.length>0)
     	 {
@@ -146,12 +175,29 @@ public abstract class SmockClient extends SmockCommon {
          return MockWebServiceServer.createServer(webServiceTemplate);
     }
 
-    
+    /**
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link WebServiceGatewaySupport}.
+     * Supports interceptors that will be applied on the incomming message. Please note that acctually the interceptoes will
+     * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
+     * without reimplementing the whole testing library. I hope it will change in next releases.
+     * @param gatewaySupport
+     * @param interceptors
+     * @return
+     */
     public static MockWebServiceServer createServer(WebServiceGatewaySupport gatewaySupport, EndpointInterceptor[] interceptors) {
     	Assert.notNull(gatewaySupport, "'gatewaySupport' must not be null");
         return createServer(gatewaySupport.getWebServiceTemplate(), interceptors);
     }
 
+    /**
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
+     * Supports interceptors that will be applied on the incomming message. Please note that acctually the interceptoes will
+     * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
+     * without reimplementing the whole testing library. I hope it will change in next releases.
+     * @param applicationContext
+     * @param interceptors
+     * @return
+     */
     public static MockWebServiceServer createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors) {
     	MockStrategiesHelper strategiesHelper = new MockStrategiesHelper(applicationContext);
         WebServiceTemplate webServiceTemplate = strategiesHelper.getStrategy(WebServiceTemplate.class);

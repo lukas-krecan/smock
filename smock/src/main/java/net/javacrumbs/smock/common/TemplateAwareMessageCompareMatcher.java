@@ -29,6 +29,11 @@ import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
+/**
+ * {@link MessageCompareMatcher} that processes template before comparison.
+ * @author Lukas Krecan
+ *
+ */
 public class TemplateAwareMessageCompareMatcher extends MessageCompareMatcher implements ParametrizableResponseMatcher, ParametrizableRequestMatcher {
 
 	private final Map<String, Object> parameters;
