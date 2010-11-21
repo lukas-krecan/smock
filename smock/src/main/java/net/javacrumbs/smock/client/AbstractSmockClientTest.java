@@ -18,30 +18,46 @@ package net.javacrumbs.smock.client;
 
 import javax.xml.transform.Source;
 
-import net.javacrumbs.smock.server.SmockServer;
+import net.javacrumbs.smock.common.TemplateProcessor;
 
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.w3c.dom.Document;
 
 
 public abstract class AbstractSmockClientTest extends AbstractWebServiceClientTest {
-	 
 	/**
-     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
-     * @param location Location of the resource 
-     */
-    public static Source fromResource(String location)
-    {
-    	return SmockServer.fromResource(location);
-    }
-    /**
-     * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
-     * @param location Location of the resource 
-     */
-    public static Resource resource(String location)
-    {
-    	return SmockServer.resource(location);
-    }
+	 * Sets {@link TemplateProcessor} used by Smock.
+	 * @param templateProcessor
+	 */
+	public static void setTemplateProcessor(TemplateProcessor templateProcessor) {
+		SmockClient.setTemplateProcessor(templateProcessor);
+	}
+	
+	/**
+	 * Sets the resource loader to be used. Be aware that it sets a static variable so it will be used by other tests too. 
+	 * @param resourceLoader
+	 */
+	public static void setResourceLoader(ResourceLoader resourceLoader) {
+		SmockClient.setResourceLoader(resourceLoader);
+	}
+	/**
+	 * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+	 * @param location Location of the resource 
+	 */
+	public static Source fromResource(String location)
+	{
+		return SmockClient.fromResource(location);
+	}
+	/**
+	 * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
+	 * @param location Location of the resource 
+	 */
+	public static Resource resource(String location)
+	{
+		return SmockClient.resource(location);
+	} 
+
 	/** 
 	 * Expects the given XML message loaded from resource with given name. Message can either be whole SOAP message or just a payload.
 	 * If only payload is passed in, only payloads will be compared, otherwise whole message will be compared.

@@ -46,7 +46,8 @@ public abstract class AbstractWebServiceClientTest implements ApplicationContext
 	protected  ApplicationContext applicationContext;
 	protected  MockWebServiceServer mockWebServiceServer; 
 	
-	  /**
+	
+	/**
      * Records an expectation specified by the given {@link RequestMatcher}. Returns a {@link ResponseActions} object
      * that allows for creating the response, or to set up more expectations.
      *

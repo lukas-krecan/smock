@@ -5,7 +5,6 @@ import java.util.Map;
 
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
 import net.javacrumbs.smock.server.AbstractSmockServerTest;
-import net.javacrumbs.smock.server.SmockServer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class EndpointTest extends AbstractSmockServerTest{
 	static
 	{
-		SmockServer.setTemplateProcessor(new XsltTemplateProcessor());
+		setTemplateProcessor(new XsltTemplateProcessor());
 	}
 	
 	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
