@@ -20,8 +20,11 @@ import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.TemplateProcessor;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.test.server.MockWebServiceClient;
 import org.w3c.dom.Document;
 
 /**
@@ -140,5 +143,22 @@ public class AbstractSmockServerTest extends AbstractWebServiceServerTest {
 	 */
 	public  ParametrizableResponseMatcher message(Document message) {
 		return SmockServer.message(message);
+	}
+	
+	@Override
+	/**
+	 * Creates a {@code MockWebServiceClient} instance based on the given {@link WebServiceMessageReceiver} and {@link
+     * WebServiceMessageFactory}. Supports interceptors that can be applied on the outgoing message.
+	 */
+	public MockWebServiceClient createClient(ApplicationContext applicationContext) {
+		return SmockServer.createClient(applicationContext, getInterceptors());
+	}
+
+	/**
+	 * To be overriden by a subclass that needs to set interceptors.
+	 * @return
+	 */
+	protected ClientInterceptor[] getInterceptors() {
+		return null;
 	}
 }
