@@ -17,10 +17,12 @@
 package net.javacrumbs.smock.common;
 
 import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
+@Ignore
 public class UniversalMessageCreatorTest extends AbstractSmockTest {
 //	@Test
 //	public void testReturnMessage() throws Exception
