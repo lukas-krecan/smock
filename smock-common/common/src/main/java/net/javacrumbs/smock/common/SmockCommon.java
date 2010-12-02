@@ -1,11 +1,8 @@
-package net.javacrumbs.smock.springws.common;
+package net.javacrumbs.smock.common;
 import java.io.IOException;
 
 import javax.xml.transform.Source;
 
-import net.javacrumbs.smock.common.TemplateProcessor;
-import net.javacrumbs.smock.common.XmlUtil;
-import net.javacrumbs.smock.common.XsltTemplateProcessor;
 
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;

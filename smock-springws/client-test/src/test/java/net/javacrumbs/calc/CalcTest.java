@@ -1,8 +1,8 @@
 package net.javacrumbs.calc;
 
+import static net.javacrumbs.smock.common.SmockCommon.resource;
 import static net.javacrumbs.smock.springws.client.SmockClient.message;
 import static net.javacrumbs.smock.springws.client.SmockClient.withMessage;
-import static net.javacrumbs.smock.springws.common.SmockCommon.resource;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
 import static org.springframework.ws.test.client.RequestMatchers.validPayload;
