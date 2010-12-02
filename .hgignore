@@ -1,47 +1,8 @@
+syntax: glob
 
-syntax: regexp
-^\.classpath$
-syntax: regexp
-^\.project$
-syntax: regexp
-^\.settings$
-syntax: regexp
-^\.springBeans$
-syntax: regexp
-^target$
-syntax: regexp
-^simple-client-test/\.settings$
-syntax: regexp
-^simple-client-test/\.classpath$
-syntax: regexp
-^simple-client-test/\.project$
-syntax: regexp
-^simple-client-test/\.springBeans$
-syntax: regexp
-^simple-client-test/target$
-syntax: regexp
-^smock/\.classpath$
-syntax: regexp
-^smock/\.project$
-syntax: regexp
-^smock/\.springBeans$
-syntax: regexp
-^smock/\.settings$
-syntax: regexp
-^smock/target$
-syntax: regexp
-^simple-server-test/target$
-syntax: regexp
-^simple-server-test/\.classpath$
-syntax: regexp
-^simple-server-test/\.project$
-syntax: regexp
-^simple-server-test/\.settings$
-syntax: regexp
-^smock-groovy-template/\.settings$
-syntax: regexp
-^smock-groovy-template/target$
-syntax: regexp
-^smock-groovy-template/\.classpath$
-syntax: regexp
-^smock-groovy-template/\.project$
+target
+.settings
+.project
+.classpath
+.springBeans
+
