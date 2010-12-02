@@ -25,8 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.soap.SoapMessage;
 import org.w3c.dom.Document;
 
 
@@ -50,11 +48,11 @@ public class UniversalMessageMatcher {
 		this.controlMessage = controlMessage;
 	}
 
-	public final void match(WebServiceMessage input, WebServiceMessage message) {
+	public final void match(Message input, Message message) {
 		Document controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))
 		{
-			Document messageDocument = loadDocument(((SoapMessage)message).getEnvelope().getSource());
+			Document messageDocument = loadDocument(message.getEnvelopeSource());
 			compare(controlMessage, messageDocument);
 		}
 		else //payload only
@@ -89,7 +87,7 @@ public class UniversalMessageMatcher {
 	 * @param controlMessage
 	 * @return
 	 */
-	protected Document preprocessControlMessage(WebServiceMessage input) {
+	protected Document preprocessControlMessage(Message input) {
 		return getControlMessage();
 	}
 

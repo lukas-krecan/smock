@@ -52,12 +52,12 @@ public class TemplateAwareMessageMatcher implements ParametrizableResponseMatche
 	}
 
 	public void match(WebServiceMessage request, WebServiceMessage response) throws IOException, AssertionError {
-		messageMatcher.match(request, response);
+		messageMatcher.match(new WebServiceMessageWrapper(request), new WebServiceMessageWrapper(response));
 		
 	}
 
 	public void match(URI uri, WebServiceMessage request) throws IOException, AssertionError {
-		messageMatcher.match(null, request);		
+		messageMatcher.match(null, new WebServiceMessageWrapper(request));		
 	}
 	
 	

@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.xml.transform.Source;
 
 import org.springframework.util.Assert;
-import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
 
@@ -47,7 +45,7 @@ public class UniversalTemplateAwareMessageCreator extends UniversalMessageCreato
 	}
 
 	@Override
-	protected Document preprocessSource(URI uri, WebServiceMessage input,	WebServiceMessageFactory messageFactory) {
+	protected Document preprocessSource(URI uri, Message input, MessageFactory messageFactory) {
 		Source inputSource = input!=null?input.getPayloadSource():null;
 		return templateProcessor.processTemplate(getSourceDocument(), inputSource, parameters);
 	}

@@ -22,8 +22,6 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import org.junit.Test;
-import org.springframework.ws.soap.SoapEnvelope;
-import org.springframework.ws.soap.SoapMessage;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
@@ -37,15 +35,13 @@ public class UniversalMessageMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(MESSAGE));
 		UniversalMessageMatcher matcher = new UniversalMessageMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
-		SoapEnvelope envelope = createMock(SoapEnvelope.class);
-		expect(request.getEnvelope()).andReturn(envelope );
-		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE));
-		replay(request, envelope);
+		Message request = createMock(Message.class);
+		expect(request.getEnvelopeSource()).andReturn(new StringSource(MESSAGE));
+		replay(request);
 		
 		matcher.match(null, request);
 		
-		verify(request, envelope);
+		verify(request);
 	}
 	@Test(expected=AssertionError.class)
 	public void testDifferent()
@@ -53,15 +49,13 @@ public class UniversalMessageMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(MESSAGE));
 		UniversalMessageMatcher matcher = new UniversalMessageMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
-		SoapEnvelope envelope = createMock(SoapEnvelope.class);
-		expect(request.getEnvelope()).andReturn(envelope );
-		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE2));
-		replay(request, envelope);
+		Message request = createMock(Message.class);
+		expect(request.getEnvelopeSource()).andReturn(new StringSource(MESSAGE2));
+		replay(request);
 		
 		matcher.match(null, request);
 		
-		verify(request, envelope);
+		verify(request);
 	}
 	@Test
 	public void testPayload()
@@ -69,7 +63,7 @@ public class UniversalMessageMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(PAYLOAD));
 		UniversalMessageMatcher matcher = new UniversalMessageMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
+		Message request = createMock(Message.class);
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD));
 		replay(request);
 		
@@ -83,7 +77,7 @@ public class UniversalMessageMatcherTest extends AbstractSmockTest{
 		Document document = loadDocument(new StringSource(PAYLOAD));
 		UniversalMessageMatcher matcher = new UniversalMessageMatcher(document);
 		
-		SoapMessage request = createMock(SoapMessage.class);
+		Message request = createMock(Message.class);
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD2));
 		replay(request);
 		

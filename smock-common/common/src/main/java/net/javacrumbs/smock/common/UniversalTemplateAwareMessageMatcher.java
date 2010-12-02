@@ -16,14 +16,12 @@
 
 package net.javacrumbs.smock.common;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.transform.Source;
 
 import org.springframework.util.Assert;
-import org.springframework.ws.WebServiceMessage;
 import org.w3c.dom.Document;
 
 /**
@@ -45,7 +43,7 @@ public class UniversalTemplateAwareMessageMatcher extends UniversalMessageMatche
 	}
 	
 	@Override
-	protected Document preprocessControlMessage(WebServiceMessage input)
+	protected Document preprocessControlMessage(Message input)
 	{
 		Source inputSource = input!=null?input.getPayloadSource():null;
 		return templateProcessor.processTemplate(getControlMessage(), inputSource, parameters);

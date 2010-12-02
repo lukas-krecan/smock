@@ -16,15 +16,16 @@
 
 package net.javacrumbs.smock.common;
 
+import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+import static net.javacrumbs.smock.common.XmlUtil.getDocumentAsStream;
+import static net.javacrumbs.smock.common.XmlUtil.isSoap;
+
 import java.io.IOException;
 import java.net.URI;
 
 import javax.xml.transform.dom.DOMSource;
 
-import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
-import static net.javacrumbs.smock.common.XmlUtil.*;
 
 /**
  * Common class that is able to create a message for both client and server.
@@ -48,7 +49,7 @@ public class UniversalMessageCreator {
 	 * @return
 	 * @throws IOException
 	 */
-	public final WebServiceMessage createMessage(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) throws IOException {
+	public final Message createMessage(URI uri, Message input, MessageFactory messageFactory) throws IOException {
 		Document source = preprocessSource(uri, input, messageFactory);
 		if (isSoap(source))
 		{
@@ -56,7 +57,7 @@ public class UniversalMessageCreator {
 		}
 		else
 		{
-			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
+			Message webServiceMessage = messageFactory.createWebServiceMessage();
 			doTransform(new DOMSource(source), webServiceMessage.getPayloadResult());
 			return webServiceMessage;
 		}
@@ -69,7 +70,7 @@ public class UniversalMessageCreator {
 	 * @param messageFactory
 	 * @return
 	 */
-	protected Document preprocessSource(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) {
+	protected Document preprocessSource(URI uri, Message input, MessageFactory messageFactory) {
 		return getSourceDocument();
 	}
 

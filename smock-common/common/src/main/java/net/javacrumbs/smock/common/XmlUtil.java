@@ -28,7 +28,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
-import org.springframework.ws.soap.SoapVersion;
 import org.springframework.xml.transform.StringResult;
 import org.springframework.xml.transform.TransformerHelper;
 import org.springframework.xml.xpath.XPathExpression;
@@ -46,8 +45,8 @@ public class XmlUtil {
 	private static final Map<String, String> SOAP_NAMESPACES = new HashMap<String, String>();
 	
 	static{
-		SOAP_NAMESPACES.put("soap11", SoapVersion.SOAP_11.getEnvelopeNamespaceUri());
-		SOAP_NAMESPACES.put("soap12", SoapVersion.SOAP_12.getEnvelopeNamespaceUri());
+		SOAP_NAMESPACES.put("soap11", "http://schemas.xmlsoap.org/soap/envelope/");
+		SOAP_NAMESPACES.put("soap12", "http://www.w3.org/2003/05/soap-envelope");
 	};
 		
 	private XmlUtil()

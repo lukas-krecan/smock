@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
+import net.javacrumbs.smock.common.Message;
 import net.javacrumbs.smock.common.TemplateProcessor;
 import net.javacrumbs.smock.common.UniversalTemplateAwareMessageCreator;
 import net.javacrumbs.smock.springws.client.ParametrizableResponseCreator;
@@ -54,11 +55,13 @@ public class TemplateAwareMessageCreator implements ParametrizableResponseCreato
 	}
 
 	public WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory messageFactory) throws IOException {
-		return messageCreator.createMessage(uri, request, messageFactory);
+		Message message = messageCreator.createMessage(uri, new WebServiceMessageWrapper(request), new WebServiceMessageFactoryWrapper(messageFactory));
+		return ((WebServiceMessageWrapper)message).getWebServiceMessage();
 	}
 
 	public WebServiceMessage createRequest(WebServiceMessageFactory messageFactory) throws IOException {
-		return messageCreator.createMessage(null, null, messageFactory);
+		Message message = messageCreator.createMessage(null, null, new WebServiceMessageFactoryWrapper(messageFactory));
+		return ((WebServiceMessageWrapper)message).getWebServiceMessage();
 	}
 
 }
