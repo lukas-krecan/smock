@@ -1,7 +1,7 @@
 package net.javacrumbs.calc.server;
 
-import static net.javacrumbs.smock.server.SmockServer.createClient;
-import static net.javacrumbs.smock.server.SmockServer.withMessage;
+import static net.javacrumbs.smock.springws.server.SmockServer.createClient;
+import static net.javacrumbs.smock.springws.server.SmockServer.withMessage;
 import static org.springframework.ws.test.server.ResponseMatchers.noFault;
 
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package net.javacrumbs.calc.server;
 
-import static net.javacrumbs.smock.server.SmockServer.message;
-import static net.javacrumbs.smock.server.SmockServer.withMessage;
+import static net.javacrumbs.smock.springws.server.SmockServer.message;
+import static net.javacrumbs.smock.springws.server.SmockServer.withMessage;
 import static org.springframework.ws.test.server.MockWebServiceClient.createClient;
 import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.server.SmockServer;
+import net.javacrumbs.smock.springws.server.SmockServer;
 
 import org.junit.Before;
 import org.junit.Test;

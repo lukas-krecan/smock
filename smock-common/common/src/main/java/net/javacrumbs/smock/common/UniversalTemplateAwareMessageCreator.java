@@ -17,7 +17,6 @@
 package net.javacrumbs.smock.common;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class UniversalTemplateAwareMessageCreator extends UniversalMessageCreator implements Parametrizable{
+public class UniversalTemplateAwareMessageCreator extends UniversalMessageCreator {
 	
 	private final Map<String, Object> parameters;
 	
@@ -43,7 +42,7 @@ public class UniversalTemplateAwareMessageCreator extends UniversalMessageCreato
 	public UniversalTemplateAwareMessageCreator(Document response, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(response);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
-		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
+		this.parameters = new HashMap<String, Object>(parameters);
 		this.templateProcessor = templateProcessor;
 	}
 
@@ -53,14 +52,12 @@ public class UniversalTemplateAwareMessageCreator extends UniversalMessageCreato
 		return templateProcessor.processTemplate(getSourceDocument(), inputSource, parameters);
 	}
 	
-	public UniversalTemplateAwareMessageCreator withParameter(String name, Object value) {
-		return withParameters(Collections.singletonMap(name, value));
+	public void withParameter(String name, Object value) {
+		parameters.put(name, value);
 	}
 
-	public UniversalTemplateAwareMessageCreator withParameters(Map<String, Object> additionalParameters) {
-		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
-		newParameters.putAll(additionalParameters);
-		return new UniversalTemplateAwareMessageCreator(getSourceDocument(), newParameters, templateProcessor);
+	public void withParameters(Map<String, Object> additionalParameters) {
+		parameters.putAll(additionalParameters);
 	}
 
 }

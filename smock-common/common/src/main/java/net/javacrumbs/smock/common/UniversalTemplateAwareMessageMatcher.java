@@ -31,7 +31,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class UniversalTemplateAwareMessageMatcher extends UniversalMessageMatcher implements Parametrizable {
+public class UniversalTemplateAwareMessageMatcher extends UniversalMessageMatcher {
 
 	private final Map<String, Object> parameters;
 	
@@ -40,7 +40,7 @@ public class UniversalTemplateAwareMessageMatcher extends UniversalMessageMatche
 	public UniversalTemplateAwareMessageMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(controlMessage);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
-		this.parameters = Collections.unmodifiableMap(new HashMap<String, Object>(parameters));
+		this.parameters = new HashMap<String, Object>(parameters);
 		this.templateProcessor = templateProcessor;
 	}
 	
@@ -51,14 +51,12 @@ public class UniversalTemplateAwareMessageMatcher extends UniversalMessageMatche
 		return templateProcessor.processTemplate(getControlMessage(), inputSource, parameters);
 	}
 
-	public UniversalTemplateAwareMessageMatcher withParameter(String name, Object value) {
-		return withParameters(Collections.singletonMap(name, value));
+	public void withParameter(String name, Object value) {
+		parameters.put(name, value);
 	}
 
-	public UniversalTemplateAwareMessageMatcher withParameters(Map<String, Object> additionalParameters) {
-		Map<String, Object> newParameters = new HashMap<String, Object>(parameters);
-		newParameters.putAll(additionalParameters);
-		return new UniversalTemplateAwareMessageMatcher(getControlMessage(), newParameters, templateProcessor);
+	public void withParameters(Map<String, Object> additionalParameters) {
+		parameters.putAll(additionalParameters);
 	}
 
 	Map<String, Object> getParameters() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.groovy;
+package net.javacrumbs.smock.common.groovy;
 
 import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;

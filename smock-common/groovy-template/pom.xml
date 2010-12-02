@@ -8,7 +8,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
-	<artifactId>smock-common-groovy-template</artifactId>
+	<artifactId>smock-groovy-template</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>smock-groovy-template</name>

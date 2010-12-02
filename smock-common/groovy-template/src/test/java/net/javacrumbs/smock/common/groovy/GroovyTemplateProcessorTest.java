@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.groovy;
+package net.javacrumbs.smock.common.groovy;
 
 import static java.util.Collections.singletonMap;
 import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
@@ -24,6 +24,8 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 import java.io.IOException;
 
 import javax.xml.transform.Source;
+
+import net.javacrumbs.smock.common.groovy.GroovyTemplateProcessor;
 
 import org.junit.Test;
 import org.springframework.xml.transform.StringSource;

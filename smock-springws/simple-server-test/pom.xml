@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-groovy-template</artifactId>
-			<version>${project.version}</version>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

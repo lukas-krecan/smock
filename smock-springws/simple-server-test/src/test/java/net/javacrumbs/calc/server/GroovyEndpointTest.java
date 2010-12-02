@@ -1,14 +1,14 @@
 package net.javacrumbs.calc.server;
 
-import static net.javacrumbs.smock.server.SmockServer.message;
-import static net.javacrumbs.smock.server.SmockServer.withMessage;
+import static net.javacrumbs.smock.springws.server.SmockServer.message;
+import static net.javacrumbs.smock.springws.server.SmockServer.withMessage;
 import static org.springframework.ws.test.server.MockWebServiceClient.createClient;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import net.javacrumbs.smock.groovy.GroovyTemplateProcessor;
-import net.javacrumbs.smock.server.SmockServer;
+import net.javacrumbs.smock.common.groovy.GroovyTemplateProcessor;
+import net.javacrumbs.smock.springws.server.SmockServer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
