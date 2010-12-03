@@ -5,7 +5,7 @@
 	<artifactId>smock-jaxwsws</artifactId>
 	<packaging>jar</packaging>
 	<version>2.0-SNAPSHOT</version>
-	<name>smock-jaxwsws</name>
+	<name>smock-jaxws</name>
 	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
 		Spring WS Mock extension.	
