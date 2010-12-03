@@ -36,7 +36,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class UniversalMessageMatcher {
+public class MessageMatcher {
 
 	protected final Document controlMessage;
 	
@@ -46,7 +46,7 @@ public class UniversalMessageMatcher {
 		XMLUnit.setIgnoreWhitespace(true);
 	}
 
-	public UniversalMessageMatcher(Document controlMessage) {
+	public MessageMatcher(Document controlMessage) {
 		this.controlMessage = controlMessage;
 	}
 

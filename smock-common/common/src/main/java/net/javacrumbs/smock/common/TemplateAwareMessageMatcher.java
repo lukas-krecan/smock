@@ -16,7 +16,7 @@
 
 package net.javacrumbs.smock.common;
 
-import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,34 +24,33 @@ import javax.xml.transform.Source;
 
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
-
 /**
- * {@link MessageResponseCreator} that preprocesses response using {@link TemplateProcessor}.
+ * {@link MessageCompareMatcher} that processes template before comparison.
  * @author Lukas Krecan
  *
  */
-public class UniversalTemplateAwareMessageCreator extends UniversalMessageCreator {
-	
+public class TemplateAwareMessageMatcher extends MessageMatcher {
+
 	private final Map<String, Object> parameters;
 	
 	private final TemplateProcessor templateProcessor;
-
-	public UniversalTemplateAwareMessageCreator(Document response, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
-		super(response);
+	
+	public TemplateAwareMessageMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+		super(controlMessage);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = new HashMap<String, Object>(parameters);
 		this.templateProcessor = templateProcessor;
 	}
-
-	@Override
-	protected Document preprocessSource(URI uri, WebServiceMessage input,	WebServiceMessageFactory messageFactory) {
-		Source inputSource = input!=null?input.getPayloadSource():null;
-		return templateProcessor.processTemplate(getSourceDocument(), inputSource, parameters);
-	}
 	
+	@Override
+	protected Document preprocessControlMessage(WebServiceMessage input)
+	{
+		Source inputSource = input!=null?input.getPayloadSource():null;
+		return templateProcessor.processTemplate(getControlMessage(), inputSource, parameters);
+	}
+
 	public void withParameter(String name, Object value) {
 		parameters.put(name, value);
 	}
@@ -59,5 +58,10 @@ public class UniversalTemplateAwareMessageCreator extends UniversalMessageCreato
 	public void withParameters(Map<String, Object> additionalParameters) {
 		parameters.putAll(additionalParameters);
 	}
+
+	Map<String, Object> getParameters() {
+		return parameters;
+	}
+
 
 }

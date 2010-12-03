@@ -16,7 +16,7 @@
 
 package net.javacrumbs.smock.common;
 
-import java.util.Collections;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,33 +24,34 @@ import javax.xml.transform.Source;
 
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
+
 /**
- * {@link MessageCompareMatcher} that processes template before comparison.
+ * {@link MessageResponseCreator} that preprocesses response using {@link TemplateProcessor}.
  * @author Lukas Krecan
  *
  */
-public class UniversalTemplateAwareMessageMatcher extends UniversalMessageMatcher {
-
+public class TemplateAwareMessageCreator extends MessageCreator {
+	
 	private final Map<String, Object> parameters;
 	
 	private final TemplateProcessor templateProcessor;
-	
-	public UniversalTemplateAwareMessageMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
-		super(controlMessage);
+
+	public TemplateAwareMessageCreator(Document response, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+		super(response);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = new HashMap<String, Object>(parameters);
 		this.templateProcessor = templateProcessor;
 	}
-	
-	@Override
-	protected Document preprocessControlMessage(WebServiceMessage input)
-	{
-		Source inputSource = input!=null?input.getPayloadSource():null;
-		return templateProcessor.processTemplate(getControlMessage(), inputSource, parameters);
-	}
 
+	@Override
+	protected Document preprocessSource(URI uri, WebServiceMessage input,	WebServiceMessageFactory messageFactory) {
+		Source inputSource = input!=null?input.getPayloadSource():null;
+		return templateProcessor.processTemplate(getSourceDocument(), inputSource, parameters);
+	}
+	
 	public void withParameter(String name, Object value) {
 		parameters.put(name, value);
 	}
@@ -58,10 +59,5 @@ public class UniversalTemplateAwareMessageMatcher extends UniversalMessageMatche
 	public void withParameters(Map<String, Object> additionalParameters) {
 		parameters.putAll(additionalParameters);
 	}
-
-	Map<String, Object> getParameters() {
-		return parameters;
-	}
-
 
 }

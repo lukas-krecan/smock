@@ -23,12 +23,12 @@ import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
-public class UniversalMessageCreatorTest extends AbstractSmockTest {
+public class MessageCreatorTest extends AbstractSmockTest {
 	@Test
 	public void testReturnMessage() throws Exception
 	{
 		Document sourceDocument = loadDocument(new StringSource(MESSAGE));
-		UniversalMessageCreator responseCreator = new UniversalMessageCreator(sourceDocument);
+		MessageCreator responseCreator = new MessageCreator(sourceDocument);
 		SaajSoapMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createMessage(TEST_URI, null, messageFactory);
@@ -40,7 +40,7 @@ public class UniversalMessageCreatorTest extends AbstractSmockTest {
 	public void testReturnPayload() throws Exception
 	{
 		Document sourceDocument = loadDocument(new StringSource(PAYLOAD));
-		UniversalMessageCreator responseCreator = new UniversalMessageCreator(sourceDocument);
+		MessageCreator responseCreator = new MessageCreator(sourceDocument);
 		SaajSoapMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createMessage(TEST_URI, null, messageFactory);

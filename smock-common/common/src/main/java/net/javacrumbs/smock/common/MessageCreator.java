@@ -31,11 +31,11 @@ import static net.javacrumbs.smock.common.XmlUtil.*;
  * @author Lukas Krecan
  *
  */
-public class UniversalMessageCreator {
+public class MessageCreator {
 
 	private final Document sourceDocument;
 
-	public UniversalMessageCreator(Document sourceDocument) {
+	public MessageCreator(Document sourceDocument) {
 		this.sourceDocument = sourceDocument;
 	}
 	
