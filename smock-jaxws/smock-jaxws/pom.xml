@@ -28,6 +28,11 @@
 			<artifactId>smock-common</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.jvnet.jax-ws-commons.spring</groupId>-->
+<!--			<artifactId>jaxws-spring</artifactId>-->
+<!--			<version>1.8</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -166,6 +171,11 @@
 			<name>Springframework Maven Repository</name>
 			<url>http://maven.springframework.org/milestone</url>
 		</repository>
+<!--		<repository>-->
+<!--			<id>java.net</id>-->
+<!--			<name>Java.net repo</name>-->
+<!--			<url>http://download.java.net/maven/2/</url>-->
+<!--		</repository>-->
 	</repositories>
 
 	<!--
