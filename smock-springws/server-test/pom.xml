@@ -1,19 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-    <parent>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.javacrumbs</groupId>
-	<artifactId>smock-springws-root</artifactId>
+	<artifactId>springws-server-test</artifactId>
+	<packaging>jar</packaging>
 	<version>2.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  <groupId>net.javacrumbs</groupId>
-  <artifactId>springws-server-test</artifactId>
-  <packaging>jar</packaging>
-  <version>2.0-SNAPSHOT</version>
-  <name>springws-server-test</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
+	<name>springws-server-test</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-springws</artifactId>
@@ -26,19 +20,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-		</dependency>
-		<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<artifactId>spring-core</artifactId>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
@@ -52,17 +35,29 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>smock-sample</finalName>
 		<plugins>
 			<plugin>
-			 <artifactId>maven-compiler-plugin</artifactId>
-			 <configuration>
-				<source>1.6</source>
-				<target>1.6</target>
-			 </configuration>
-		  </plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
@@ -83,11 +78,11 @@
 				</configuration>
 			</plugin>
 			<plugin>
-			  <groupId>org.mortbay.jetty</groupId>
-			  <artifactId>jetty-maven-plugin</artifactId>
-			  <configuration>
-			    <scanIntervalSeconds>10</scanIntervalSeconds>
-			  </configuration>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
