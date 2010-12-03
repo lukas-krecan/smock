@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.springws.common;
+package net.javacrumbs.smock.common;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
 import javax.xml.transform.TransformerException;
-
-import net.javacrumbs.smock.common.XsltTemplateProcessor;
 
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;

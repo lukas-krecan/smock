@@ -22,9 +22,11 @@ import java.util.Map;
 import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.SmockCommon;
+import net.javacrumbs.smock.common.TemplateAwareMessageCreator;
+import net.javacrumbs.smock.common.TemplateAwareMessageMatcher;
 import net.javacrumbs.smock.common.TemplateProcessor;
-import net.javacrumbs.smock.springws.common.TemplateAwareMessageCreator;
-import net.javacrumbs.smock.springws.common.TemplateAwareMessageMatcher;
+import net.javacrumbs.smock.common.server.ParametrizableRequestCreator;
+import net.javacrumbs.smock.common.server.ParametrizableResponseMatcher;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;

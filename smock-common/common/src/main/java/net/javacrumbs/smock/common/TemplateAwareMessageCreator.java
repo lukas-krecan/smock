@@ -22,6 +22,9 @@ import java.util.Map;
 
 import javax.xml.transform.Source;
 
+import net.javacrumbs.smock.common.client.ParametrizableResponseCreator;
+import net.javacrumbs.smock.common.server.ParametrizableRequestCreator;
+
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -33,7 +36,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class TemplateAwareMessageCreator extends MessageCreator {
+public class TemplateAwareMessageCreator extends MessageCreator  implements ParametrizableResponseCreator, ParametrizableRequestCreator{
 	
 	private final Map<String, Object> parameters;
 	
@@ -52,12 +55,14 @@ public class TemplateAwareMessageCreator extends MessageCreator {
 		return templateProcessor.processTemplate(getSourceDocument(), inputSource, parameters);
 	}
 	
-	public void withParameter(String name, Object value) {
+	public TemplateAwareMessageCreator withParameter(String name, Object value) {
 		parameters.put(name, value);
+		return this;
 	}
 
-	public void withParameters(Map<String, Object> additionalParameters) {
+	public TemplateAwareMessageCreator withParameters(Map<String, Object> additionalParameters) {
 		parameters.putAll(additionalParameters);
+		return this;
 	}
 
 }

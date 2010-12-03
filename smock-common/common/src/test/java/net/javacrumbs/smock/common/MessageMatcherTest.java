@@ -43,7 +43,7 @@ public class MessageMatcherTest extends AbstractSmockTest{
 		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE));
 		replay(request, envelope);
 		
-		matcher.match(null, request);
+		matcher.matchInternal(null, request);
 		
 		verify(request, envelope);
 	}
@@ -59,7 +59,7 @@ public class MessageMatcherTest extends AbstractSmockTest{
 		expect(envelope.getSource()).andReturn(new StringSource(MESSAGE2));
 		replay(request, envelope);
 		
-		matcher.match(null, request);
+		matcher.matchInternal(null, request);
 		
 		verify(request, envelope);
 	}
@@ -73,7 +73,7 @@ public class MessageMatcherTest extends AbstractSmockTest{
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD));
 		replay(request);
 		
-		matcher.match(null, request);
+		matcher.matchInternal(null, request);
 		
 		verify(request);
 	}
@@ -87,7 +87,7 @@ public class MessageMatcherTest extends AbstractSmockTest{
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD2));
 		replay(request);
 		
-		matcher.match(null, request);
+		matcher.matchInternal(null, request);
 		
 		verify(request);
 	}

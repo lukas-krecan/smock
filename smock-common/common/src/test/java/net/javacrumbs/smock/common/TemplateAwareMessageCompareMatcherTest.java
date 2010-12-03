@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.springws.common;
+package net.javacrumbs.smock.common;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -24,8 +24,6 @@ import static org.easymock.EasyMock.verify;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-
-import net.javacrumbs.smock.common.XsltTemplateProcessor;
 
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;

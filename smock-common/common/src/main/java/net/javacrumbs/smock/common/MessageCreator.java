@@ -23,6 +23,8 @@ import javax.xml.transform.dom.DOMSource;
 
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.test.client.ResponseCreator;
+import org.springframework.ws.test.server.RequestCreator;
 import org.w3c.dom.Document;
 import static net.javacrumbs.smock.common.XmlUtil.*;
 
@@ -31,7 +33,7 @@ import static net.javacrumbs.smock.common.XmlUtil.*;
  * @author Lukas Krecan
  *
  */
-public class MessageCreator {
+public class MessageCreator implements ResponseCreator, RequestCreator{
 
 	private final Document sourceDocument;
 
@@ -48,7 +50,7 @@ public class MessageCreator {
 	 * @return
 	 * @throws IOException
 	 */
-	public final WebServiceMessage createMessage(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) throws IOException {
+	protected final WebServiceMessage createMessage(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) throws IOException {
 		Document source = preprocessSource(uri, input, messageFactory);
 		if (isSoap(source))
 		{
@@ -60,6 +62,14 @@ public class MessageCreator {
 			doTransform(new DOMSource(source), webServiceMessage.getPayloadResult());
 			return webServiceMessage;
 		}
+	}
+	
+	public WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory messageFactory) throws IOException {
+		return createMessage(uri, request, messageFactory);
+	}
+
+	public WebServiceMessage createRequest(WebServiceMessageFactory messageFactory) throws IOException {
+		return createMessage(null, null, messageFactory);
 	}
 
 	/**

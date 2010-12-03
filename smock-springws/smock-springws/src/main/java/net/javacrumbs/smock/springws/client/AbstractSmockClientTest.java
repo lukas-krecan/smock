@@ -19,6 +19,8 @@ package net.javacrumbs.smock.springws.client;
 import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.TemplateProcessor;
+import net.javacrumbs.smock.common.client.ParametrizableRequestMatcher;
+import net.javacrumbs.smock.common.client.ParametrizableResponseCreator;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;

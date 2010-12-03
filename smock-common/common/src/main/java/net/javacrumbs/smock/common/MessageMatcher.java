@@ -21,12 +21,17 @@ import static net.javacrumbs.smock.common.XmlUtil.isSoap;
 import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
 
+import java.io.IOException;
+import java.net.URI;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.soap.SoapMessage;
+import org.springframework.ws.test.client.RequestMatcher;
+import org.springframework.ws.test.server.ResponseMatcher;
 import org.w3c.dom.Document;
 
 
@@ -36,7 +41,7 @@ import org.w3c.dom.Document;
  * @author Lukas Krecan
  *
  */
-public class MessageMatcher {
+public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 
 	protected final Document controlMessage;
 	
@@ -50,7 +55,7 @@ public class MessageMatcher {
 		this.controlMessage = controlMessage;
 	}
 
-	public final void match(WebServiceMessage input, WebServiceMessage message) {
+	protected final void matchInternal(WebServiceMessage input, WebServiceMessage message) {
 		Document controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))
 		{
@@ -62,6 +67,15 @@ public class MessageMatcher {
 			Document messageDocument = loadDocument(message.getPayloadSource());
 			compare(controlMessage, messageDocument);
 		}
+	}
+	
+	public void match(WebServiceMessage request, WebServiceMessage response) throws IOException, AssertionError {
+		matchInternal(request, response);
+		
+	}
+
+	public void match(URI uri, WebServiceMessage request) throws IOException, AssertionError {
+		matchInternal(null, request);		
 	}
 	
 
@@ -110,5 +124,7 @@ public class MessageMatcher {
 	public final Document getControlMessage() {
 		return controlMessage;
 	}
+
+
 
 }

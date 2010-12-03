@@ -14,30 +14,32 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.springws.server;
+package net.javacrumbs.smock.common.client;
 
 import java.util.Map;
 
-import org.springframework.ws.test.server.ResponseMatcher;
+import org.springframework.ws.test.client.RequestMatcher;
 
 /**
- * {@link ResponseMatcher} that can be parametrized.
+ * {@link RequestMatcher} that accepts parameters. 
  * @author Lukas Krecan
  *
  */
-public interface ParametrizableResponseMatcher extends ResponseMatcher {
+public interface ParametrizableRequestMatcher extends RequestMatcher {
+
 	/**
-	 * Adds parameter to the {@link ResponseMatcher} 
+	 * Adds parameter to the {@link RequestMatcher} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseMatcher withParameter(String name, Object value);
+	ParametrizableRequestMatcher withParameter(String name, Object value);
+
 	/**
-	 * Adds parameters to the {@link ResponseMatcher} 
+	 * Adds parameters to the {@link RequestMatcher} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseMatcher withParameters(Map<String, Object> parameters);
+	ParametrizableRequestMatcher withParameters(Map<String, Object> parameters);
 }

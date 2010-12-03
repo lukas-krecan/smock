@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.springws.client;
+package net.javacrumbs.smock.common.server;
 
 import java.util.Map;
 
-import org.springframework.ws.test.client.ResponseCreator;
+import org.springframework.ws.test.server.RequestCreator;
 
 /**
- * {@link ResponseCreator} that can be parametrized.
+ * {@link RequestCreator} that can be parametrized. 
  * @author Lukas Krecan
+ *
  */
-public interface ParametrizableResponseCreator extends ResponseCreator{
-	
+public interface ParametrizableRequestCreator extends RequestCreator {
 	/**
-	 * Adds parameter to the {@link ResponseCreator} 
+	 * Adds parameter to the {@link RequestCreator} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseCreator withParameter(String name, Object value);
+	ParametrizableRequestCreator withParameter(String name, Object value);
 	/**
-	 * Adds parameters to the {@link ResponseCreator} 
+	 * Adds parameters to the {@link RequestCreator} 
 	 * @param name
 	 * @param value
 	 * @return
 	 */
-	ParametrizableResponseCreator withParameters(Map<String, Object> parameters);
+	ParametrizableRequestCreator withParameters(Map<String, Object> parameters);
 }

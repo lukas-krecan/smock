@@ -16,12 +16,12 @@
 
 package net.javacrumbs.smock.springws.common;
 
+import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+
 import java.net.URI;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-
-import static net.javacrumbs.smock.common.XmlUtil.*;
 
 import net.javacrumbs.smock.common.XmlUtil;
 
