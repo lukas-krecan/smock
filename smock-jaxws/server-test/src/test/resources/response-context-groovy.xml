@@ -1,0 +1,3 @@
+ <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	  <result>${(plusRequest.a.text() as int) + (plusRequest.b.text() as int)}</result>
+ </plusResponse>
