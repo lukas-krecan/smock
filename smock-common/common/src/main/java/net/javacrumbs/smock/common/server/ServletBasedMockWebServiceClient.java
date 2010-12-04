@@ -18,7 +18,10 @@ package net.javacrumbs.smock.common.server;
 
 import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
+import static org.springframework.ws.test.support.AssertionErrors.fail;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServlet;
@@ -30,9 +33,12 @@ import org.springframework.mock.web.MockServletConfig;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.context.DefaultMessageContext;
+import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.ResponseActions;
+import org.springframework.ws.test.server.ResponseMatcher;
 import org.springframework.ws.test.support.MockStrategiesHelper;
 
 
@@ -60,15 +66,16 @@ public class ServletBasedMockWebServiceClient {
 	
 	public ResponseActions sendRequestTo(String path, RequestCreator requestCreator) {
 		try {
-			WebServiceMessage message = requestCreator.createRequest(messageFactory);
-			MockHttpServletRequest   request = createRequest(path, message);
+			WebServiceMessage requestMessage = requestCreator.createRequest(messageFactory);
+			MockHttpServletRequest   request = createRequest(path, requestMessage);
 			MockHttpServletResponse response = new MockHttpServletResponse();
 			servlet.service(request, response);
-			
+			MessageContext messageContext = new DefaultMessageContext(requestMessage, messageFactory);
+			messageContext.setResponse(messageFactory.createWebServiceMessage(new ByteArrayInputStream(response.getContentAsByteArray())));
+			return new MockWebServiceClientResponseActions(messageContext);
 		} catch (Exception e) {
 			throw new IllegalStateException("Error when sending request",e);
 		}
-		return null;
 	}
 
 	protected MockHttpServletRequest createRequest(String path, WebServiceMessage message) {
@@ -88,4 +95,33 @@ public class ServletBasedMockWebServiceClient {
 			return super.getPathInfo();
 		}
 	}
+	
+	// ResponseActions
+
+    private static class MockWebServiceClientResponseActions implements ResponseActions {
+
+        private final MessageContext messageContext;
+
+        private MockWebServiceClientResponseActions(MessageContext messageContext) {
+            Assert.notNull(messageContext, "'messageContext' must not be null");
+            this.messageContext = messageContext;
+        }
+
+        public ResponseActions andExpect(ResponseMatcher responseMatcher) {
+            WebServiceMessage request = messageContext.getRequest();
+            WebServiceMessage response = messageContext.getResponse();
+            if (response == null) {
+                fail("No response received");
+                return null;
+            }
+            try {
+                responseMatcher.match(request, response);
+                return this;
+            }
+            catch (IOException ex) {
+                fail(ex.getMessage());
+                return null;
+            }
+        }
+    }
 }

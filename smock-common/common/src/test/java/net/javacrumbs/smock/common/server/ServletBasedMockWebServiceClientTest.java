@@ -31,7 +31,7 @@ public class ServletBasedMockWebServiceClientTest {
 	{
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("cxf-servlet.xml");
 		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient("org.apache.cxf.transport.servlet.CXFServlet", context);
-		client.sendRequestTo("/TestWebService", withMessage("request.xml"));
+		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
 		
 		assertNotNull(TestWebService.getValue());
 	}
