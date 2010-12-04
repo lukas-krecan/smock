@@ -27,6 +27,8 @@ import java.util.WeakHashMap;
 
 import javax.servlet.http.HttpServlet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -54,6 +56,8 @@ public class ServletBasedMockWebServiceClient {
 	private static final WeakHashMap<ApplicationContext, HttpServlet> servletCache = new WeakHashMap<ApplicationContext, HttpServlet>(); 
 	
 	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");  
+	
+	private static final Log LOG = LogFactory.getLog(ServletBasedMockWebServiceClient.class);
 	
 	public ServletBasedMockWebServiceClient(String servletClassName, ApplicationContext applicationContext) {
 		Assert.notNull(applicationContext, "ApplicationContext has to be set");
@@ -90,6 +94,10 @@ public class ServletBasedMockWebServiceClient {
 			MockHttpServletResponse response = new MockHttpServletResponse();
 			servlet.service(request, response);
 			MessageContext messageContext = new DefaultMessageContext(requestMessage, messageFactory);
+			if (LOG.isDebugEnabled())
+			{
+				LOG.debug("Received response:"+response.getContentAsString());
+			}
 			messageContext.setResponse(messageFactory.createWebServiceMessage(new ByteArrayInputStream(response.getContentAsByteArray())));
 			return new MockWebServiceClientResponseActions(messageContext);
 		} catch (Exception e) {
