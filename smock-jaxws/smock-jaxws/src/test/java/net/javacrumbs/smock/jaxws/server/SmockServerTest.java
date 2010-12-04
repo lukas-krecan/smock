@@ -38,7 +38,7 @@ public class SmockServerTest {
 	{
 		MockWebServiceClient client = createClient("net.javacrumbs.smock.jaxws.server.test");
 		assertNotNull(client);
-		client.sendRequest(withMessage("request.xml"));
+		client.sendRequest("TestWebServiceService", withMessage("request.xml"));
 		assertNotNull(TestWebService.getValue());
 	}
 }

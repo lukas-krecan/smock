@@ -16,11 +16,16 @@
 
 package net.javacrumbs.smock.jaxws.server;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.jws.WebService;
+import javax.xml.namespace.QName;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
+import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceProvider;
 
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
@@ -33,8 +38,7 @@ import org.springframework.ws.test.server.ResponseActions;
 
 
 public class MockWebServiceClient {
-	private Map<String, Endpoint> endpointMap = new HashMap<String, Endpoint>();
-	
+
 	public MockWebServiceClient(String... webServicePackageNames) {
 		scanForWebServices(webServicePackageNames);
 	}
@@ -55,11 +59,14 @@ public class MockWebServiceClient {
 	}
 	
 	protected  String generateServiceName(Endpoint endpoint, String serviceName) {
-		return StringUtils.hasText(serviceName)?serviceName:endpoint.getImplementor().getClass().getSimpleName()+"Service";
+		return "local://"+(StringUtils.hasText(serviceName)?serviceName:endpoint.getImplementor().getClass().getSimpleName()+"Service");
 	}
 
-	public ResponseActions sendRequest(RequestCreator requestCreator) {
-		// TODO Auto-generated method stub
+	public ResponseActions sendRequest(String serviceName, RequestCreator requestCreator) {
+		Service service = Service.create(new QName(serviceName));
+		Dispatch<Source> disp = service.createDispatch(new QName("testMethod"), Source.class, Service.Mode.PAYLOAD);
+		Source request = new StreamSource("<hello/>");
+		Source response = disp.invoke(request);
 		return null;
 	}
 	
@@ -67,17 +74,12 @@ public class MockWebServiceClient {
 	{
 		@Override
 		protected void publishEndpoint(Endpoint endpoint, WebService annotation) {
-			endpointMap.put(generateServiceName(endpoint,annotation.serviceName()), endpoint);
-			
+			endpoint.publish(generateServiceName(endpoint,annotation.serviceName()));
 		}
 
 		@Override
 		protected void publishEndpoint(Endpoint endpoint, WebServiceProvider annotation) {
-			endpointMap.put(generateServiceName(endpoint, annotation.serviceName()), endpoint);
+			endpoint.publish(generateServiceName(endpoint,annotation.serviceName()));
 		}
-	}
-
-	Map<String, Endpoint> getEndpointMap() {
-		return endpointMap;
 	}
 }

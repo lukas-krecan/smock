@@ -1,0 +1,19 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<xsl:param name="a" />
+	<xsl:param name="b" />
+	<xsl:template match="/">
+		<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+			<soapenv:Header />
+			<soapenv:Body>
+				<plusRequest xmlns="http://javacrumbs.net/calc">
+					<a>
+						<xsl:value-of select="$a" />
+					</a>
+					<b>
+						<xsl:value-of select="$b" />
+					</b>
+				</plusRequest>
+			</soapenv:Body>
+		</soapenv:Envelope>
+	</xsl:template>
+</xsl:stylesheet>
