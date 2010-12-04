@@ -1,13 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
         <xsl:param name="result"/>
         <xsl:template match="/">
-			<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-				<soapenv:Header />
-				<soapenv:Body>
-                      <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-						  <result><xsl:value-of select="$result"/></result>
-					  </plusResponse>
-	           	</soapenv:Body>
-			</soapenv:Envelope>
+              <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				  <result><xsl:value-of select="$result"/></result>
+			  </plusResponse>
 		</xsl:template>
 </xsl:stylesheet>
