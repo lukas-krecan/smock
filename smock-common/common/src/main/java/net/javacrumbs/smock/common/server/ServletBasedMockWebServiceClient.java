@@ -32,6 +32,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
 import org.springframework.util.Assert;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.context.DefaultMessageContext;
@@ -67,7 +69,11 @@ public class ServletBasedMockWebServiceClient {
 			return;
 		}
 		MockServletConfig config = new MockServletConfig();
-        config.getServletContext().setAttribute("org.springframework.web.context.WebApplicationContext.ROOT", applicationContext);
+        GenericWebApplicationContext webApplicationContext = new GenericWebApplicationContext();
+        webApplicationContext.setParent(applicationContext);
+        webApplicationContext.setServletContext(config.getServletContext());
+        webApplicationContext.refresh();
+		config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webApplicationContext );
 		try {
 			servlet = (HttpServlet) Class.forName(servletClassName).newInstance();
 			servlet.init(config);
