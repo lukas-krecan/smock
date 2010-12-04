@@ -5,7 +5,7 @@ import javax.jws.WebService;
 import net.javacrumbs.calc.model.PlusRequest;
 import net.javacrumbs.calc.model.PlusResponse;
 
-@WebService(serviceName="CalculatorService")
+@WebService(serviceName="CalculatorService", targetNamespace="http://javacrumbs.net/calc")
 public class CalcEndpoint {
 
 	
