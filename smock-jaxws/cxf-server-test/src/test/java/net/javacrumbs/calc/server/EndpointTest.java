@@ -2,22 +2,25 @@ package net.javacrumbs.calc.server;
 
 import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static net.javacrumbs.smock.jaxws.server.SmockServer.createClient;
 import static org.springframework.ws.test.server.ResponseMatchers.noFault;
 
 import java.util.Collections;
 import java.util.Map;
 
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.jaxws.server.MockWebServiceClient;
+import net.javacrumbs.smock.common.server.ServletBasedMockWebServiceClient;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/cxf-servlet.xml"})
 public class EndpointTest {
-	private MockWebServiceClient client;
+	private ServletBasedMockWebServiceClient client;
 	
 	static
 	{
@@ -27,7 +30,7 @@ public class EndpointTest {
 	@Autowired
 	public void setApplicationContex(ApplicationContext applicationContext)
 	{
-		client = createClient("net.javacrumbs.calc.server");
+		client = new ServletBasedMockWebServiceClient("org.apache.cxf.transport.servlet.CXFServlet", applicationContext);
 	}
 	
 	
@@ -36,7 +39,7 @@ public class EndpointTest {
 	@Test
 	public void testSimple() throws Exception {
 		// simulates request coming to MessageDispatcherServlet
-		client.sendRequest("", withMessage("request1.xml")).andExpect(noFault());
+		client.sendRequestTo("", withMessage("request1.xml")).andExpect(noFault());
 	}
 	
 //	@Test

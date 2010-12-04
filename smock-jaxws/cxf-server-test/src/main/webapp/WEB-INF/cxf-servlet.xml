@@ -8,5 +8,4 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<jaxws:endpoint id="calculatorService"	implementor="net.javacrumbs.calc.server.CalcEndpoint" address="/CalculatorService" />
-
 </beans>
