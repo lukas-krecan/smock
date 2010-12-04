@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.jaxws.server.MockWebServiceClient;
+import net.javacrumbs.smock.common.server.ServletBasedMockWebServiceClient;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContext;
 
 
 public class EndpointTest {
-	private MockWebServiceClient client;
+	private ServletBasedMockWebServiceClient client;
 	
 	static
 	{
@@ -36,7 +36,7 @@ public class EndpointTest {
 	@Test
 	public void testSimple() throws Exception {
 		// simulates request coming to MessageDispatcherServlet
-		client.sendRequest("", withMessage("request1.xml")).andExpect(noFault());
+		client.sendRequestTo("", withMessage("request1.xml")).andExpect(noFault());
 	}
 	
 //	@Test
