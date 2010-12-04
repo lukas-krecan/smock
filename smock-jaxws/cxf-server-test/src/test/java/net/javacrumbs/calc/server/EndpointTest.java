@@ -43,7 +43,6 @@ public class EndpointTest {
 	
 	@Test
 	public void testSimple() throws Exception {
-		// simulates request coming to MessageDispatcherServlet
 		client.sendRequestTo("/CalculatorService", withMessage("request1.xml")).andExpect(noFault());
 	}
 	
@@ -66,7 +65,7 @@ public class EndpointTest {
 	}
 	@Test
 	public void testErrorMessage() throws Exception {
-		client.sendRequestTo("/CalculatorService",withMessage("request-error.xml")).andExpect(clientOrSenderFault("Validation error"));
+		client.sendRequestTo("/CalculatorService",withMessage("request-error.xml")).andExpect(clientOrSenderFault("Unmarshalling Error: For input string: \"aaa\" "));
 	}
 
 	@Test
