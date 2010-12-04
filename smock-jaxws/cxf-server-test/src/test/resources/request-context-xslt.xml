@@ -5,14 +5,14 @@
 		<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
 			<soapenv:Header />
 			<soapenv:Body>
-				<plusRequest xmlns="http://javacrumbs.net/calc">
+				<plus xmlns="http://javacrumbs.net/calc">
 					<a>
 						<xsl:value-of select="$a" />
 					</a>
 					<b>
 						<xsl:value-of select="$b" />
 					</b>
-				</plusRequest>
+				</plus>
 			</soapenv:Body>
 		</soapenv:Envelope>
 	</xsl:template>

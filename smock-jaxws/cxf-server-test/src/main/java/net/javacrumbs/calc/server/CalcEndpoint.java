@@ -1,22 +1,23 @@
 package net.javacrumbs.calc.server;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
-
-import net.javacrumbs.calc.model.PlusRequest;
-import net.javacrumbs.calc.model.PlusResponse;
 
 @WebService(serviceName="CalculatorService", targetNamespace="http://javacrumbs.net/calc")
 public class CalcEndpoint {
 
-	
-	public PlusResponse plus(PlusRequest plus)
+	private static final String NS = "http://javacrumbs.net/calc";
+
+	@WebMethod
+	@WebResult(name="result",targetNamespace=NS)
+	public long plus(@WebParam(name="a",targetNamespace=NS) long a, @WebParam(name="b",targetNamespace=NS) long b)
 	{
-		if ((long)plus.getA()+(long)plus.getB()>Integer.MAX_VALUE)
+		if (a+b>Integer.MAX_VALUE)
 		{
 			throw new IllegalArgumentException("Values are too big.");
 		}
-		PlusResponse result = new PlusResponse();
-		result.setResult(plus.getA() + plus.getB());
-		return result;
+		return a+b;
 	}
 }
