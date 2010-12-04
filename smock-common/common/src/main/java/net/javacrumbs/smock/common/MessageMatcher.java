@@ -17,7 +17,7 @@
 package net.javacrumbs.smock.common;
 
 
-import static net.javacrumbs.smock.common.XmlUtil.isSoap;
+import static net.javacrumbs.smock.common.XmlUtil.*;
 import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
 
@@ -59,7 +59,7 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 		Document controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))
 		{
-			Document messageDocument = loadDocument(((SoapMessage)message).getEnvelope().getSource());
+			Document messageDocument = loadDocument(getEnvelopeSource(message));
 			compare(controlMessage, messageDocument);
 		}
 		else //payload only

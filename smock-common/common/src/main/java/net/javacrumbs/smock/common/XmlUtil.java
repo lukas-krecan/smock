@@ -28,6 +28,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.SoapVersion;
 import org.springframework.xml.transform.StringResult;
 import org.springframework.xml.transform.TransformerHelper;
@@ -92,6 +94,15 @@ public class XmlUtil {
 	public static String serialize(Document document)
 	{
 		return serialize(new DOMSource(document));
+	}
+	
+	/**
+	 * Returns source of message envelope 
+	 * @param message
+	 * @return
+	 */
+	public static Source getEnvelopeSource(WebServiceMessage message) {
+		return ((SoapMessage)message).getEnvelope().getSource();
 	}
 	
 	/**
