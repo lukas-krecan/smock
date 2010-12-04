@@ -23,6 +23,7 @@ import static org.springframework.ws.test.support.AssertionErrors.fail;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.WeakHashMap;
 
 import javax.servlet.http.HttpServlet;
 
@@ -44,9 +45,11 @@ import org.springframework.ws.test.support.MockStrategiesHelper;
 
 public class ServletBasedMockWebServiceClient {
 
-	private final HttpServlet servlet;
+	private HttpServlet servlet;
 	
 	private final WebServiceMessageFactory messageFactory;
+	
+	private static final WeakHashMap<ApplicationContext, HttpServlet> servletCache = new WeakHashMap<ApplicationContext, HttpServlet>(); 
 	
 	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");  
 	
@@ -54,11 +57,21 @@ public class ServletBasedMockWebServiceClient {
 		Assert.notNull(applicationContext, "ApplicationContext has to be set");
         messageFactory =   new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
 		
-        MockServletConfig config = new MockServletConfig();
+        createServlet(servletClassName, applicationContext);
+	}
+
+	private void createServlet(String servletClassName, ApplicationContext applicationContext) {
+		if (servletCache.containsKey(applicationContext))
+		{
+			servlet = servletCache.get(applicationContext);
+			return;
+		}
+		MockServletConfig config = new MockServletConfig();
         config.getServletContext().setAttribute("org.springframework.web.context.WebApplicationContext.ROOT", applicationContext);
 		try {
 			servlet = (HttpServlet) Class.forName(servletClassName).newInstance();
 			servlet.init(config);
+			servletCache.put(applicationContext, servlet);
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Error when creating servlet "+servletClassName,e);
 		}
