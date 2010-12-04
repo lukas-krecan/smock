@@ -1,17 +1,23 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>JAX WS test sample app</display-name>
 
-<web-app>
-  <display-name>Spring WS test sample app</display-name>
-  <servlet>
-		<servlet-name>spring-ws</servlet-name>
-		<servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/jaxws-servlet.xml</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>jaxws-servlet</servlet-name>
+		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
 	</servlet>
-
 	<servlet-mapping>
-		<servlet-name>spring-ws</servlet-name>
-		<url-pattern>/soap/*</url-pattern>
+		<servlet-name>jaxws-servlet</servlet-name>
+		<url-pattern>/CalculatorService</url-pattern>
 	</servlet-mapping>
-  
 </web-app>

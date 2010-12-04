@@ -1,15 +1,14 @@
 package net.javacrumbs.calc.server;
 
+import javax.jws.WebService;
+
 import net.javacrumbs.calc.model.PlusRequest;
 import net.javacrumbs.calc.model.PlusResponse;
 
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-
-@Endpoint
+@WebService(serviceName="CalculatorService")
 public class CalcEndpoint {
 
-	@PayloadRoot(localPart = "plusRequest",  namespace = "http://javacrumbs.net/calc")
+	
 	public PlusResponse plus(PlusRequest plus)
 	{
 		if ((long)plus.getA()+(long)plus.getB()>Integer.MAX_VALUE)

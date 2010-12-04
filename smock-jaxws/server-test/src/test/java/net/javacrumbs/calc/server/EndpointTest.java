@@ -36,7 +36,7 @@ public class EndpointTest {
 	@Test
 	public void testSimple() throws Exception {
 		// simulates request coming to MessageDispatcherServlet
-		client.sendRequest(withMessage("request1.xml")).andExpect(noFault());
+		client.sendRequest("", withMessage("request1.xml")).andExpect(noFault());
 	}
 	
 //	@Test
