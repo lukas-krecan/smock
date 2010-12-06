@@ -22,6 +22,7 @@ import static org.springframework.ws.test.support.AssertionErrors.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.WeakHashMap;
 
@@ -35,7 +36,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.context.DefaultMessageContext;
@@ -48,6 +48,8 @@ import org.springframework.ws.test.support.MockStrategiesHelper;
 
 
 public class ServletBasedMockWebServiceClient {
+
+	private static final String CONTENT_TYPE = "text/xml;charset=UTF-8";
 
 	private HttpServlet servlet;
 	
@@ -73,11 +75,7 @@ public class ServletBasedMockWebServiceClient {
 			return;
 		}
 		MockServletConfig config = new MockServletConfig();
-        GenericWebApplicationContext webApplicationContext = new GenericWebApplicationContext();
-        webApplicationContext.setParent(applicationContext);
-        webApplicationContext.setServletContext(config.getServletContext());
-        webApplicationContext.refresh();
-		config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webApplicationContext );
+        config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, new ApplicationContextWrapper(applicationContext, config.getServletContext()));
 		try {
 			servlet = (HttpServlet) Class.forName(servletClassName).newInstance();
 			servlet.init(config);
@@ -91,7 +89,7 @@ public class ServletBasedMockWebServiceClient {
 		try {
 			WebServiceMessage requestMessage = requestCreator.createRequest(messageFactory);
 			MockHttpServletRequest   request = createRequest(path, requestMessage);
-			MockHttpServletResponse response = new MockHttpServletResponse();
+			MockHttpServletResponse response = new ExtendedMockHttpServletResponse();
 			servlet.service(request, response);
 			MessageContext messageContext = new DefaultMessageContext(requestMessage, messageFactory);
 			if (LOG.isDebugEnabled())
@@ -110,8 +108,10 @@ public class ServletBasedMockWebServiceClient {
 		MockHttpServletRequest request = new ExtendedMockHttpServletRequest();
 		request.setMethod("POST");
 		request.setPathInfo(path);
+		request.setRequestURI(path);
 		request.setContent(requestXml.getBytes(UTF8));
-		request.setContentType("text/xml;charset=UTF-8");
+		request.setContentType(CONTENT_TYPE);
+		request.addHeader("Content-Type", CONTENT_TYPE);
 		return request;
 	}
 	
@@ -122,6 +122,20 @@ public class ServletBasedMockWebServiceClient {
 			return super.getPathInfo();
 		}
 	}
+	private static class ExtendedMockHttpServletResponse extends MockHttpServletResponse
+	{
+		public String getContentAsString() throws UnsupportedEncodingException {
+			if (getCharacterEncoding()!=null)
+			{
+				return new String(getContentAsByteArray(), getCharacterEncoding().toUpperCase().replaceAll("\"", ""));
+			}
+			else
+			{
+				return new String(getContentAsByteArray());
+			}
+		}
+	}
+	
 	
 	// ResponseActions
 

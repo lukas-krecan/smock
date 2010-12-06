@@ -21,6 +21,8 @@ import java.net.URI;
 
 import javax.xml.transform.dom.DOMSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.test.client.ResponseCreator;
@@ -36,6 +38,8 @@ import static net.javacrumbs.smock.common.XmlUtil.*;
 public class MessageCreator implements ResponseCreator, RequestCreator{
 
 	private final Document sourceDocument;
+	
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	public MessageCreator(Document sourceDocument) {
 		this.sourceDocument = sourceDocument;
@@ -52,16 +56,22 @@ public class MessageCreator implements ResponseCreator, RequestCreator{
 	 */
 	protected final WebServiceMessage createMessage(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) throws IOException {
 		Document source = preprocessSource(uri, input, messageFactory);
+		WebServiceMessage result;
 		if (isSoap(source))
 		{
-			return messageFactory.createWebServiceMessage(getDocumentAsStream(source));
+			result = messageFactory.createWebServiceMessage(getDocumentAsStream(source));
 		}
 		else
 		{
 			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
 			doTransform(new DOMSource(source), webServiceMessage.getPayloadResult());
-			return webServiceMessage;
+			result = webServiceMessage;
 		}
+		if (logger.isDebugEnabled())
+		{
+			logger.debug("Generated message: "+serialize(getEnvelopeSource(result)));
+		}
+		return result;
 	}
 	
 	public WebServiceMessage createResponse(URI uri, WebServiceMessage request, WebServiceMessageFactory messageFactory) throws IOException {

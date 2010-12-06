@@ -15,6 +15,7 @@
 	  <module>smock-jaxws</module>
 		<module>client-test</module>
 		<module>server-test</module>
+	  <module>cxf-server-test</module>
 	</modules>
 
 
