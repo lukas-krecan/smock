@@ -10,6 +10,8 @@ import java.io.IOException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 
+import net.javacrumbs.smock.common.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
+
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -18,14 +20,16 @@ import org.springframework.ws.client.core.WebServiceMessageExtractor;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 
-public class ThreadLocalMockWebServiceServerTest {
+public abstract class AbstractMockWebServiceServerTest {
 
 	private static final String ADDRESS = "http://localhost:8080";
 
+	protected abstract MockWebServiceServer createServer();
+	
 	@Test
 	public void testOk() throws IOException
 	{
-		ThreadLocalMockWebServiceServer server = new ThreadLocalMockWebServiceServer(getMessageFactory());
+		MockWebServiceServer server = createServer();
 		server.expect(connectionTo(ADDRESS)).andRespond(withMessage("response.xml"));
 
 		WebServiceMessage response = sendMessage(ADDRESS, "request.xml");
@@ -33,24 +37,26 @@ public class ThreadLocalMockWebServiceServerTest {
 		message("response.xml").match(null, response);
 		
 	}
+	
+	
+
+
 	@Test(expected=AssertionError.class)
 	public void testDifferentUri() throws IOException
 	{
-		System.setProperty("java.protocol.handler.pkgs", "net.javacrumbs.smock.common.client.connection.http.protocol");
-		ThreadLocalMockWebServiceServer server = new ThreadLocalMockWebServiceServer(getMessageFactory());
+		MockWebServiceServer server = createServer();
 		server.expect(connectionTo("http://different")).andRespond(withMessage("response.xml"));
 		sendMessage(ADDRESS, "request.xml");
 	}
 	@Test(expected=AssertionError.class)
 	public void testMoreMatchers() throws IOException
 	{
-		System.setProperty("java.protocol.handler.pkgs", "net.javacrumbs.smock.common.client.connection.http.protocol");
-		ThreadLocalMockWebServiceServer server = new ThreadLocalMockWebServiceServer(getMessageFactory());
+		MockWebServiceServer server = createServer();
 		server.expect(message("request.xml")).andExpect(connectionTo("http://different")).andRespond(withMessage("response.xml"));
 		sendMessage(ADDRESS, "request.xml");
 	}
 
-	private WebServiceMessage sendMessage(String uri, final String request) {
+	protected WebServiceMessage sendMessage(String uri, final String request) {
 		WebServiceTemplate template = new WebServiceTemplate();
 		template.afterPropertiesSet();
 				
@@ -66,13 +72,13 @@ public class ThreadLocalMockWebServiceServerTest {
 		return response;
 	}
 
-	private WebServiceMessageFactory getMessageFactory() {
+	protected WebServiceMessageFactory getMessageFactory() {
 		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
 		messageFactory.afterPropertiesSet();
 		return messageFactory;
 	}
 
-	private StreamSource loadMessage(String request) {
+	protected StreamSource loadMessage(String request) {
 		return new StreamSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(request));
 	}
 }

@@ -1,4 +1,4 @@
-package net.javacrumbs.smock.common.client.connection;
+package net.javacrumbs.smock.common.client.connection.staticlink.http;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,10 +7,13 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
-public class MockHttpUrlConnection extends HttpURLConnection {
+import net.javacrumbs.smock.common.client.connection.MockConnection;
+import net.javacrumbs.smock.common.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
+
+public class StaticMockHttpUrlConnection extends HttpURLConnection {
 	private final MockConnection activeConnection; 
 	
-	public MockHttpUrlConnection(URL url) {
+	public StaticMockHttpUrlConnection(URL url) {
 		super(url);
 		activeConnection = ThreadLocalMockWebServiceServer.getActiveConnection();
 		activeConnection.setUri(URI.create(url.toString()));
