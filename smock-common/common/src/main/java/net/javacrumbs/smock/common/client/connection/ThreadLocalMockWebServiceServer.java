@@ -15,6 +15,7 @@ public class ThreadLocalMockWebServiceServer {
 	}
 	
 	public ThreadLocalMockWebServiceServer(WebServiceMessageFactory messageFactory) {
+		System.setProperty("java.protocol.handler.pkgs", "net.javacrumbs.smock.common.client.connection.http.threadlocal");
 		mockConversation.set(new MockConversation(messageFactory));
 	}
 

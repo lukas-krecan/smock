@@ -1,4 +1,4 @@
-package net.javacrumbs.smock.common.client.connection.http.protocol.http;
+package net.javacrumbs.smock.common.client.connection.http.threadlocal.http;
 
 import net.javacrumbs.smock.common.client.connection.CommonHandler;
 

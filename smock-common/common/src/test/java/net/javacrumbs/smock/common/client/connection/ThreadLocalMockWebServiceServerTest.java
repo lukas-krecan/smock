@@ -3,7 +3,6 @@ package net.javacrumbs.smock.common.client.connection;
 import static net.javacrumbs.smock.common.XmlUtil.doTransform;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
-import static org.junit.Assert.*;
 import static org.springframework.ws.test.client.RequestMatchers.connectionTo;
 
 import java.io.IOException;
@@ -26,7 +25,6 @@ public class ThreadLocalMockWebServiceServerTest {
 	@Test
 	public void testOk() throws IOException
 	{
-		System.setProperty("java.protocol.handler.pkgs", "net.javacrumbs.smock.common.client.connection.http.protocol");
 		ThreadLocalMockWebServiceServer server = new ThreadLocalMockWebServiceServer(getMessageFactory());
 		server.expect(connectionTo(ADDRESS)).andRespond(withMessage("response.xml"));
 
