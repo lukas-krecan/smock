@@ -3,6 +3,8 @@ package net.javacrumbs.smock.common.client.connection;
 import static net.javacrumbs.smock.common.XmlUtil.doTransform;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.springframework.ws.test.client.RequestMatchers.connectionTo;
 
 import java.io.IOException;
@@ -49,6 +51,38 @@ public abstract class AbstractMockWebServiceServerTest {
 		WebServiceMessage response2 = sendMessage(ADDRESS, "request2.xml");
 		message("response2.xml").match(null, response2);
 		
+	}
+	@Test
+	public void testUnexpected() throws IOException
+	{
+		MockWebServiceServer server = createServer();
+		server.expect(connectionTo(ADDRESS)).andExpect(message("request.xml")).andRespond(withMessage("response.xml"));
+		
+		WebServiceMessage response1 = sendMessage(ADDRESS, "request.xml");
+		message("response.xml").match(null, response1);
+		
+		try
+		{
+			sendMessage(ADDRESS, "request2.xml");
+			fail("Unexpected exeption");
+		}
+		catch(AssertionError e)
+		{
+			assertEquals("No further connections expected",e.getMessage());
+		}
+	}
+	@Test
+	public void testUnexpectedFirst() throws IOException
+	{
+		try
+		{
+			sendMessage(ADDRESS, "request1.xml");
+			fail("Unexpected exeption");
+		}
+		catch(AssertionError e)
+		{
+			assertEquals("No further connections expected",e.getMessage());
+		}
 	}
 	
 	

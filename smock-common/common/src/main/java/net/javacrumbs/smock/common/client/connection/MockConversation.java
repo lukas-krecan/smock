@@ -1,6 +1,7 @@
 package net.javacrumbs.smock.common.client.connection;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.ws.WebServiceMessageFactory;
@@ -9,7 +10,7 @@ import org.springframework.ws.test.client.ResponseActions;
 import org.springframework.ws.test.client.ResponseCreator;
 
 public class MockConversation {
-	private final List<MockConnection> mockConnections = new ArrayList<MockConnection>();
+	private final List<MockConnection> expectedConnections = new LinkedList<MockConnection>();
 	
 	private int activeConnection = 0;
 
@@ -21,14 +22,18 @@ public class MockConversation {
 
 	public ResponseActions expect(RequestMatcher requestMatcher) {
 		MockConnection mockConnection = new MockConnection(requestMatcher, messageFactory);
-		mockConnections.add(mockConnection);
+		expectedConnections.add(mockConnection);
 		return mockConnection;
 	}
 
 
 	public MockConnection getActiveConnection()
 	{
-		MockConnection connection = mockConnections.get(activeConnection);
+		if (activeConnection>=expectedConnections.size())
+		{
+			throw new AssertionError("No further connections expected");
+		}
+		MockConnection connection = expectedConnections.get(activeConnection);
 		activeConnection++;
 		return connection;
 	}
