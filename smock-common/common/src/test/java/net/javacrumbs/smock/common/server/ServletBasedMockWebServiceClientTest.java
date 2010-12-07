@@ -16,13 +16,13 @@
 
 package net.javacrumbs.smock.common.server;
 
+import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
+import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
+import static org.junit.Assert.assertNotNull;
 import net.javacrumbs.smock.common.server.test.TestWebService;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import static net.javacrumbs.smock.common.server.CommonSmockServer.*;
-import static org.junit.Assert.assertNotNull;
 
 public class ServletBasedMockWebServiceClientTest {
 	

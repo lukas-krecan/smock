@@ -17,7 +17,8 @@
 package net.javacrumbs.smock.common;
 
 
-import static net.javacrumbs.smock.common.XmlUtil.*;
+import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
+import static net.javacrumbs.smock.common.XmlUtil.isSoap;
 import static net.javacrumbs.smock.common.XmlUtil.loadDocument;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
 
@@ -29,7 +30,6 @@ import org.apache.commons.logging.LogFactory;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.server.ResponseMatcher;
 import org.w3c.dom.Document;

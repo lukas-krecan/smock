@@ -16,6 +16,12 @@
 
 package net.javacrumbs.smock.common;
 
+import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+import static net.javacrumbs.smock.common.XmlUtil.getDocumentAsStream;
+import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
+import static net.javacrumbs.smock.common.XmlUtil.isSoap;
+import static net.javacrumbs.smock.common.XmlUtil.serialize;
+
 import java.io.IOException;
 import java.net.URI;
 
@@ -28,7 +34,6 @@ import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.test.client.ResponseCreator;
 import org.springframework.ws.test.server.RequestCreator;
 import org.w3c.dom.Document;
-import static net.javacrumbs.smock.common.XmlUtil.*;
 
 /**
  * Common class that is able to create a message for both client and server.

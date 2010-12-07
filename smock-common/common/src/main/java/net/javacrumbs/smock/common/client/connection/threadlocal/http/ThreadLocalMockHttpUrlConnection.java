@@ -8,7 +8,6 @@ import java.net.URI;
 import java.net.URL;
 
 import net.javacrumbs.smock.common.client.connection.MockConnection;
-import net.javacrumbs.smock.common.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
 
 public class ThreadLocalMockHttpUrlConnection extends HttpURLConnection {
 	private final MockConnection activeConnection; 

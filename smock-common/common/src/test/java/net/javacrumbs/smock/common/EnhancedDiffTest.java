@@ -20,8 +20,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import net.javacrumbs.smock.common.EnhancedDiff;
-
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
