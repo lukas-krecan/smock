@@ -21,6 +21,7 @@ public class ThreadLocalMockHttpUrlConnection extends HttpURLConnection {
 
 	@Override
 	public void connect() throws IOException {
+
 	}
 	
 	@Override

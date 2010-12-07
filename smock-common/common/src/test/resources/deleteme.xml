@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://javacrumbs.net/test">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <test:testMethod>
+         <text>Lukas</text>
+      </test:testMethod>
+   </soapenv:Body>
+</soapenv:Envelope></SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+ <?xml version="1.0" encoding="UTF-8" standalone="no"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://javacrumbs.net/test">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <test:testMethod>
+         <text>Lukas</text>
+      </test:testMethod>
+   </soapenv:Body>
+</soapenv:Envelope>

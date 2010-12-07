@@ -28,7 +28,9 @@ public class MockConversation {
 
 	public MockConnection getActiveConnection()
 	{
-		return mockConnections.get(activeConnection);
+		MockConnection connection = mockConnections.get(activeConnection);
+		activeConnection++;
+		return connection;
 	}
 	
 

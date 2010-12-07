@@ -10,8 +10,6 @@ import java.io.IOException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 
-import net.javacrumbs.smock.common.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
-
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -38,6 +36,21 @@ public abstract class AbstractMockWebServiceServerTest {
 		
 	}
 	
+	@Test
+	public void testTwo() throws IOException
+	{
+		MockWebServiceServer server = createServer();
+		server.expect(connectionTo(ADDRESS)).andExpect(message("request.xml")).andRespond(withMessage("response.xml"));
+		server.expect(connectionTo(ADDRESS)).andExpect(message("request2.xml")).andRespond(withMessage("response2.xml"));
+		
+		WebServiceMessage response1 = sendMessage(ADDRESS, "request.xml");
+		message("response.xml").match(null, response1);
+		
+		WebServiceMessage response2 = sendMessage(ADDRESS, "request2.xml");
+		message("response2.xml").match(null, response2);
+		
+	}
+	
 	
 
 
@@ -49,7 +62,7 @@ public abstract class AbstractMockWebServiceServerTest {
 		sendMessage(ADDRESS, "request.xml");
 	}
 	@Test(expected=AssertionError.class)
-	public void testMoreMatchers() throws IOException
+	public void testMoreMatchersError() throws IOException
 	{
 		MockWebServiceServer server = createServer();
 		server.expect(message("request.xml")).andExpect(connectionTo("http://different")).andRespond(withMessage("response.xml"));
