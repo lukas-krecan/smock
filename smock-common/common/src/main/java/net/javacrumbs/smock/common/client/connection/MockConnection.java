@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,10 @@ public class MockConnection implements ResponseActions{
 	
 	private final WebServiceMessageFactory messageFactory;
 	
+	private final ByteArrayOutputStream requestStream = new ByteArrayOutputStream();
+	
+	private URI uri;
+	
 	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8"); 
 	
 	public MockConnection(RequestMatcher requestMatcher, WebServiceMessageFactory messageFactory)
@@ -35,8 +40,8 @@ public class MockConnection implements ResponseActions{
 	}
 	
 	public ResponseActions andExpect(RequestMatcher requestMatcher) {
-		// TODO Auto-generated method stub
-		return null;
+		requestMatchers.add(requestMatcher);
+		return this;
 	}
 
 	public void andRespond(ResponseCreator responseCreator) {
@@ -44,16 +49,37 @@ public class MockConnection implements ResponseActions{
 	}
 
 	public InputStream getInputStream() throws IOException {
+		validate(requestStream.toByteArray());
 		WebServiceMessage message = responseCreator.createResponse(null, null, messageFactory);
 		return new ByteArrayInputStream(serialize(getEnvelopeSource(message)).getBytes(UTF8));
 	}
 
 	public OutputStream getOutputStream() {
-		return new ByteArrayOutputStream();
+		return requestStream;
 	}
 
 	public int getResponseCode() {
 		return 200;
 	}
+	
+	protected void validate(byte[] requestData) throws IOException {
+		WebServiceMessage request = messageFactory.createWebServiceMessage(new ByteArrayInputStream(requestData));
+		for (RequestMatcher requestMatcher: requestMatchers)
+		{
+			requestMatcher.match(uri, request);
+		}
+		
+	}
+		
+	public URI getUri() {
+		return uri;
+	}
+
+	public void setUri(URI uri) {
+		this.uri = uri;
+	}
+
+
+	
 	
 }

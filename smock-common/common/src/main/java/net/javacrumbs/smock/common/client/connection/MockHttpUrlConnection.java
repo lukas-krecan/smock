@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 
 public class MockHttpUrlConnection extends HttpURLConnection {
@@ -12,6 +13,7 @@ public class MockHttpUrlConnection extends HttpURLConnection {
 	public MockHttpUrlConnection(URL url) {
 		super(url);
 		activeConnection = ThreadLocalMockWebServiceServer.getActiveConnection();
+		activeConnection.setUri(URI.create(url.toString()));
 	}
 
 	@Override
