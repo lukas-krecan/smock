@@ -36,4 +36,7 @@ public class ThreadLocalMockWebServiceServer implements MockWebServiceServer{
 	public static MockConversation getMockConversation() {
 		return mockConversation.get();
 	}
+	public void verify() {
+		getMockConversation().verifyConnections();
+	}
 }

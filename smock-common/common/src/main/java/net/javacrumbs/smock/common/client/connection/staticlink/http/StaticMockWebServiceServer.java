@@ -36,4 +36,8 @@ public class StaticMockWebServiceServer implements MockWebServiceServer{
 	public static MockConversation getMockConversation() {
 		return mockConversation;
 	}
+
+	public void verify() {
+		getMockConversation().verifyConnections();
+	}
 }

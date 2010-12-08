@@ -35,7 +35,21 @@ public abstract class AbstractMockWebServiceServerTest {
 		WebServiceMessage response = sendMessage(ADDRESS, "request.xml");
 		
 		message("response.xml").match(null, response);
+		server.verify();
 		
+	}
+	@Test(expected=AssertionError.class)
+	public void testVerify() throws IOException
+	{
+		MockWebServiceServer server = createServer();
+		server.expect(connectionTo(ADDRESS)).andRespond(withMessage("response.xml"));
+		server.verify();
+	}
+	@Test
+	public void testVerifyOnEmpty() throws IOException
+	{
+		MockWebServiceServer server = createServer();
+		server.verify();
 	}
 	
 	@Test
@@ -50,6 +64,8 @@ public abstract class AbstractMockWebServiceServerTest {
 		
 		WebServiceMessage response2 = sendMessage(ADDRESS, "request2.xml");
 		message("response2.xml").match(null, response2);
+		
+		server.verify();
 		
 	}
 	@Test
@@ -94,6 +110,7 @@ public abstract class AbstractMockWebServiceServerTest {
 		MockWebServiceServer server = createServer();
 		server.expect(connectionTo("http://different")).andRespond(withMessage("response.xml"));
 		sendMessage(ADDRESS, "request.xml");
+		server.verify();
 	}
 	@Test(expected=AssertionError.class)
 	public void testMoreMatchersError() throws IOException
@@ -101,6 +118,7 @@ public abstract class AbstractMockWebServiceServerTest {
 		MockWebServiceServer server = createServer();
 		server.expect(message("request.xml")).andExpect(connectionTo("http://different")).andRespond(withMessage("response.xml"));
 		sendMessage(ADDRESS, "request.xml");
+		server.verify();
 	}
 
 	protected WebServiceMessage sendMessage(String uri, final String request) {

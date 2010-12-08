@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
-import org.springframework.ws.test.client.ResponseCreator;
 
 public class MockConversation {
 	private final List<MockConnection> expectedConnections = new LinkedList<MockConnection>();
@@ -37,9 +36,10 @@ public class MockConversation {
 		return connection;
 	}
 	
-
-	public void andRespond(ResponseCreator responseCreator) {
-	
+	public void verifyConnections() {
+		 if (activeConnection<expectedConnections.size())
+		 {
+			 throw new AssertionError("Further connection(s) expected");
+		 }
 	}
-
 }

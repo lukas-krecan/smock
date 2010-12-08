@@ -6,5 +6,7 @@ import org.springframework.ws.test.client.ResponseActions;
 public interface MockWebServiceServer {
 
 	ResponseActions expect(RequestMatcher requestMatcher);
+	
+	void verify();
 
 }
