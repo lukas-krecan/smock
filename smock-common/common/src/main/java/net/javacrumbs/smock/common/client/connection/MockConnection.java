@@ -21,6 +21,8 @@ import org.springframework.ws.test.client.ResponseCreator;
 
 public class MockConnection implements ResponseActions{
 	
+	private static final String CONTENT_TYPE = "text/xml;charset=UTF-8";
+	
 	private ResponseCreator responseCreator;
 	
 	private final List<RequestMatcher> requestMatchers = new LinkedList<RequestMatcher>();
@@ -31,7 +33,9 @@ public class MockConnection implements ResponseActions{
 	
 	private URI uri;
 	
-	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8"); 
+	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");
+
+	private WebServiceMessage request; 
 	
 	public MockConnection(RequestMatcher requestMatcher, WebServiceMessageFactory messageFactory)
 	{
@@ -50,7 +54,8 @@ public class MockConnection implements ResponseActions{
 
 	public InputStream getInputStream() throws IOException {
 		validate(requestStream.toByteArray());
-		WebServiceMessage message = responseCreator.createResponse(null, null, messageFactory);
+		WebServiceMessage message = responseCreator.createResponse(uri, request, messageFactory);
+		
 		return new ByteArrayInputStream(serialize(getEnvelopeSource(message)).getBytes(UTF8));
 	}
 
@@ -62,8 +67,16 @@ public class MockConnection implements ResponseActions{
 		return 200;
 	}
 	
+	public String getHeaderField(String key) {
+		if ("content-type".equals(key))
+		{
+			return CONTENT_TYPE;
+		}
+		return null;
+	}
+	
 	protected void validate(byte[] requestData) throws IOException {
-		WebServiceMessage request = messageFactory.createWebServiceMessage(new ByteArrayInputStream(requestData));
+		request = messageFactory.createWebServiceMessage(new ByteArrayInputStream(requestData));
 		for (RequestMatcher requestMatcher: requestMatchers)
 		{
 			requestMatcher.match(uri, request);
@@ -78,6 +91,8 @@ public class MockConnection implements ResponseActions{
 	public void setUri(URI uri) {
 		this.uri = uri;
 	}
+
+
 
 
 	

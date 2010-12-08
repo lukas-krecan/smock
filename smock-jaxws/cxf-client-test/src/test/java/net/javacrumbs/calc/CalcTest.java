@@ -9,6 +9,8 @@ import static org.springframework.ws.test.client.RequestMatchers.validPayload;
 
 import java.io.IOException;
 
+import javax.xml.ws.soap.SOAPFaultException;
+
 import net.javacrumbs.smock.common.client.connection.MockWebServiceServer;
 import net.javacrumbs.smock.common.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
 
@@ -120,7 +122,7 @@ public class CalcTest {
 		assertEquals(5, result);
 	}
 	
-	@Test(expected=SoapFaultClientException.class)
+	@Test(expected=SOAPFaultException.class)
 	public void testException() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("fault.xml"));

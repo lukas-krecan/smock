@@ -2,9 +2,9 @@
         <xsl:param name="a"/>
         <xsl:param name="b"/>
         <xsl:template match="/">
-                        <plusRequest xmlns="http://javacrumbs.net/calc">
+                        <plus xmlns="http://javacrumbs.net/calc">
                           <a><xsl:value-of select="$a"/></a>
                           <b><xsl:value-of select="$b"/></b>
-                        </plusRequest>
+                        </plus>
                 </xsl:template>
 </xsl:stylesheet>

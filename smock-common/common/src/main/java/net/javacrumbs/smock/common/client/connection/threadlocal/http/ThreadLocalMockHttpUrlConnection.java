@@ -38,6 +38,11 @@ public class ThreadLocalMockHttpUrlConnection extends HttpURLConnection {
 	}
 	
 	@Override
+	public String getHeaderField(String key) {
+		return activeConnection.getHeaderField(key);
+	}
+	
+	@Override
 	public InputStream getInputStream() throws IOException {
 		return activeConnection.getInputStream();
 	}

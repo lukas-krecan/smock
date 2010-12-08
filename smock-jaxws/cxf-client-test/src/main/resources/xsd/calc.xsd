@@ -2,7 +2,7 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://javacrumbs.net/calc"
 	xmlns:tns="http://javacrumbs.net/calc" elementFormDefault="qualified">
 
-	<element name="plusRequest">
+	<element name="plus">
 		<complexType>
 			<sequence>
 				<element name="a" type="int" />
