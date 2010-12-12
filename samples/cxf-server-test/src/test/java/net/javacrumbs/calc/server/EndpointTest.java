@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.common.server.ServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.server.servlet.ServletBasedMockWebServiceClient;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.junit.Test;

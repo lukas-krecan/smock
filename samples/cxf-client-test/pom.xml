@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-common</artifactId>
+			<artifactId>smock-http</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

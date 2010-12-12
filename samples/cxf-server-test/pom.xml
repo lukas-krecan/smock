@@ -4,13 +4,13 @@
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>cxf-server-test</artifactId>
 	<packaging>war</packaging>
-	<version>2.0-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>cxf-server-test</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-jaxws</artifactId>
+			<artifactId>smock-http</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
