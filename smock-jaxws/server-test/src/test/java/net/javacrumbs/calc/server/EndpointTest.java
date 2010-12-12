@@ -23,6 +23,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.sun.xml.ws.transport.http.servlet.WSSpringServlet;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/jaxws-servlet.xml"})
 public class EndpointTest {
@@ -36,7 +38,7 @@ public class EndpointTest {
 	@Autowired
 	public void setApplicationContex(ApplicationContext applicationContext)
 	{
-		client = new ServletBasedMockWebServiceClient("com.sun.xml.ws.transport.http.servlet.WSSpringServlet", applicationContext);
+		client = new ServletBasedMockWebServiceClient(WSSpringServlet.class, applicationContext);
 	}
 	
 	

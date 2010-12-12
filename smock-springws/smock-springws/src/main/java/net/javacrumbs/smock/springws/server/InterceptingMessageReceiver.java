@@ -16,10 +16,8 @@
 
 package net.javacrumbs.smock.springws.server;
 
-import java.io.IOException;
+import net.javacrumbs.smock.common.server.InterceptingTemplate;
 
-import org.springframework.ws.FaultAwareWebServiceMessage;
-import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.MessageContext;
@@ -35,83 +33,15 @@ class InterceptingMessageReceiver implements WebServiceMessageReceiver {
 
 	private final WebServiceMessageReceiver wrappedMessageReceiver;
 	
-	private final ClientInterceptor[] interceptors;
+	private final InterceptingTemplate interceptingTemplate;
 	
     public InterceptingMessageReceiver(WebServiceMessageReceiver wrappedMessageReceiver,ClientInterceptor[] interceptors) {
 		this.wrappedMessageReceiver = wrappedMessageReceiver;
-		this.interceptors = interceptors;
+		this.interceptingTemplate = new InterceptingTemplate(interceptors);
 	}
 
 	public void receive(MessageContext messageContext) throws Exception {
-        int interceptorIndex = -1;
-		if (interceptors != null) {
-            for (int i = 0; i < interceptors.length; i++) {
-                interceptorIndex = i;
-                if (!interceptors[i].handleRequest(messageContext)) {
-                    break;
-                }
-            }
-        }
-		// if an interceptor has set a response, we don't send/receive
-        if (!messageContext.hasResponse()) {
-        	wrappedMessageReceiver.receive(messageContext);
-        }
-        if (messageContext.hasResponse()) {
-            if (!hasFault(messageContext.getResponse())) {
-                triggerHandleResponse(interceptorIndex, messageContext);
-            }
-            else {
-                triggerHandleFault(interceptorIndex, messageContext);
-            }
-        }
-	}
-	
-    protected boolean hasFault(WebServiceMessage response) throws IOException {
-        if (response instanceof FaultAwareWebServiceMessage) {
-            FaultAwareWebServiceMessage faultMessage = (FaultAwareWebServiceMessage) response;
-            return faultMessage.hasFault();
-        }
-        return false;
-    }
-
-    /**
-     * Trigger handleResponse on the defined ClientInterceptors. Will just invoke said method on all interceptors whose
-     * handleRequest invocation returned <code>true</code>, in addition to the last interceptor who returned
-     * <code>false</code>.
-     *
-     * @param interceptorIndex index of last interceptor that was called
-     * @param messageContext   the message context, whose request and response are filled
-     * @see ClientInterceptor#handleResponse(MessageContext)
-     * @see ClientInterceptor#handleFault(MessageContext)
-     */
-    private void triggerHandleResponse(int interceptorIndex, MessageContext messageContext) {
-        if (messageContext.hasResponse() && interceptors != null) {
-            for (int i = interceptorIndex; i >= 0; i--) {
-                if (!interceptors[i].handleResponse(messageContext)) {
-                    break;
-                }
-            }
-        }
-    }
-
-    /**
-     * Trigger handleFault on the defined ClientInterceptors. Will just invoke said method on all interceptors whose
-     * handleRequest invocation returned <code>true</code>, in addition to the last interceptor who returned
-     * <code>false</code>.
-     *
-     * @param interceptorIndex index of last interceptor that was called
-     * @param messageContext   the message context, whose request and response are filled
-     * @see ClientInterceptor#handleResponse(MessageContext)
-     * @see ClientInterceptor#handleFault(MessageContext)
-     */
-    private void triggerHandleFault(int interceptorIndex, MessageContext messageContext) {
-        if (messageContext.hasResponse() && interceptors != null) {
-            for (int i = interceptorIndex; i >= 0; i--) {
-                if (!interceptors[i].handleFault(messageContext)) {
-                    break;
-                }
-            }
-        }
+       interceptingTemplate.interceptRequest(messageContext, wrappedMessageReceiver);
     }
 	
 

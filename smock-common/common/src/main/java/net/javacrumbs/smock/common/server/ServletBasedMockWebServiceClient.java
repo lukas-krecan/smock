@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServlet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -38,6 +39,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.DefaultMessageContext;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
@@ -45,6 +47,7 @@ import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.ResponseActions;
 import org.springframework.ws.test.server.ResponseMatcher;
 import org.springframework.ws.test.support.MockStrategiesHelper;
+import org.springframework.ws.transport.WebServiceMessageReceiver;
 
 
 public class ServletBasedMockWebServiceClient {
@@ -54,6 +57,8 @@ public class ServletBasedMockWebServiceClient {
 	private HttpServlet servlet;
 	
 	private final WebServiceMessageFactory messageFactory;
+
+	private final InterceptingTemplate interceptingTemplate;
 	
 	private static final WeakHashMap<ApplicationContext, HttpServlet> servletCache = new WeakHashMap<ApplicationContext, HttpServlet>(); 
 	
@@ -61,14 +66,17 @@ public class ServletBasedMockWebServiceClient {
 	
 	private static final Log LOG = LogFactory.getLog(ServletBasedMockWebServiceClient.class);
 	
-	public ServletBasedMockWebServiceClient(String servletClassName, ApplicationContext applicationContext) {
+	public ServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext) {
+		this(servletClass, applicationContext, null);
+	}
+	public ServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
 		Assert.notNull(applicationContext, "ApplicationContext has to be set");
-        messageFactory =   new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
-		
-        createServlet(servletClassName, applicationContext);
+        messageFactory =  new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
+        interceptingTemplate = new InterceptingTemplate(clientInterceptors);
+        createServlet(servletClass, applicationContext);
 	}
 
-	private void createServlet(String servletClassName, ApplicationContext applicationContext) {
+	private void createServlet(Class<?> servletClass, ApplicationContext applicationContext) {
 		if (servletCache.containsKey(applicationContext))
 		{
 			servlet = servletCache.get(applicationContext);
@@ -77,26 +85,30 @@ public class ServletBasedMockWebServiceClient {
 		MockServletConfig config = new MockServletConfig();
         config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, new ApplicationContextWrapper(applicationContext, config.getServletContext()));
 		try {
-			servlet = (HttpServlet) Class.forName(servletClassName).newInstance();
+			servlet = (HttpServlet) BeanUtils.instantiate(servletClass);
 			servlet.init(config);
 			servletCache.put(applicationContext, servlet);
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Error when creating servlet "+servletClassName,e);
+			throw new IllegalArgumentException("Error when creating servlet "+servletClass.getName(),e);
 		}
 	}
 	
 	public ResponseActions sendRequestTo(String path, RequestCreator requestCreator) {
 		try {
 			WebServiceMessage requestMessage = requestCreator.createRequest(messageFactory);
-			MockHttpServletRequest   request = createRequest(path, requestMessage);
-			MockHttpServletResponse response = new ExtendedMockHttpServletResponse();
-			servlet.service(request, response);
+			final MockHttpServletRequest   request = createRequest(path, requestMessage);
 			MessageContext messageContext = new DefaultMessageContext(requestMessage, messageFactory);
-			if (LOG.isDebugEnabled())
-			{
-				LOG.debug("Received response:"+response.getContentAsString());
-			}
-			messageContext.setResponse(messageFactory.createWebServiceMessage(new ByteArrayInputStream(response.getContentAsByteArray())));
+			interceptingTemplate.interceptRequest(messageContext, new WebServiceMessageReceiver() {
+				public void receive(MessageContext messageContext) throws Exception {
+					MockHttpServletResponse response = new ExtendedMockHttpServletResponse();
+					servlet.service(request, response);
+					if (LOG.isDebugEnabled())
+					{
+						LOG.debug("Received response:"+response.getContentAsString());
+					}
+					messageContext.setResponse(messageFactory.createWebServiceMessage(new ByteArrayInputStream(response.getContentAsByteArray())));
+				}
+			});
 			return new MockWebServiceClientResponseActions(messageContext);
 		} catch (Exception e) {
 			throw new IllegalStateException("Error when sending request",e);

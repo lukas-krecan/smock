@@ -15,6 +15,7 @@ import java.util.Map;
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
 import net.javacrumbs.smock.common.server.ServletBasedMockWebServiceClient;
 
+import org.apache.cxf.transport.servlet.CXFServlet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class EndpointTest {
 	@Autowired
 	public void setApplicationContex(ApplicationContext applicationContext)
 	{
-		client = new ServletBasedMockWebServiceClient("org.apache.cxf.transport.servlet.CXFServlet", applicationContext);
+		client = new ServletBasedMockWebServiceClient(CXFServlet.class, applicationContext);
 	}
 	
 	

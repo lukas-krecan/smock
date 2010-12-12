@@ -18,11 +18,16 @@ package net.javacrumbs.smock.common.server;
 
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
+
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertNotNull;
 import net.javacrumbs.smock.common.server.test.TestWebService;
 
+import org.apache.cxf.transport.servlet.CXFServlet;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.context.MessageContext;
 
 public class ServletBasedMockWebServiceClientTest {
 	
@@ -30,9 +35,26 @@ public class ServletBasedMockWebServiceClientTest {
 	public void testCxf()
 	{
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("cxf-servlet.xml");
-		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient("org.apache.cxf.transport.servlet.CXFServlet", context);
+		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(CXFServlet.class, context);
 		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
 		
 		assertNotNull(TestWebService.getValue());
+	}
+	@Test
+	public void testCxfInterceptor()
+	{
+		ClientInterceptor interceptor = createMock(ClientInterceptor.class);
+		expect(interceptor.handleRequest((MessageContext) anyObject())).andReturn(true);
+		expect(interceptor.handleResponse((MessageContext) anyObject())).andReturn(true);
+		
+		replay(interceptor);
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("cxf-servlet.xml");
+		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(CXFServlet.class, context, new ClientInterceptor[]{interceptor});
+		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
+		
+		assertNotNull(TestWebService.getValue());
+		
+		verify(interceptor);
 	}
 }
