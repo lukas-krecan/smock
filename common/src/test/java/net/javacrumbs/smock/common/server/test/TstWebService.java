@@ -22,13 +22,13 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 @WebService(serviceName="TestWebService", targetNamespace="http://javacrumbs.net/test")
-public class TestWebService {
+public class TstWebService {
 	private static ThreadLocal<String> text = new ThreadLocal<String>();
 	
 	@WebMethod
 	public String testMethod(@WebParam(name="text")String text)
 	{
-		TestWebService.text.set(text);
+		TstWebService.text.set(text);
 		return "Hallo "+text+"!";
 	}
 	

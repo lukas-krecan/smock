@@ -2,37 +2,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.javacrumbs</groupId>
-	<artifactId>smock-jaxws</artifactId>
-	<packaging>jar</packaging>
-	<version>2.0-SNAPSHOT</version>
-	<name>smock-jaxws</name>
+	<artifactId>smock-root</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>smock-root</name>
 	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
-		Spring WS Mock extension.	
+		Smock parent package.	
 	</description>
 
-
-
-	<developers>
-		<developer>
-			<id>lukas</id>
-			<name>Lukas Krecan</name>
-			<url>http://blog.krecan.net</url>
-		</developer>
-
-	</developers>
+	<modules>
+		<module>common</module>
+		<module>groovy-template</module>
+		<module>metro</module>
+		<module>springws</module>
+	</modules>
 
 	<dependencies>
-		<dependency>
-			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-common</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.cxf</groupId>
-		    <artifactId>cxf-rt-transports-local</artifactId>
-		    <version>2.2.11</version>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -58,8 +44,8 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.5</source>
+					<target>1.5</target>
 				</configuration>
 			</plugin>
 			<!-- <plugin> -->
@@ -81,15 +67,11 @@
 			<!-- </execution> -->
 			<!-- </executions> -->
 			<!-- </plugin> -->
-			<!--
-				<plugin> <artifactId>maven-site-plugin</artifactId>
-				<version>2.0.1</version> <configuration>
-				<templateFile>${basedir}/src/site/template/default-site.vm
-				</templateFile> </configuration> </plugin> <plugin>
-				<artifactId>maven-release-plugin</artifactId> <configuration>
-				<mavenExecutorId>forked-path</mavenExecutorId> </configuration>
-				</plugin>
-			-->
+			<!-- <plugin> <artifactId>maven-site-plugin</artifactId> <version>2.0.1</version> 
+				<configuration> <templateFile>${basedir}/src/site/template/default-site.vm 
+				</templateFile> </configuration> </plugin> <plugin> <artifactId>maven-release-plugin</artifactId> 
+				<configuration> <mavenExecutorId>forked-path</mavenExecutorId> </configuration> 
+				</plugin> -->
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>
@@ -167,25 +149,16 @@
 
 	<repositories>
 		<repository>
-			<id>spring-maven-milestone</id>
-			<name>Springframework Maven Repository</name>
-			<url>http://maven.springframework.org/milestone</url>
+		  <id>spring-maven-milestone</id>
+		  <name>Springframework Maven Repository</name>
+		  <url>http://maven.springframework.org/milestone</url>
 		</repository>
-<!--		<repository>-->
-<!--			<id>java.net</id>-->
-<!--			<name>Java.net repo</name>-->
-<!--			<url>http://download.java.net/maven/2/</url>-->
-<!--		</repository>-->
 	</repositories>
 
-	<!--
-		<mailingLists> <mailingList> <name>Spring WS Test mailing list</name>
-		<subscribe>spring-ws-test+subscribe@googlegroups.com</subscribe>
-		<unsubscribe>spring-ws-test+unsubscribe@googlegroups.com</unsubscribe>
-		<post>spring-ws-test@googlegroups.com</post>
-		<archive>http://groups.google.com/group/spring-ws-test/</archive>
-		</mailingList> </mailingLists>
-	-->
+	<!-- <mailingLists> <mailingList> <name>Spring WS Test mailing list</name> 
+		<subscribe>spring-ws-test+subscribe@googlegroups.com</subscribe> <unsubscribe>spring-ws-test+unsubscribe@googlegroups.com</unsubscribe> 
+		<post>spring-ws-test@googlegroups.com</post> <archive>http://groups.google.com/group/spring-ws-test/</archive> 
+		</mailingList> </mailingLists> -->
 	<!-- <pluginRepositories> -->
 	<!-- <pluginRepository> -->
 	<!-- <id>mc-release</id> -->
@@ -202,4 +175,3 @@
 	<!-- </pluginRepository> -->
 	<!-- </pluginRepositories> -->
 </project>
-

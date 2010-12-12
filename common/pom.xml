@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.javacrumbs</groupId>
-		<artifactId>smock-common-root</artifactId>
+		<artifactId>smock-root</artifactId>
 		<version>1.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -11,7 +11,7 @@
 	<artifactId>smock-common</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>smock-groovy-template</name>
+	<name>smock-common</name>
 	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
 		Smock common classes.
@@ -58,15 +58,6 @@
 			<version>3.0.5.RELEASE</version>
 			<type>jar</type>
 		</dependency>
-		<!-- End: servlet deps -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>javax.jws</groupId>
 			<artifactId>jsr181-api</artifactId>
@@ -74,12 +65,6 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<scope>test</scope>
-		</dependency>
+		<!-- End: servlet deps -->
 	</dependencies>
 </project>

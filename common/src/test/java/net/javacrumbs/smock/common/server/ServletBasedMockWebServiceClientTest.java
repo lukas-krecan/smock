@@ -21,7 +21,7 @@ import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertNotNull;
-import net.javacrumbs.smock.common.server.test.TestWebService;
+import net.javacrumbs.smock.common.server.test.TstWebService;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class ServletBasedMockWebServiceClientTest {
 		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(CXFServlet.class, context);
 		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
 		
-		assertNotNull(TestWebService.getValue());
+		assertNotNull(TstWebService.getValue());
 	}
 	@Test
 	public void testCxfInterceptor()
@@ -53,7 +53,7 @@ public class ServletBasedMockWebServiceClientTest {
 		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(CXFServlet.class, context, new ClientInterceptor[]{interceptor});
 		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
 		
-		assertNotNull(TestWebService.getValue());
+		assertNotNull(TstWebService.getValue());
 		
 		verify(interceptor);
 	}
