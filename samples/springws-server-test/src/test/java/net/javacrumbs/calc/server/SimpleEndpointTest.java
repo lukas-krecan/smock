@@ -14,16 +14,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring-ws-servlet.xml"})
 public class SimpleEndpointTest extends AbstractSmockServerTest{
-	static
-	{
-		setTemplateProcessor(new XsltTemplateProcessor());
-	}
-	
 	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
 	
+	public SimpleEndpointTest() {
+		setTemplateProcessor(new XsltTemplateProcessor());
+	}
+
 	@Test
 	public void testSimple() throws Exception {
-		// simulates request coming to MessageDispatcherServlet
 		sendRequest(withMessage("request1.xml")).andExpect(noFault());
 	}
 	
