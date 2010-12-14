@@ -15,7 +15,7 @@
 		<module>common</module>
 		<module>groovy-template</module>
 		<module>http</module>
-		<module>metro</module>
+		<module>http-metro</module>
 		<module>springws</module>
 	</modules>
 

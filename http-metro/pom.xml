@@ -8,10 +8,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
-	<artifactId>smock-metro</artifactId>
+	<artifactId>smock-http-metro</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>smock-metro</name>
+	<name>smock-http-metro</name>
 	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
 		Spring WS Mock extension.	

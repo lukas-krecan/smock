@@ -16,144 +16,28 @@
 
 package net.javacrumbs.smock.springws.server;
 
-import javax.xml.transform.Source;
-
-import net.javacrumbs.smock.common.TemplateProcessor;
-import net.javacrumbs.smock.common.server.ParametrizableRequestCreator;
-import net.javacrumbs.smock.common.server.ParametrizableResponseMatcher;
+import net.javacrumbs.smock.common.server.AbstractCommonSmockServerTest;
+import net.javacrumbs.smock.common.server.SmockMockWebServiceClient;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
-import org.springframework.ws.test.server.MockWebServiceClient;
-import org.w3c.dom.Document;
+import org.springframework.ws.transport.WebServiceMessageReceiver;
 
 /**
  * Extends {@link AbstractWebServiceServerTest} and adds Smock specific methods.
  * @author Lukas Krecan
  *
  */
-public class AbstractSmockServerTest extends AbstractWebServiceServerTest {
-	/**
-	 * Sets {@link TemplateProcessor} used by Smock.
-	 * @param templateProcessor
-	 */
-	public static void setTemplateProcessor(TemplateProcessor templateProcessor) {
-		SmockServer.setTemplateProcessor(templateProcessor);
-	}
-
-	/**
-	 * Sets the resource loader to be used. Be aware that it sets a static variable so it will be used by other tests too. 
-	 * @param resourceLoader
-	 */
-	public static void setResourceLoader(ResourceLoader resourceLoader) {
-		SmockServer.setResourceLoader(resourceLoader);
-	}
-	/**
-	 * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
-	 * @param location Location of the resource 
-	 */
-	public static Source fromResource(String location)
-	{
-		return SmockServer.fromResource(location);
-	}
-	/**
-	 * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.
-	 * @param location Location of the resource 
-	 */
-	public static Resource resource(String location)
-	{
-		return SmockServer.resource(location);
-	}
-	/**
-	 * Create a request with the given {@link Resource} as content. If the content is payload it will be wrapped into a SOAP, 
-	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
-	 *
-	 * @param payload the request payload
-	 * @return the request creator
-	 */
-	public  ParametrizableRequestCreator withMessage(String messageResource) {
-		return SmockServer.withMessage(messageResource);
-	}
-	/**
-	 * Create a request with the given {@link Resource} as content. If the content is payload it will be wrapped into a SOAP, 
-	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
-	 *
-	 * @param payload the request payload
-	 * @return the request creator
-	 */
-	public  ParametrizableRequestCreator withMessage(Resource messageResource) {
-		return SmockServer.withMessage(messageResource);
-	}
-    /**
-     * Create a request with the given {@link Source} XML as content. If the content is payload it will be wrapped into a SOAP, 
-	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
-     *
-     * @param message 
-     * @return the request creator
-     */
-	public  ParametrizableRequestCreator withMessage(Source message) {
-		return SmockServer.withMessage(message);
-	}
-    /**
-     * Create a request with the given {@link Document} XML as content. If the content is payload it will be wrapped into a SOAP, 
-	 * if the content contains the whole message, it will be used as it is. Supports templates that will be resolved by {@link TemplateProcessor}.
-     *
-     * @param message 
-     * @return the request creator
-     */
-	public  ParametrizableRequestCreator withMessage(Document message) {
-		return SmockServer.withMessage(message);
-	}
-    /**
-     * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
-     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
-     *
-     * @param message 
-     * @return the request creator
-     */
-	public  ParametrizableResponseMatcher message(String messageResource)
-	{
-		return SmockServer.message(messageResource);
-	}
-    /**
-     * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
-     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
-     *
-     * @param message 
-     * @return the request creator
-     */
-	public  ParametrizableResponseMatcher message(Resource messageResource)
-	{
-		return SmockServer.message(messageResource);
-	}
-	/**
-	 * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
-     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
-	 * @param content
-	 * @return
-	 */
-	public  ParametrizableResponseMatcher message(Source content) {
-		return SmockServer.message(content);
-	}
-	/**
-     * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
-     * whole messages will be compared. Control message can be preprocessed by {@link TemplateProcessor}. 
-	 * @param message
-	 * @return
-	 */
-	public  ParametrizableResponseMatcher message(Document message) {
-		return SmockServer.message(message);
-	}
+public class AbstractSmockServerTest extends AbstractCommonSmockServerTest {
 	
-	@Override
 	/**
 	 * Creates a {@code MockWebServiceClient} instance based on the given {@link WebServiceMessageReceiver} and {@link
      * WebServiceMessageFactory}. Supports interceptors that can be applied on the outgoing message.
 	 */
-	public MockWebServiceClient createClient(ApplicationContext applicationContext) {
-		return SmockServer.createClient(applicationContext, getInterceptors());
+	@Override
+	public SmockMockWebServiceClient createClient(ApplicationContext applicationContext) {
+		return new SpringWsSmockMockWebServiceClient(SmockServer.createClient(applicationContext, getInterceptors()));
 	}
 
 	/**
