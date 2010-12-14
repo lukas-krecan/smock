@@ -52,7 +52,7 @@ import org.springframework.ws.test.support.MockStrategiesHelper;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
 
-public class ServletBasedMockWebServiceClient {
+public class CommonServletBasedMockWebServiceClient {
 
 	private static final String CONTENT_TYPE = "text/xml;charset=UTF-8";
 
@@ -66,12 +66,12 @@ public class ServletBasedMockWebServiceClient {
 	
 	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");  
 	
-	private static final Log LOG = LogFactory.getLog(ServletBasedMockWebServiceClient.class);
+	private static final Log LOG = LogFactory.getLog(CommonServletBasedMockWebServiceClient.class);
 	
-	public ServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext) {
+	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext) {
 		this(servletClass, applicationContext, null);
 	}
-	public ServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
+	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
 		Assert.notNull(applicationContext, "ApplicationContext has to be set");
         messageFactory =  new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
         interceptingTemplate = new InterceptingTemplate(clientInterceptors);

@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.http.server.servlet.ServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.junit.Test;
@@ -26,7 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/cxf-servlet.xml"})
 public class EndpointTest {
-	private ServletBasedMockWebServiceClient client;
+	private CommonServletBasedMockWebServiceClient client;
 	
 	static
 	{
@@ -36,7 +36,7 @@ public class EndpointTest {
 	@Autowired
 	public void setApplicationContex(ApplicationContext applicationContext)
 	{
-		client = new ServletBasedMockWebServiceClient(CXFServlet.class, applicationContext);
+		client = new CommonServletBasedMockWebServiceClient(CXFServlet.class, applicationContext);
 	}
 	
 	

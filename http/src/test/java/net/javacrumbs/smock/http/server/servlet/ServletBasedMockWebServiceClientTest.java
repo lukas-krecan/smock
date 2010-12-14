@@ -21,7 +21,7 @@ import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertNotNull;
-import net.javacrumbs.smock.http.server.servlet.ServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
 import net.javacrumbs.smock.http.server.servlet.test.TstWebService;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
@@ -36,7 +36,7 @@ public class ServletBasedMockWebServiceClientTest {
 	public void testCxf()
 	{
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("cxf-servlet.xml");
-		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(CXFServlet.class, context);
+		CommonServletBasedMockWebServiceClient client = new CommonServletBasedMockWebServiceClient(CXFServlet.class, context);
 		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
 		
 		assertNotNull(TstWebService.getValue());
@@ -51,7 +51,7 @@ public class ServletBasedMockWebServiceClientTest {
 		replay(interceptor);
 		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("cxf-servlet.xml");
-		ServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(CXFServlet.class, context, new ClientInterceptor[]{interceptor});
+		CommonServletBasedMockWebServiceClient client = new CommonServletBasedMockWebServiceClient(CXFServlet.class, context, new ClientInterceptor[]{interceptor});
 		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
 		
 		assertNotNull(TstWebService.getValue());

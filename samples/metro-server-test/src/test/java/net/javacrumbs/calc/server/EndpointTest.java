@@ -13,7 +13,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.http.server.servlet.ServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.metro.server.servlet.ServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -28,7 +29,7 @@ import com.sun.xml.ws.transport.http.servlet.WSSpringServlet;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/jaxws-servlet.xml"})
 public class EndpointTest {
-	private ServletBasedMockWebServiceClient client;
+	private CommonServletBasedMockWebServiceClient client;
 	
 	static
 	{
@@ -38,7 +39,7 @@ public class EndpointTest {
 	@Autowired
 	public void setApplicationContex(ApplicationContext applicationContext)
 	{
-		client = new ServletBasedMockWebServiceClient(WSSpringServlet.class, applicationContext);
+		client = new ServletBasedMockWebServiceClient(applicationContext);
 	}
 	
 	
