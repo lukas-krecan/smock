@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.http.metro.server.servlet;
+package net.javacrumbs.smock.http.cxf.server.servlet;
 
-import net.javacrumbs.smock.common.server.CommonSmockServer;
+import net.javacrumbs.smock.http.server.servlet.AbstractHttpSmockServerTest;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.Assert;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
-
-public class SmockServer extends CommonSmockServer {
-
-	public static ServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext) {
-		return createClient(applicationContext, null);
+/**
+ * Extends {@link AbstractWebServiceServerTest} and adds Smock specific methods.
+ * @author Lukas Krecan
+ *
+ */
+public abstract class AbstractSmockServerTest extends AbstractHttpSmockServerTest {
+	
+	@Override
+	protected ServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext, ClientInterceptor[] interceptors) {
+		return SmockServer.createClient(applicationContext, interceptors);
 	}
 	
-    public static ServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext, ClientInterceptor[] interceptors) {
-        Assert.notNull(applicationContext, "'applicationContext' must not be null");
-        return new ServletBasedMockWebServiceClient(applicationContext, interceptors);
-    }
-
+	
 }

@@ -1,9 +1,9 @@
 package net.javacrumbs.calc.server;
 
 import static net.javacrumbs.smock.common.SmockCommon.resource;
-import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
+import static net.javacrumbs.smock.http.metro.server.servlet.SmockServer.createClient;
 import static org.springframework.ws.test.server.ResponseMatchers.clientOrSenderFault;
 import static org.springframework.ws.test.server.ResponseMatchers.noFault;
 import static org.springframework.ws.test.server.ResponseMatchers.validPayload;
@@ -12,8 +12,6 @@ import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 import java.util.Collections;
 import java.util.Map;
 
-import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.http.metro.server.servlet.ServletBasedMockWebServiceClient;
 import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
 
 import org.junit.Ignore;
@@ -31,18 +29,11 @@ public class EndpointTest {
 
 	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
 	
-	static
-	{
-		setTemplateProcessor(new XsltTemplateProcessor());
-	}
-	
 	@Autowired
 	public void setApplicationContex(ApplicationContext applicationContext)
 	{
-		client = new ServletBasedMockWebServiceClient(applicationContext);
+		client = createClient(applicationContext);
 	}
-	
-	
 	
 	@Test
 	public void testSimple() throws Exception {

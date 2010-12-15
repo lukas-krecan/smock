@@ -1,9 +1,9 @@
 package net.javacrumbs.calc.server;
 
 import static net.javacrumbs.smock.common.SmockCommon.resource;
-import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
+import static net.javacrumbs.smock.http.cxf.server.servlet.SmockServer.createClient;
 import static org.springframework.ws.test.server.ResponseMatchers.clientOrSenderFault;
 import static org.springframework.ws.test.server.ResponseMatchers.noFault;
 import static org.springframework.ws.test.server.ResponseMatchers.validPayload;
@@ -12,10 +12,8 @@ import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 import java.util.Collections;
 import java.util.Map;
 
-import net.javacrumbs.smock.common.XsltTemplateProcessor;
-import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.cxf.server.servlet.ServletBasedMockWebServiceClient;
 
-import org.apache.cxf.transport.servlet.CXFServlet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +24,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/cxf-servlet.xml"})
 public class EndpointTest {
-	private CommonServletBasedMockWebServiceClient client;
-	
-	static
-	{
-		setTemplateProcessor(new XsltTemplateProcessor());
-	}
+	private ServletBasedMockWebServiceClient client;
 	
 	@Autowired
 	public void setApplicationContex(ApplicationContext applicationContext)
 	{
-		client = new CommonServletBasedMockWebServiceClient(CXFServlet.class, applicationContext);
+		client = createClient(applicationContext);
 	}
 	
 	

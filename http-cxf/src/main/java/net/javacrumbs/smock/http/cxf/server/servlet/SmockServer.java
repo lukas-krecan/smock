@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.http.metro.server.servlet;
+package net.javacrumbs.smock.http.cxf.server.servlet;
 
 import net.javacrumbs.smock.common.server.CommonSmockServer;
 
@@ -24,11 +24,10 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 
 public class SmockServer extends CommonSmockServer {
-
+    
 	public static ServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext) {
 		return createClient(applicationContext, null);
 	}
-	
     public static ServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext, ClientInterceptor[] interceptors) {
         Assert.notNull(applicationContext, "'applicationContext' must not be null");
         return new ServletBasedMockWebServiceClient(applicationContext, interceptors);
