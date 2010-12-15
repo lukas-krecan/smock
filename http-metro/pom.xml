@@ -20,6 +20,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>net.javacrumbs</groupId>
+			<artifactId>smock-http-test-package</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
 			<artifactId>jaxws-spring</artifactId>
 			<version>1.8</version>

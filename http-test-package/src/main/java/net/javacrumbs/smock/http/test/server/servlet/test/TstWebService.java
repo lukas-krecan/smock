@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.http.metro.server.servlet.test;
+package net.javacrumbs.smock.http.test.server.servlet.test;
 
 
 import javax.jws.WebMethod;

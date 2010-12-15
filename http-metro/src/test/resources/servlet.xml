@@ -15,6 +15,6 @@
 		</wss:service>
 	</wss:binding>
 
-	<bean id="tstEndpoint" class="net.javacrumbs.smock.http.metro.server.servlet.test.TstWebService" />
+	<bean id="tstEndpoint" class="net.javacrumbs.smock.http.test.server.servlet.test.TstWebService" />
 
 </beans>

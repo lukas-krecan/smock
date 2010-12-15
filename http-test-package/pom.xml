@@ -8,34 +8,16 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
-	<artifactId>smock-http-cxf</artifactId>
+	<artifactId>smock-http-test-package</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>smock-http-cxf</name>
+	<name>smock-http-test-package</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-http</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-http-test-package</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>2.2.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>2.2.11</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

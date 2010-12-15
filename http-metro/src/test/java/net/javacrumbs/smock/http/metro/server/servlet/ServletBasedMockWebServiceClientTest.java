@@ -16,48 +16,16 @@
 
 package net.javacrumbs.smock.http.metro.server.servlet;
 
-import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertNotNull;
-import net.javacrumbs.smock.http.metro.server.servlet.test.TstWebService;
+import net.javacrumbs.smock.http.cxf.server.servlet.AbstractServletBasedMockWebServiceClientTest;
 import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
 
-import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
-import org.springframework.ws.context.MessageContext;
 
-public class ServletBasedMockWebServiceClientTest {
+public class ServletBasedMockWebServiceClientTest extends AbstractServletBasedMockWebServiceClientTest{
 	
-	@Test
-	public void testMetro()
-	{
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("servlet.xml");
-		CommonServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(context);
-		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
-		
-		assertNotNull(TstWebService.getValue());
-	}
-	@Test
-	public void testMetroInterceptor()
-	{
-		ClientInterceptor interceptor = createMock(ClientInterceptor.class);
-		expect(interceptor.handleRequest((MessageContext) anyObject())).andReturn(true);
-		expect(interceptor.handleResponse((MessageContext) anyObject())).andReturn(true);
-		
-		replay(interceptor);
-		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("servlet.xml");
-		CommonServletBasedMockWebServiceClient client = new ServletBasedMockWebServiceClient(context, new ClientInterceptor[]{interceptor});
-		client.sendRequestTo("/TestWebService", withMessage("request.xml")).andExpect(message("response.xml"));
-		
-		assertNotNull(TstWebService.getValue());
-		
-		verify(interceptor);
+	@Override
+	protected CommonServletBasedMockWebServiceClient createMockClient(ApplicationContext applicationContext, ClientInterceptor[] interceptors) {
+		return SmockServer.createClient(applicationContext, interceptors);
 	}
 }
