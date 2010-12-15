@@ -25,7 +25,7 @@ import com.sun.xml.ws.transport.http.servlet.WSSpringServlet;
 
 public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebServiceClient {
 
-	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext,	ClientInterceptor[] clientInterceptors) {
+	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
 		super(WSSpringServlet.class, applicationContext, clientInterceptors);
 	}
 

@@ -29,7 +29,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
-import org.springframework.ws.test.server.ResponseActions;
 import org.springframework.ws.test.server.ResponseMatcher;
 import org.springframework.ws.test.server.ResponseMatchers;
 import org.springframework.ws.test.server.ResponseXPathExpectations;
@@ -44,20 +43,8 @@ import org.springframework.xml.transform.ResourceSource;
 public abstract class AbstractCommonWebServiceServerTest implements ApplicationContextAware {
 
 	protected  ApplicationContext applicationContext;
-	protected  SmockMockWebServiceClient mockWebServiceClient;
 
 
-	/**
-	 * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request
-	 * creators provided by {@link RequestCreators}.
-	 *
-	 * @param requestCreator the request creator
-	 * @return the response actions
-	 * @see RequestCreators
-	 */
-	public ResponseActions sendRequest(RequestCreator requestCreator) {
-		return mockWebServiceClient.sendRequest(requestCreator);
-	}
 	/**
 	 * Create a request with the given {@link Source} XML as payload.
 	 *
@@ -233,26 +220,11 @@ public abstract class AbstractCommonWebServiceServerTest implements ApplicationC
 		return ResponseMatchers.versionMismatchFault(faultStringOrReason);
 	}
 
-	public abstract SmockMockWebServiceClient createClient(ApplicationContext applicationContext);
-
-
-
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
 	
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
-		this.mockWebServiceClient = createClient(applicationContext);
 	}
-
-
-	protected SmockMockWebServiceClient getMockWebServiceClient() {
-		return mockWebServiceClient;
-	}
-	protected void setMockWebServiceClient(SmockMockWebServiceClient mockWebServiceClient) {
-		this.mockWebServiceClient = mockWebServiceClient;
-	} 
-
-
 }

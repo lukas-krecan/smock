@@ -24,12 +24,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.sun.xml.ws.transport.http.servlet.WSSpringServlet;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/jaxws-servlet.xml"})
 public class EndpointTest {
 	private CommonServletBasedMockWebServiceClient client;
+
+	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
 	
 	static
 	{
@@ -43,7 +43,6 @@ public class EndpointTest {
 	}
 	
 	
-	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
 	
 	@Test
 	public void testSimple() throws Exception {

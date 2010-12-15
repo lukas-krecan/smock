@@ -17,14 +17,15 @@
 package net.javacrumbs.smock.springws.server;
 
 import net.javacrumbs.smock.common.server.AbstractCommonWebServiceServerTest;
-import net.javacrumbs.smock.common.server.SmockMockWebServiceClient;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.soap.server.SoapMessageDispatcher;
 import org.springframework.ws.test.server.MockWebServiceClient;
+import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
+import org.springframework.ws.test.server.ResponseActions;
 import org.springframework.ws.test.server.ResponseMatchers;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
@@ -35,7 +36,20 @@ import org.springframework.ws.transport.WebServiceMessageReceiver;
  *
  */
 public abstract class AbstractWebServiceServerTest extends AbstractCommonWebServiceServerTest{
+	protected  MockWebServiceClient mockWebServiceClient;
 	
+
+	/**
+	 * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request
+	 * creators provided by {@link RequestCreators}.
+	 *
+	 * @param requestCreator the request creator
+	 * @return the response actions
+	 * @see RequestCreators
+	 */
+	public ResponseActions sendRequest(RequestCreator requestCreator) {
+		return mockWebServiceClient.sendRequest(requestCreator);
+	}
 	/**
 	 * Creates a {@code MockWebServiceClient} instance based on the given {@link ApplicationContext}.
 	 *
@@ -51,7 +65,20 @@ public abstract class AbstractWebServiceServerTest extends AbstractCommonWebServ
 	 * @param applicationContext the application context to base the client on
 	 * @return the created client
 	 */
-	public SmockMockWebServiceClient createClient(ApplicationContext applicationContext) {
-		return new SpringWsSmockMockWebServiceClient(MockWebServiceClient.createClient(applicationContext));
+	public MockWebServiceClient createClient(ApplicationContext applicationContext) {
+		return MockWebServiceClient.createClient(applicationContext);
 	}
+	
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		super.setApplicationContext(applicationContext);
+		this.mockWebServiceClient = createClient(applicationContext);
+	}
+
+
+	protected MockWebServiceClient getMockWebServiceClient() {
+		return mockWebServiceClient;
+	}
+	protected void setMockWebServiceClient(MockWebServiceClient mockWebServiceClient) {
+		this.mockWebServiceClient = mockWebServiceClient;
+	} 
 }
