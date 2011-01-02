@@ -1,8 +1,6 @@
 package net.javacrumbs.calc;
 
-import static net.javacrumbs.smock.common.SmockCommon.resource;
-import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
-import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
+import static net.javacrumbs.smock.http.client.connection.SmockClient.*;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
 import static org.springframework.ws.test.client.RequestMatchers.validPayload;
@@ -12,7 +10,6 @@ import java.io.IOException;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
-import net.javacrumbs.smock.http.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
 
 import org.junit.After;
 import org.junit.Test;
@@ -33,7 +30,7 @@ public class CalcTest {
     
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext){
-    	mockServer = new ThreadLocalMockWebServiceServer(applicationContext, null);
+    	mockServer = createServer(applicationContext);
     }
     
     @After

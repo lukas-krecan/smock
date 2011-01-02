@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.springws.client;
+package net.javacrumbs.smock.http.client.connection;
 
 import net.javacrumbs.smock.common.client.AbstractCommonSmockClientTest;
 
@@ -22,7 +22,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.server.EndpointInterceptor;
-import org.springframework.ws.test.client.MockWebServiceServer;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
@@ -32,9 +31,8 @@ import org.springframework.ws.test.client.ResponseActions;
  *
  */
 public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientTest implements ApplicationContextAware{
-	protected  MockWebServiceServer mockWebServiceServer; 
-	
-	/**
+	private MockWebServiceServer mockWebServiceServer;
+    /**
      * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
      * Supports interceptors that will be applied on the incomming message. Please note that acctually the interceptoes will
      * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
@@ -52,6 +50,12 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
      */
 	protected EndpointInterceptor[] getInterceptors() {
 		return null;
+	}
+	
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		super.setApplicationContext(applicationContext);
+		mockWebServiceServer = createServer(applicationContext);
 	}
 	
 	/**
@@ -73,12 +77,6 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	public void verify() {
 		mockWebServiceServer.verify();
 	}
-	
-	public final void setApplicationContext(ApplicationContext applicationContext) {
-		super.setApplicationContext(applicationContext);
-		this.mockWebServiceServer = createServer(applicationContext);
-	}
-
 
 	protected MockWebServiceServer getMockWebServiceServer() {
 		return mockWebServiceServer;

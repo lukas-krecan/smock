@@ -19,14 +19,10 @@ package net.javacrumbs.smock.http.server.servlet;
 import net.javacrumbs.smock.common.server.AbstractCommonSmockServerTest;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
-import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
-import org.springframework.ws.soap.server.SoapMessageDispatcher;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
 import org.springframework.ws.test.server.ResponseActions;
-import org.springframework.ws.transport.WebServiceMessageReceiver;
 
 /**
  * Extends {@link AbstractWebServiceServerTest} and adds Smock specific methods.

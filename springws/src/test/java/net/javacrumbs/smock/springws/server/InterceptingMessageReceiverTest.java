@@ -22,7 +22,6 @@ import static org.easymock.EasyMock.expect;
 import java.util.Locale;
 
 import net.javacrumbs.smock.springws.common.AbstractSmockTest;
-import net.javacrumbs.smock.springws.server.InterceptingMessageReceiver;
 
 import org.easymock.IMocksControl;
 import org.junit.Test;
