@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.springws.client;
+package net.javacrumbs.smock.common;
 
 import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
@@ -26,11 +26,28 @@ import org.springframework.ws.server.EndpointInterceptor;
  * @author Lukas Krecan
  *
  */
-class ClientEndpointInterceptorAdapter implements ClientInterceptor {
+public class ClientEndpointInterceptorAdapter implements ClientInterceptor {
 	private final EndpointInterceptor interceptor;
 	
-	ClientEndpointInterceptorAdapter(EndpointInterceptor interceptor) {
+	public ClientEndpointInterceptorAdapter(EndpointInterceptor interceptor) {
 		this.interceptor = interceptor;
+	}
+	
+	public static ClientInterceptor[] wrapEndpointInterceptors(EndpointInterceptor[] endpointInterceptors)
+	{
+  		 if (endpointInterceptors!=null)
+  		 {
+  			 ClientInterceptor[] result = new ClientInterceptor[endpointInterceptors.length];
+			 for (int i=0; i<endpointInterceptors.length; i++)
+			 {
+				 result[i]= new ClientEndpointInterceptorAdapter(endpointInterceptors[i]);
+			 }
+			 return result;
+  		 }
+  		 else
+  		 {
+  			 return new ClientInterceptor[0];
+  		 }
 	}
 
 	public boolean handleFault(MessageContext messageContext) throws WebServiceClientException {

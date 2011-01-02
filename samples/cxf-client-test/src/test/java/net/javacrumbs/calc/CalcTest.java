@@ -33,7 +33,7 @@ public class CalcTest {
     
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext){
-    	mockServer = new ThreadLocalMockWebServiceServer(applicationContext);
+    	mockServer = new ThreadLocalMockWebServiceServer(applicationContext, null);
     }
     
     @After

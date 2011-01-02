@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.common.server;
+package net.javacrumbs.smock.common;
 
 import java.io.IOException;
 

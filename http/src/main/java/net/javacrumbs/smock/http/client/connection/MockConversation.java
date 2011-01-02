@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
@@ -13,13 +14,16 @@ public class MockConversation {
 	private int activeConnection = 0;
 
 	private final WebServiceMessageFactory messageFactory;
+
+	private final EndpointInterceptor[] interceptors;
 		
-	public MockConversation(WebServiceMessageFactory messageFactory) {
+	public MockConversation(WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors) {
 		this.messageFactory = messageFactory;
+		this.interceptors = interceptors; 
 	}
 
 	public ResponseActions expect(RequestMatcher requestMatcher) {
-		MockConnection mockConnection = new MockConnection(requestMatcher, messageFactory);
+		MockConnection mockConnection = new MockConnection(requestMatcher, messageFactory, interceptors);
 		expectedConnections.add(mockConnection);
 		return mockConnection;
 	}

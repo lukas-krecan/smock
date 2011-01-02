@@ -28,7 +28,7 @@ import java.util.WeakHashMap;
 
 import javax.servlet.http.HttpServlet;
 
-import net.javacrumbs.smock.common.server.InterceptingTemplate;
+import net.javacrumbs.smock.common.InterceptingTemplate;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

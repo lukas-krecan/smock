@@ -13,11 +13,18 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.javacrumbs.smock.common.ClientEndpointInterceptorAdapter;
+import net.javacrumbs.smock.common.InterceptingTemplate;
+
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.context.DefaultMessageContext;
+import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 import org.springframework.ws.test.client.ResponseCreator;
+import org.springframework.ws.transport.WebServiceMessageReceiver;
 
 public class MockConnection implements ResponseActions{
 	
@@ -35,12 +42,13 @@ public class MockConnection implements ResponseActions{
 	
 	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");
 
-	private WebServiceMessage request; 
+	private final EndpointInterceptor[] interceptors; 
 	
-	public MockConnection(RequestMatcher requestMatcher, WebServiceMessageFactory messageFactory)
+	public MockConnection(RequestMatcher requestMatcher, WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors)
 	{
 		requestMatchers.add(requestMatcher);
 		this.messageFactory = messageFactory;
+		this.interceptors = interceptors;
 	}
 	
 	public ResponseActions andExpect(RequestMatcher requestMatcher) {
@@ -53,10 +61,25 @@ public class MockConnection implements ResponseActions{
 	}
 
 	public InputStream getInputStream() throws IOException {
-		validate(requestStream.toByteArray());
-		WebServiceMessage message = responseCreator.createResponse(uri, request, messageFactory);
-		
-		return new ByteArrayInputStream(serialize(getEnvelopeSource(message)).getBytes(UTF8));
+		final WebServiceMessage request = crateRequest();
+		MessageContext messageContext = new DefaultMessageContext(request, messageFactory);
+
+		InterceptingTemplate interceptingTemplate = new InterceptingTemplate(ClientEndpointInterceptorAdapter.wrapEndpointInterceptors(interceptors));
+		try {
+			interceptingTemplate.interceptRequest(messageContext, new WebServiceMessageReceiver() {
+				public void receive(MessageContext context) throws Exception {
+					validate(request);
+					context.setResponse(responseCreator.createResponse(uri, request, messageFactory));
+				}
+			});
+		} catch (Exception e) {
+			throw new IOException("Error when processing request.",e);
+		}
+		return new ByteArrayInputStream(serialize(getEnvelopeSource(messageContext.getResponse())).getBytes(UTF8));
+	}
+
+	protected WebServiceMessage crateRequest() throws IOException {
+		 return messageFactory.createWebServiceMessage(new ByteArrayInputStream(requestStream.toByteArray()));
 	}
 
 	public OutputStream getOutputStream() {
@@ -75,13 +98,11 @@ public class MockConnection implements ResponseActions{
 		return null;
 	}
 	
-	protected void validate(byte[] requestData) throws IOException {
-		request = messageFactory.createWebServiceMessage(new ByteArrayInputStream(requestData));
+	protected void validate(WebServiceMessage request) throws IOException {
 		for (RequestMatcher requestMatcher: requestMatchers)
 		{
 			requestMatcher.match(uri, request);
 		}
-		
 	}
 		
 	public URI getUri() {

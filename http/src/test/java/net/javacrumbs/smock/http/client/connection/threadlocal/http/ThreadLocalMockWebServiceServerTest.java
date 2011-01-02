@@ -8,7 +8,7 @@ public class ThreadLocalMockWebServiceServerTest extends AbstractMockWebServiceS
 
 	@Override
 	protected MockWebServiceServer createServer() {
-		return new ThreadLocalMockWebServiceServer(getMessageFactory());
+		return new ThreadLocalMockWebServiceServer(getMessageFactory(), null);
 	}
 
 	

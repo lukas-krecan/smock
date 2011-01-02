@@ -7,6 +7,6 @@ import net.javacrumbs.smock.http.client.connection.threadlocal.http.ThreadLocalM
 public class StaticMockWebServiceServerTest extends ThreadLocalMockWebServiceServerTest
 {
 	protected MockWebServiceServer createServer() {
-		return new ThreadLocalMockWebServiceServer(getMessageFactory());
+		return new ThreadLocalMockWebServiceServer(getMessageFactory(), null);
 	}
 }

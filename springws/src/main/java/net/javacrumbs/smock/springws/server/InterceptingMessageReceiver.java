@@ -16,7 +16,7 @@
 
 package net.javacrumbs.smock.springws.server;
 
-import net.javacrumbs.smock.common.server.InterceptingTemplate;
+import net.javacrumbs.smock.common.InterceptingTemplate;
 
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
