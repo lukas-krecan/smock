@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+	<soapenv:Header />
+	<soapenv:Body>
+		<ns:test2 xmlns:ns="http://www.example.org/schema">
+			<ns:number attr="test">0</ns:number>
+			<ns:text>${IGNORE}</ns:text>
+		</ns:test2>
+	</soapenv:Body>
+</soapenv:Envelope>

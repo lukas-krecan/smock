@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ns2:plusRequest xmlns:ns2="http://javacrumbs.net/calc">
+	<ns2:a>1</ns2:a>
+	<ns2:b>2</ns2:b>
+</ns2:plusRequest>
