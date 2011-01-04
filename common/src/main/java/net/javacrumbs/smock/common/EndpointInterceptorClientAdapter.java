@@ -26,10 +26,10 @@ import org.springframework.ws.server.EndpointInterceptor;
  * @author Lukas Krecan
  *
  */
-public class ClientEndpointInterceptorAdapter implements ClientInterceptor {
+public class EndpointInterceptorClientAdapter implements ClientInterceptor {
 	private final EndpointInterceptor interceptor;
 	
-	public ClientEndpointInterceptorAdapter(EndpointInterceptor interceptor) {
+	public EndpointInterceptorClientAdapter(EndpointInterceptor interceptor) {
 		this.interceptor = interceptor;
 	}
 	
@@ -40,7 +40,7 @@ public class ClientEndpointInterceptorAdapter implements ClientInterceptor {
   			 ClientInterceptor[] result = new ClientInterceptor[endpointInterceptors.length];
 			 for (int i=0; i<endpointInterceptors.length; i++)
 			 {
-				 result[i]= new ClientEndpointInterceptorAdapter(endpointInterceptors[i]);
+				 result[i]= new EndpointInterceptorClientAdapter(endpointInterceptors[i]);
 			 }
 			 return result;
   		 }

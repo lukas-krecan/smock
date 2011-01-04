@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.javacrumbs.smock.common.ClientEndpointInterceptorAdapter;
+import net.javacrumbs.smock.common.EndpointInterceptorClientAdapter;
 import net.javacrumbs.smock.common.InterceptingTemplate;
 
 import org.springframework.ws.WebServiceMessage;
@@ -64,7 +64,7 @@ public class MockConnection implements ResponseActions{
 		final WebServiceMessage request = crateRequest();
 		MessageContext messageContext = new DefaultMessageContext(request, messageFactory);
 
-		InterceptingTemplate interceptingTemplate = new InterceptingTemplate(ClientEndpointInterceptorAdapter.wrapEndpointInterceptors(interceptors));
+		InterceptingTemplate interceptingTemplate = new InterceptingTemplate(EndpointInterceptorClientAdapter.wrapEndpointInterceptors(interceptors));
 		try {
 			interceptingTemplate.interceptRequest(messageContext, new WebServiceMessageReceiver() {
 				public void receive(MessageContext context) throws Exception {

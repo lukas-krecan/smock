@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.javacrumbs.smock.common.ClientEndpointInterceptorAdapter;
+import net.javacrumbs.smock.common.EndpointInterceptorClientAdapter;
 import net.javacrumbs.smock.common.client.CommonSmockClient;
 
 import org.springframework.context.ApplicationContext;
@@ -54,7 +54,7 @@ public abstract class SmockClient extends CommonSmockClient {
     		 {
     			 newInterceptors.addAll(Arrays.asList(webServiceTemplate.getInterceptors()));
     		 }
-    		 newInterceptors.addAll(Arrays.asList(ClientEndpointInterceptorAdapter.wrapEndpointInterceptors(interceptors)));
+    		 newInterceptors.addAll(Arrays.asList(EndpointInterceptorClientAdapter.wrapEndpointInterceptors(interceptors)));
     		 webServiceTemplate.setInterceptors(newInterceptors.toArray(new ClientInterceptor[newInterceptors.size()]));
     	 }
          return MockWebServiceServer.createServer(webServiceTemplate);
