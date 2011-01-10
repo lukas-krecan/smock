@@ -1,3 +1,19 @@
+/*
+ * Copyright 2005-2010 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package net.javacrumbs.smock.http.client.connection;
 
 import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
@@ -26,7 +42,12 @@ import org.springframework.ws.test.client.ResponseActions;
 import org.springframework.ws.test.client.ResponseCreator;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
-public class MockConnection implements ResponseActions{
+
+/**
+ * Mock connection to a server. 
+ * @author Lukas Krecan
+ */
+public class MockConnection implements ResponseActions {
 	
 	private static final String CONTENT_TYPE = "text/xml;charset=UTF-8";
 	
@@ -60,6 +81,12 @@ public class MockConnection implements ResponseActions{
 		this.responseCreator = responseCreator;
 	}
 
+	/**
+	 * Validates request written to outputStream and serializes response to this stream. 
+	 * Applies interceptors on both request and response. 
+	 * @return
+	 * @throws IOException
+	 */
 	public InputStream getInputStream() throws IOException {
 		final WebServiceMessage request = crateRequest();
 		MessageContext messageContext = new DefaultMessageContext(request, messageFactory);
@@ -82,6 +109,10 @@ public class MockConnection implements ResponseActions{
 		 return messageFactory.createWebServiceMessage(new ByteArrayInputStream(requestStream.toByteArray()));
 	}
 
+	/**
+	 * Returns output stream to which a request can be written.
+	 * @return
+	 */
 	public OutputStream getOutputStream() {
 		return requestStream;
 	}

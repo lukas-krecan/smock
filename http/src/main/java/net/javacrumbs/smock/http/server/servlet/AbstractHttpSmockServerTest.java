@@ -20,12 +20,13 @@ import net.javacrumbs.smock.common.server.AbstractCommonSmockServerTest;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
 import org.springframework.ws.test.server.ResponseActions;
 
 /**
- * Extends {@link AbstractWebServiceServerTest} and adds Smock specific methods.
+ * Creates {@link MockWebServiceClient} and exposes Smock utility methods. You will want to use a subclass for CSF or Metro packages.
  * @author Lukas Krecan
  *
  */

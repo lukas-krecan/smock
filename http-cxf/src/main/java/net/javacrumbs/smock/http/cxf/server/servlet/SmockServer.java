@@ -22,7 +22,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
-
+/**
+ * Adds extra functionality to Spring WS server test support. 
+ * @author Lukas Krecan
+ *
+ */
 public class SmockServer extends CommonSmockServer {
     
 	public static ServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext) {

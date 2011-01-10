@@ -22,6 +22,10 @@ import org.springframework.ws.server.EndpointInterceptor;
 import net.javacrumbs.smock.common.client.CommonSmockClient;
 import net.javacrumbs.smock.http.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
 
+/**
+ * Adds extra features to Spring WS client test support.
+ * @author Lukas Krecan
+ */
 public class SmockClient extends CommonSmockClient {
 
 	public static MockWebServiceServer createServer(ApplicationContext applicationContext)

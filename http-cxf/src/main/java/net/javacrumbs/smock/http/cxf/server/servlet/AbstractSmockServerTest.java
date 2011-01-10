@@ -22,7 +22,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 /**
- * Extends {@link AbstractWebServiceServerTest} and adds Smock specific methods.
+ * Creates ServletBasedMockWebServiceClient automatically and provides method for simple use of Smock library.
  * @author Lukas Krecan
  *
  */

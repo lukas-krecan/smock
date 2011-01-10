@@ -22,8 +22,11 @@ import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
+/**
+ * Creates connection to CXF servlet.
+ * @author Lukas Krecan
+ */
 public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebServiceClient {
-
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
 		super(CXFServlet.class, applicationContext, clientInterceptors);
 	}

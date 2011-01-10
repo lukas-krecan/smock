@@ -23,6 +23,10 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 import com.sun.xml.ws.transport.http.servlet.WSSpringServlet;
 
+/**
+ * Creates connection to Metro servlet.
+ * @author Lukas Krecan
+ */
 public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebServiceClient {
 
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {

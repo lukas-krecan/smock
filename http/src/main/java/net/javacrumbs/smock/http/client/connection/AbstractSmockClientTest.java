@@ -20,13 +20,12 @@ import net.javacrumbs.smock.common.client.AbstractCommonSmockClientTest;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * Extends {@link AbstractWebServiceClientTest} and gives access to Smock specific methods.
+ * Ctreates HTTP specific MockWebServiceServer. To 
  * @author Lukas Krecan
  *
  */
@@ -34,9 +33,7 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	private MockWebServiceServer mockWebServiceServer;
     /**
      * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
-     * Supports interceptors that will be applied on the incomming message. Please note that acctually the interceptoes will
-     * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
-     * without reimplementing the whole testing library. I hope it will change in next releases.
+     * Supports interceptors.
      * @param applicationContext
      * @return
      */
