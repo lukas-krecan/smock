@@ -15,6 +15,7 @@
 		<module>common</module>
 		<module>groovy-template</module>
 		<module>http</module>
+		<module>http-test-package</module>
 		<module>http-metro</module>
 		<module>http-cxf</module>
 		<module>springws</module>
