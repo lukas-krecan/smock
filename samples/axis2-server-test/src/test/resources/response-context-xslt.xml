@@ -1,0 +1,8 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+        <xsl:param name="result"/>
+        <xsl:template match="/">
+              <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				  <result><xsl:value-of select="$result"/></result>
+			  </plusResponse>
+		</xsl:template>
+</xsl:stylesheet>

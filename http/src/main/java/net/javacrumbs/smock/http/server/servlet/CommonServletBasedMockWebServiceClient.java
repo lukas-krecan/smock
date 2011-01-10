@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import javax.servlet.http.HttpServlet;
@@ -37,6 +38,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.ws.WebServiceMessage;
@@ -71,14 +73,19 @@ public class CommonServletBasedMockWebServiceClient {
 	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext) {
 		this(servletClass, applicationContext, null);
 	}
+	
 	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
+		this(servletClass, applicationContext, clientInterceptors, null);
+	}
+	
+	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors, Map<String, String> initParameters) {
 		Assert.notNull(applicationContext, "ApplicationContext has to be set");
         messageFactory =  new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
         interceptingTemplate = new InterceptingTemplate(clientInterceptors);
-        createServlet(servletClass, applicationContext);
+        createServlet(servletClass, applicationContext, initParameters);
 	}
 
-	private void createServlet(Class<?> servletClass, ApplicationContext applicationContext) {
+	private void createServlet(Class<?> servletClass, ApplicationContext applicationContext, Map<String, String> initParameters) {
 		if (servletCache.containsKey(applicationContext))
 		{
 			servlet = servletCache.get(applicationContext);
@@ -86,6 +93,13 @@ public class CommonServletBasedMockWebServiceClient {
 		}
 		MockServletConfig config = new MockServletConfig();
         config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, new ApplicationContextWrapper(applicationContext, config.getServletContext()));
+        if (initParameters!=null)
+        {
+        	for (Map.Entry<String, String> param: initParameters.entrySet())
+        	{
+        		config.addInitParameter(param.getKey(), param.getValue());
+        	}
+        }
 		try {
 			servlet = (HttpServlet) BeanUtils.instantiate(servletClass);
 			servlet.init(config);
