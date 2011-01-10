@@ -33,6 +33,10 @@ import net.javacrumbs.smock.common.TemplateProcessor;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
+/**
+ * Groovy based template engine.
+ * @author Lukas Krecan
+ */
 public class GroovyTemplateProcessor implements TemplateProcessor {
 	private final TemplateEngine templateEngine;
 	
@@ -44,11 +48,10 @@ public class GroovyTemplateProcessor implements TemplateProcessor {
 		this(new SimpleTemplateEngine());
 	}
 
-	@SuppressWarnings("unchecked")
 	public Document processTemplate(Document template, Source input, Map<String, Object> parameters) {
 		try {
 			String templateText = serialize(template);
-			HashMap binding = new HashMap(parameters);
+			HashMap<String, Object>  binding = new HashMap<String, Object> (parameters);
 			if (input!=null)
 			{
 				Document inputDocument = loadDocument(input);
