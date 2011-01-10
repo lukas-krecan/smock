@@ -55,6 +55,11 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 		this.controlMessage = controlMessage;
 	}
 
+	/**
+	 * Matches document. If the control document is a SOAP message, whole messages are compared, payloads are compared otherwise.
+	 * @param input
+	 * @param message
+	 */
 	protected final void matchInternal(WebServiceMessage input, WebServiceMessage message) {
 		Document controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))

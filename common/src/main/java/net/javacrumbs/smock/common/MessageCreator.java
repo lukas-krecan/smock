@@ -52,7 +52,7 @@ public class MessageCreator implements ResponseCreator, RequestCreator{
 	
 
 	/**
-	 * Creates a response. If source document is a SOAP message a response is created as it is (including SOAP faults), if it
+	 * Creates a message. If source document is a SOAP message a message is created as it is (including SOAP faults), if it
 	 * contains only a payload, it's wrapped in a SOAP envelope.
 	 * @param response
 	 * @param messageFactory

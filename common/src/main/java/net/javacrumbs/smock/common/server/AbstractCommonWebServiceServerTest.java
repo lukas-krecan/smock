@@ -32,11 +32,10 @@ import org.springframework.ws.test.server.RequestCreators;
 import org.springframework.ws.test.server.ResponseMatcher;
 import org.springframework.ws.test.server.ResponseMatchers;
 import org.springframework.ws.test.server.ResponseXPathExpectations;
-import org.springframework.xml.transform.ResourceSource;
 
 /**
  * Simplifies usage of Spring WS testing framework. Wraps static methods of {@link RequestCreators}, {@link ResponseMatchers} and {@link MockWebServiceClient}. 
- * Moreover it automatically creates {@link MockWebServiceClient} instance. 
+ * It also automatically creates {@link MockWebServiceClient} instance. 
  * @author Lukas Krecan
  *
  */
@@ -82,8 +81,7 @@ public abstract class AbstractCommonWebServiceServerTest implements ApplicationC
 	 * @return the response matcher
 	 */
 	public ResponseMatcher payload(Resource payload) throws IOException {
-		//TODO change to:  	return ResponseMatchers.payload(payload);
-		return ResponseMatchers.payload(new ResourceSource(payload));
+		return ResponseMatchers.payload(payload);
 	}
 
 	/**

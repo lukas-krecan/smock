@@ -33,6 +33,11 @@ public class EndpointInterceptorClientAdapter implements ClientInterceptor {
 		this.interceptor = interceptor;
 	}
 	
+	/**
+	 * Wraps all intrceptors in the array.
+	 * @param endpointInterceptors
+	 * @return
+	 */
 	public static ClientInterceptor[] wrapEndpointInterceptors(EndpointInterceptor[] endpointInterceptors)
 	{
   		 if (endpointInterceptors!=null)

@@ -59,6 +59,11 @@ public final class EnhancedDiff extends Diff {
 
 	}
 
+	/**
+	 * Returns true iff difference is only in attribute value namespace prefix but the corresponding namespace is same.  
+	 * @param difference
+	 * @return
+	 */
 	protected final boolean isDifferenceOnlyInAttributeValuePrefix(Difference difference) {
 		Node testNode = difference.getTestNodeDetail().getNode();
 		if (testNode==null)

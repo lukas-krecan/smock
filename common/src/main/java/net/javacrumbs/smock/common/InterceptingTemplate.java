@@ -24,6 +24,10 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
+/**
+ * Common template class for interceptor handling.
+ * @author Lukas Krecan
+ */
 public class InterceptingTemplate {
 	
 	private final ClientInterceptor[] interceptors;
