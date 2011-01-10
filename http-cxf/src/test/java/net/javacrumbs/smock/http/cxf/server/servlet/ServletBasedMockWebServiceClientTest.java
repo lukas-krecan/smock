@@ -17,6 +17,7 @@
 package net.javacrumbs.smock.http.cxf.server.servlet;
 
 import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.test.server.servlet.AbstractServletBasedMockWebServiceClientTest;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
