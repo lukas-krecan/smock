@@ -29,7 +29,7 @@ public class EndpointTest {
 	}
 	
 	private CommonServletBasedMockWebServiceClient createClient() {
-		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, Collections.singletonMap(WarBasedAxisConfigurator.PARAM_AXIS2_REPOSITORY_PATH, "C:/Uziv/ext93337/private/workspace/smock/samples/axis2-server-test/src/main/webapp/WEB-INF/services.xml"));
+		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, Collections.singletonMap(WarBasedAxisConfigurator.PARAM_AXIS2_REPOSITORY_PATH, "C:/Uziv/ext93337/private/workspace/smock/samples/axis2-server-test/src/main/webapp/WEB-INF/services"));
 	}
 
 

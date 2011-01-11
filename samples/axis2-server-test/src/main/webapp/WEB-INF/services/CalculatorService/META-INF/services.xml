@@ -1,4 +1,4 @@
-<service name="TESTService" >
+<service name="CalculatorService" >
         <description>
                 TEST web service
         </description>
