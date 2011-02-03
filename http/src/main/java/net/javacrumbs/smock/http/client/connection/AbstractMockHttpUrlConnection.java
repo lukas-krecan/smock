@@ -68,5 +68,10 @@ public abstract class AbstractMockHttpUrlConnection extends HttpURLConnection {
 	public OutputStream getOutputStream() throws IOException {
 		return activeConnection.getOutputStream();
 	}
+	
+	@Override
+	public String getContentType() {
+		return "text/xml";
+	}
 
 }
