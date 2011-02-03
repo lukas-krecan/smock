@@ -19,6 +19,14 @@
 		<module>http-cxf</module>
 		<module>springws</module>
 	</modules>
+	
+	<developers>
+	    <developer>
+	      <id>lukas</id>
+	      <name>Lukas Krecan</name>
+	      <email>lukas@krecan.net</email>
+	    </developer>
+	</developers>
 
 	<dependencies>
 		<dependency>
