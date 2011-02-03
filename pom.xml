@@ -59,7 +59,8 @@
 				<configuration>
 					<header>header.txt</header>
 					<excludes>
-						<exclude>src/test/resources/**</exclude>
+						<exclude>**/src/test/resources/**</exclude>
+						<exclude>**/src/main/resources/*.xml</exclude>
 						<exclude>LICENSE.txt</exclude>
 					</excludes>
 				</configuration>
