@@ -20,7 +20,6 @@
 		<module>http-cxf</module>
 		<module>springws</module>
 	</modules>
-	
 
 	<dependencies>
 		<dependency>
