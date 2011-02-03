@@ -20,16 +20,24 @@ import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebService
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
-import com.sun.xml.ws.transport.http.servlet.WSSpringServlet;
-
 /**
  * Creates connection to Metro servlet.
  * @author Lukas Krecan
  */
 public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebServiceClient {
 
+	private static final String WS_SPRING_SERVLET_CLASS = "com.sun.xml.ws.transport.http.servlet.WSSpringServlet";
+
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
-		super(WSSpringServlet.class, applicationContext, clientInterceptors);
+		super(getWSSpringServletClass(), applicationContext, clientInterceptors);
+	}
+
+	private static Class<?> getWSSpringServletClass() {
+		try {
+			return Class.forName(WS_SPRING_SERVLET_CLASS);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("Package org.jvnet.jax-ws-commons.spring:jaxws-spring is not on classpath.",e);
+		}
 	}
 
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext) {

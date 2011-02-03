@@ -20,41 +20,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-http-test-package</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
-			<artifactId>jaxws-spring</artifactId>
-			<version>1.8</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.jvnet.staxex</groupId>
-			<artifactId>stax-ex</artifactId>
-			<version>1.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.stream.buffer</groupId>
-			<artifactId>streambuffer</artifactId>
-			<version>1.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-		    <groupId>com.sun.xml.ws</groupId>
-		    <artifactId>jaxws-rt</artifactId>
-		    <version>2.1.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>3.0.5.RELEASE</version>
@@ -64,19 +29,6 @@
 			<artifactId>spring-core</artifactId>
 			<version>3.0.5.RELEASE</version>
 		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.1.13</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>java.net</id>
-			<name>Java.net repo</name>
-			<url>http://download.java.net/maven/2/</url>
-		</repository>
-	</repositories>
 </project>
 
