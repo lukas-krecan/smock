@@ -2,7 +2,7 @@
         <xsl:param name="result"/>
         <xsl:template match="/">
               <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-				  <result><xsl:value-of select="$result"/></result>
+				  <return><xsl:value-of select="$result"/></return>
 			  </plusResponse>
 		</xsl:template>
 </xsl:stylesheet>

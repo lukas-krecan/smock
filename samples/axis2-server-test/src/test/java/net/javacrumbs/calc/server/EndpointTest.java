@@ -18,8 +18,8 @@ package net.javacrumbs.calc.server;
 import static net.javacrumbs.smock.common.SmockCommon.resource;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static org.springframework.ws.test.server.ResponseMatchers.clientOrSenderFault;
 import static org.springframework.ws.test.server.ResponseMatchers.noFault;
+import static org.springframework.ws.test.server.ResponseMatchers.serverOrReceiverFault;
 import static org.springframework.ws.test.server.ResponseMatchers.validPayload;
 import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 
@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
 
-import org.apache.axis2.deployment.WarBasedAxisConfigurator;
 import org.apache.axis2.transport.http.AxisServlet;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +44,6 @@ public class EndpointTest {
 	}
 	
 	private CommonServletBasedMockWebServiceClient createClient() {
-//		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, Collections.singletonMap(WarBasedAxisConfigurator.PARAM_AXIS2_REPOSITORY_PATH, "C:/Uziv/ext93337/private/workspace/smock/samples/axis2-server-test/src/main/webapp/WEB-INF/services/*"));
 		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, null, "file:./src/main/webapp");
 	}
 
@@ -67,7 +65,7 @@ public class EndpointTest {
 	}
 	@Test
 	public void testAssertXPath() throws Exception {
-		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(3));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:return",NS_MAP).evaluatesTo(3));
 	}
 
 	@Test
@@ -76,7 +74,7 @@ public class EndpointTest {
 	}
 	@Test
 	public void testErrorMessage() throws Exception {
-		client.sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(clientOrSenderFault("Unmarshalling Error: For input string: \"aaa\" "));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(serverOrReceiverFault("For input string: \"aaa\""));
 	}
 
 	@Test

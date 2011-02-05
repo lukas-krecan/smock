@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Fault xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>soap:Client</faultcode><faultstring>Unmarshalling Error: For input string: "aaa" </faultstring></soap:Fault>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><soapenv:Fault xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>soapenv:Server</faultcode><faultstring>For input string: "aaa"</faultstring><detail><Exception>${IGNORE}</Exception></detail></soapenv:Fault>
