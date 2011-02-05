@@ -1,0 +1,13 @@
+<serviceGroup>
+	<service name="CalcService"
+             targetNamespace="http://javacrumbs.net/calc">
+		<description>
+			Book sample service
+		</description>
+        <schema schemaNamespace="http://javacrumbs.net/calc"/>
+        <parameter name="ServiceClass" locked="false">net.javacrumbs.calc.server.CalcEndpoint</parameter>
+		<operation name="plus">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</operation>
+	</service>
+</serviceGroup>

@@ -14,6 +14,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>net.javacrumbs</groupId>
+			<artifactId>smock-groovy-template</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 	      <groupId>org.apache.axis2</groupId>
 	      <artifactId>axis2-transport-http</artifactId>
 	      <version>1.5.4</version>
@@ -24,26 +29,16 @@
 	      <version>1.5.4</version>
 	    </dependency>
 		<dependency>
+	      <groupId>org.apache.axis2</groupId>
+	      <artifactId>axis2-adb</artifactId>
+	      <version>1.5.4</version>
+	    </dependency>
+		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>3.0.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>3.0.5.RELEASE</version>
-		</dependency>
 
-		<dependency>
-			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-groovy-template</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -58,7 +53,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>jaxwsws-server-test</finalName>
+		<finalName>axis2-server-test</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
