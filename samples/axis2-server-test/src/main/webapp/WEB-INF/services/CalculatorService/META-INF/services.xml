@@ -1,5 +1,5 @@
 <serviceGroup>
-	<service name="CalcService"
+	<service name="CalculatorService"
              targetNamespace="http://javacrumbs.net/calc">
 		<description>
 			Book sample service

@@ -35,6 +35,7 @@ import org.junit.Test;
 import org.springframework.context.support.GenericApplicationContext;
 
 public class EndpointTest {
+	private static final String ENDPOINT_URL = "/services/CalculatorService.CalculatorServiceHttpSoap11Endpoint";
 	private CommonServletBasedMockWebServiceClient client;
 	
 	@Before
@@ -44,7 +45,8 @@ public class EndpointTest {
 	}
 	
 	private CommonServletBasedMockWebServiceClient createClient() {
-		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, Collections.singletonMap(WarBasedAxisConfigurator.PARAM_AXIS2_REPOSITORY_PATH, "C:/Uziv/ext93337/private/workspace/smock/samples/axis2-server-test/src/main/webapp/WEB-INF/services.xml"));
+//		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, Collections.singletonMap(WarBasedAxisConfigurator.PARAM_AXIS2_REPOSITORY_PATH, "C:/Uziv/ext93337/private/workspace/smock/samples/axis2-server-test/src/main/webapp/WEB-INF/services/*"));
+		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, null, "file:./src/main/webapp");
 	}
 
 
@@ -52,33 +54,33 @@ public class EndpointTest {
 	
 	@Test
 	public void testSimple() throws Exception {
-		client.sendRequestTo("/CalculatorService", withMessage("request1.xml")).andExpect(noFault());
+		client.sendRequestTo(ENDPOINT_URL, withMessage("request1.xml")).andExpect(noFault());
 	}
 	
 	@Test
 	public void testCompare() throws Exception {
-		client.sendRequestTo("/CalculatorService",withMessage("request1.xml")).andExpect(message("response1.xml"));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(message("response1.xml"));
 	}
 	@Test
 	public void testValidateResponse() throws Exception {
-		client.sendRequestTo("/CalculatorService",withMessage("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/calc.xsd")));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/calc.xsd")));
 	}
 	@Test
 	public void testAssertXPath() throws Exception {
-		client.sendRequestTo("/CalculatorService",withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(3));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(3));
 	}
 
 	@Test
 	public void testError() throws Exception {
-		client.sendRequestTo("/CalculatorService",withMessage("request-error.xml")).andExpect(message("response-error.xml"));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(message("response-error.xml"));
 	}
 	@Test
 	public void testErrorMessage() throws Exception {
-		client.sendRequestTo("/CalculatorService",withMessage("request-error.xml")).andExpect(clientOrSenderFault("Unmarshalling Error: For input string: \"aaa\" "));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(clientOrSenderFault("Unmarshalling Error: For input string: \"aaa\" "));
 	}
 
 	@Test
 	public void testResponseTemplate() throws Exception {
-		client.sendRequestTo("/CalculatorService",withMessage("request-context-xslt.xml").withParameter("a",1).withParameter("b", 2)).andExpect(message("response-context-xslt.xml").withParameter("result", 3));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request-context-xslt.xml").withParameter("a",1).withParameter("b", 2)).andExpect(message("response-context-xslt.xml").withParameter("result", 3));
 	}
 }
