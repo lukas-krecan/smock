@@ -74,23 +74,24 @@ public class CommonServletBasedMockWebServiceClient {
 	}
 	
 	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
-		this(servletClass, applicationContext, clientInterceptors, null);
+		this(servletClass, applicationContext, clientInterceptors, null, null);
 	}
 	
-	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors, Map<String, String> initParameters) {
+	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors, Map<String, String> initParameters, String basePath) {
 		Assert.notNull(applicationContext, "ApplicationContext has to be set");
         messageFactory =  new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
         interceptingTemplate = new InterceptingTemplate(clientInterceptors);
-        createServlet(servletClass, applicationContext, initParameters);
+        createServlet(servletClass, applicationContext, initParameters, basePath);
 	}
 
-	private void createServlet(Class<?> servletClass, ApplicationContext applicationContext, Map<String, String> initParameters) {
+	private void createServlet(Class<?> servletClass, ApplicationContext applicationContext, Map<String, String> initParameters, String basePath) {
 		if (servletCache.containsKey(applicationContext))
 		{
 			servlet = servletCache.get(applicationContext);
 			return;
 		}
-		MockServletConfig config = new MockServletConfig();
+		MockServletContext context = new MockServletContext(basePath, applicationContext);
+		MockServletConfig config = new MockServletConfig(context);
         config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, new ApplicationContextWrapper(applicationContext, config.getServletContext()));
         if (initParameters!=null)
         {
