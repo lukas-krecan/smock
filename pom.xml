@@ -24,6 +24,7 @@
 		<module>http-test-package</module>
 		<module>http-metro</module>
 		<module>http-cxf</module>
+		<module>http-axis2</module>
 		<module>springws</module>
 	</modules>
 
