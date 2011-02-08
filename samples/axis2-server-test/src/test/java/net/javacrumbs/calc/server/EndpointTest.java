@@ -16,6 +16,7 @@
 package net.javacrumbs.calc.server;
 
 import static net.javacrumbs.smock.axis2.server.SmockServer.createClient;
+import static net.javacrumbs.smock.axis2.server.SmockServer.createConfigurationContextFromResource;
 import static net.javacrumbs.smock.common.SmockCommon.resource;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
@@ -30,8 +31,6 @@ import java.util.Map;
 import net.javacrumbs.smock.axis2.server.Axis2MockWebServiceClient;
 
 import org.apache.axis2.AxisFault;
-import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,8 +41,7 @@ public class EndpointTest {
 	@Before
 	public void setUp() throws AxisFault
 	{
-		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem("./src/main/webapp/WEB-INF");
-		client = createClient(configurationContext);
+		client = createClient(createConfigurationContextFromResource(resource("file:./src/main/webapp/WEB-INF")));
 	}
 	
 

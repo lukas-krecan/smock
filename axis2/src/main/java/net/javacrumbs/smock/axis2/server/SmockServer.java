@@ -18,6 +18,9 @@ package net.javacrumbs.smock.axis2.server;
 import net.javacrumbs.smock.common.server.CommonSmockServer;
 
 import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 /**
@@ -32,7 +35,17 @@ public class SmockServer extends CommonSmockServer {
 	}
 	
 	public static Axis2MockWebServiceClient createClient(ConfigurationContext configurationContext) {
-		return new Axis2MockWebServiceClient(configurationContext, null);
+		return createClient(configurationContext, null);
+	}
+
+
+	public static ConfigurationContext createConfigurationContextFromResource(Resource axis2Repository) {
+		try {
+			Assert.notNull(axis2Repository, "axis2Repository can not be null");
+			return ConfigurationContextFactory.createConfigurationContextFromFileSystem(axis2Repository.getFile().getAbsolutePath());
+		} catch (Exception e) {
+			throw new IllegalStateException("Can not load Axis2 repository.",e);
+		}
 	}
     
 

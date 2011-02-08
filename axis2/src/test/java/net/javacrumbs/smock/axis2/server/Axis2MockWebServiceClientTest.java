@@ -16,6 +16,8 @@
 package net.javacrumbs.smock.axis2.server;
 
 import static net.javacrumbs.smock.axis2.server.SmockServer.createClient;
+import static net.javacrumbs.smock.axis2.server.SmockServer.createConfigurationContextFromResource;
+import static net.javacrumbs.smock.common.SmockCommon.resource;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
 import static org.easymock.EasyMock.anyObject;
@@ -26,10 +28,8 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertNotNull;
 
 import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.MessageContext;
 
@@ -41,7 +41,7 @@ public class Axis2MockWebServiceClientTest{
 	@Before
 	public void setUp() throws Exception
 	{
-		configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(new ClassPathResource("").getFile().getAbsolutePath());
+		configurationContext = createConfigurationContextFromResource(resource(""));
 	}
 	
 	@Test
