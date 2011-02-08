@@ -15,9 +15,10 @@
 		</dependency>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-common</artifactId>
+			<artifactId>smock-groovy-template</artifactId>
 			<version>0.2-SNAPSHOT</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -49,11 +50,7 @@
 			<version>3.0.5.RELEASE</version>
 		</dependency>
 
-		<dependency>
-			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-groovy-template</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
