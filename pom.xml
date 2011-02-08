@@ -20,7 +20,8 @@
 	<modules>
 		<module>common</module>
 		<module>groovy-template</module>
-		<module>http</module>
+		<module>http-server</module>
+		<module>http-client</module>
 		<module>http-test-package</module>
 		<module>http-metro</module>
 		<module>http-cxf</module>

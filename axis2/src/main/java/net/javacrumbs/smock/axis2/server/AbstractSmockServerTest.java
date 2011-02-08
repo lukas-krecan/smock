@@ -26,6 +26,8 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
  *
  */
 public abstract class AbstractSmockServerTest extends AbstractCommonSmockServerTest {
+	//TODO finish
+	protected  Axis2MockWebServiceClient mockWebServiceClient;
 	
 	protected Axis2MockWebServiceClient createClient(ConfigurationContext configurationContext, ClientInterceptor[] interceptors) {
 		return SmockServer.createClient(configurationContext);

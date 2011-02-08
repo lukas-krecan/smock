@@ -7,10 +7,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
-	<artifactId>smock-http</artifactId>
+	<artifactId>smock-http-server</artifactId>
 	<packaging>jar</packaging>
 	<version>0.2-SNAPSHOT</version>
-	<name>smock-http</name>
+	<name>smock-http-server</name>
 	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
 		Spring WS Mock extension.	
