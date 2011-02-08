@@ -20,11 +20,12 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import javax.xml.transform.Source;
+
 import org.junit.Test;
 import org.springframework.ws.soap.SoapEnvelope;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.xml.transform.StringSource;
-import org.w3c.dom.Document;
 
 
 public class MessageMatcherTest extends AbstractSmockTest{
@@ -33,8 +34,8 @@ public class MessageMatcherTest extends AbstractSmockTest{
 	@Test
 	public void testSame()
 	{
-		Document document = loadDocument(new StringSource(MESSAGE));
-		MessageMatcher matcher = new MessageMatcher(document);
+		Source source = new StringSource(MESSAGE);
+		MessageMatcher matcher = new MessageMatcher(source);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		SoapEnvelope envelope = createMock(SoapEnvelope.class);
@@ -49,8 +50,8 @@ public class MessageMatcherTest extends AbstractSmockTest{
 	@Test(expected=AssertionError.class)
 	public void testDifferent()
 	{
-		Document document = loadDocument(new StringSource(MESSAGE));
-		MessageMatcher matcher = new MessageMatcher(document);
+		Source source = new StringSource(MESSAGE);
+		MessageMatcher matcher = new MessageMatcher(source);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		SoapEnvelope envelope = createMock(SoapEnvelope.class);
@@ -65,8 +66,8 @@ public class MessageMatcherTest extends AbstractSmockTest{
 	@Test
 	public void testPayload()
 	{
-		Document document = loadDocument(new StringSource(PAYLOAD));
-		MessageMatcher matcher = new MessageMatcher(document);
+		Source source = new StringSource(PAYLOAD);
+		MessageMatcher matcher = new MessageMatcher(source);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD));
@@ -79,8 +80,8 @@ public class MessageMatcherTest extends AbstractSmockTest{
 	@Test(expected=AssertionError.class)
 	public void testPayloadDifferent()
 	{
-		Document document = loadDocument(new StringSource(PAYLOAD));
-		MessageMatcher matcher = new MessageMatcher(document);
+		Source source = new StringSource(PAYLOAD);
+		MessageMatcher matcher = new MessageMatcher(source);
 		
 		SoapMessage request = createMock(SoapMessage.class);
 		expect(request.getPayloadSource()).andReturn(new StringSource(PAYLOAD2));

@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 
 import net.javacrumbs.smock.common.SmockCommon;
 import net.javacrumbs.smock.common.TemplateAwareMessageCreator;
@@ -55,7 +56,7 @@ public class CommonSmockServer extends SmockCommon {
 	 * @return the request creator
 	 */
 	public static ParametrizableRequestCreator withMessage(Resource messageResource) {
-		return withMessage(createResourceSource(messageResource));
+		return withMessage(createSource(messageResource));
 	}
     /**
      * Create a request with the given {@link Resource} XML as content. If the content is payload it will be wrapped into a SOAP, 
@@ -65,7 +66,7 @@ public class CommonSmockServer extends SmockCommon {
      * @return the request creator
      */
     public static ParametrizableRequestCreator withMessage(Source message) {
-    	return withMessage(loadDocument(message));
+    	return new TemplateAwareMessageCreator(message,EMPTY_MAP, getTemplateProcessor());
     }
     /**
      * Create a request with the given {@link Resource} XML as content. If the content is payload it will be wrapped into a SOAP, 
@@ -74,7 +75,7 @@ public class CommonSmockServer extends SmockCommon {
      * @return
      */
     public static ParametrizableRequestCreator withMessage(Document message) {
-    	return new TemplateAwareMessageCreator(message,EMPTY_MAP, getTemplateProcessor());
+    	return withMessage(new DOMSource(message));
     }
     
     /**
@@ -95,7 +96,7 @@ public class CommonSmockServer extends SmockCommon {
      */
     public static ParametrizableResponseMatcher message(Resource messageResource)
     {
-    	return message(createResourceSource(messageResource));
+    	return message(createSource(messageResource));
     }
     /**
      * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
@@ -104,7 +105,7 @@ public class CommonSmockServer extends SmockCommon {
      * @return
      */
 	public static ParametrizableResponseMatcher message(Source content) {
-		return message(loadDocument(content));
+		return new TemplateAwareMessageMatcher(content, EMPTY_MAP, getTemplateProcessor());
 	}
 	/**
 	 * Expects the given message. If the message contains only payload, only the payloads will be compared. If it contains whole message, 
@@ -113,6 +114,6 @@ public class CommonSmockServer extends SmockCommon {
 	 * @return
 	 */
 	public static ParametrizableResponseMatcher message(Document message) {
-		return new TemplateAwareMessageMatcher(message,EMPTY_MAP, getTemplateProcessor());
+		return message(new DOMSource(message));
 	}
 }

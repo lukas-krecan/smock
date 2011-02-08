@@ -15,6 +15,8 @@
  */
 package net.javacrumbs.smock.common;
 
+import javax.xml.transform.Source;
+
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;
 import org.springframework.ws.soap.SoapMessage;
@@ -26,26 +28,26 @@ public class MessageCreatorTest extends AbstractSmockTest {
 	@Test
 	public void testReturnMessage() throws Exception
 	{
-		Document sourceDocument = loadDocument(new StringSource(MESSAGE));
-		MessageCreator responseCreator = new MessageCreator(sourceDocument);
+		Source source = new StringSource(MESSAGE);
+		MessageCreator responseCreator = new MessageCreator(source);
 		SaajSoapMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createMessage(TEST_URI, null, messageFactory);
 		
 		Document generatedDocument = loadDocument(response.getEnvelope().getSource());
-		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);
+		XMLAssert.assertXMLEqual(loadDocument(source), generatedDocument);
 	}
 	@Test
 	public void testReturnPayload() throws Exception
 	{
-		Document sourceDocument = loadDocument(new StringSource(PAYLOAD));
-		MessageCreator responseCreator = new MessageCreator(sourceDocument);
+		Source source = new StringSource(PAYLOAD);
+		MessageCreator responseCreator = new MessageCreator(source);
 		SaajSoapMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createMessage(TEST_URI, null, messageFactory);
 		
 		Document generatedDocument = loadDocument(response.getPayloadSource());
-		XMLAssert.assertXMLEqual(sourceDocument, generatedDocument);
+		XMLAssert.assertXMLEqual(loadDocument(source), generatedDocument);
 	}
 
 }

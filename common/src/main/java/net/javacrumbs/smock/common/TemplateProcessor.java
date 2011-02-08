@@ -19,8 +19,6 @@ import java.util.Map;
 
 import javax.xml.transform.Source;
 
-import org.w3c.dom.Document;
-
 /**
  * Processes a template.
  * @author Lukas Krecan
@@ -34,5 +32,5 @@ public interface TemplateProcessor {
 	 * @param parameters
 	 * @return
 	 */
-	public Document processTemplate(Document template, Source input, Map<String, Object> parameters);
+	public Source processTemplate(Source template, Source input, Map<String, Object> parameters);
 }

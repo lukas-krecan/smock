@@ -22,14 +22,11 @@ import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
 
+import org.springframework.xml.transform.StringResult;
+import org.springframework.xml.transform.StringSource;
 import org.springframework.xml.transform.TransformerObjectSupport;
-import org.springframework.xml.xpath.XPathExpression;
-import org.springframework.xml.xpath.XPathExpressionFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.springframework.xml.xpath.Jaxp13XPathTemplate;
 
 /**
  * XSLT helper class.
@@ -50,9 +47,10 @@ class XsltUtil extends TransformerObjectSupport{
 	 * @param stringSource
 	 * @return
 	 */
-	 boolean isTemplate(Node context) {
-		XPathExpression xPathExpression = XPathExpressionFactory.createXPathExpression("count(/xs:stylesheet)>0", NAMESPACES);
-		return xPathExpression.evaluateAsBoolean(context);
+	 boolean isTemplate(Source context) {
+		Jaxp13XPathTemplate template = new Jaxp13XPathTemplate();
+		template.setNamespaces(NAMESPACES);
+		return template.evaluateAsBoolean("count(/xs:stylesheet)>0", context);
 	}
 	 
 	/**
@@ -62,12 +60,12 @@ class XsltUtil extends TransformerObjectSupport{
 	 * @return
 	 * @throws TransformerException 
 	 */
-	Document transform(Document template, Source source) 
+	Source transform(Source template, Source source) 
 	{
 		try {
-			DOMResult transformedExpectedDocument = new DOMResult();
+			StringResult transformedExpectedDocument = new StringResult();
 			transform(template, source, transformedExpectedDocument);
-			return (Document) transformedExpectedDocument.getNode();
+			return new StringSource(transformedExpectedDocument.toString());
 		} catch (TransformerException e) {
 			throw new IllegalArgumentException("Transformation error",e);
 		}
@@ -79,8 +77,8 @@ class XsltUtil extends TransformerObjectSupport{
 	 * @return
 	 * @throws TransformerException 
 	 */
-	void transform(Document template, Source source, Result result) throws TransformerException {
-		Transformer transformer = getTransformerFactory().newTransformer(new DOMSource(template));
+	void transform(Source template, Source source, Result result) throws TransformerException {
+		Transformer transformer = getTransformerFactory().newTransformer(template);
 		setParameters(transformer);
 		transformer.transform(source, result);
 	}

@@ -17,6 +17,7 @@ package net.javacrumbs.smock.common;
 import java.io.IOException;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -55,9 +56,10 @@ public abstract class SmockCommon  {
 		return XmlUtil.loadDocument(message);
 	}	
     
-    protected static ResourceSource createResourceSource(Resource resource) {
+    protected static Source createSource(Resource resource) {
         try {
-            return new ResourceSource(resource);
+        	//we need to read the source multiple times thus using DOMSource
+        	return new DOMSource(loadDocument(new ResourceSource(resource)));
         }
         catch (IOException ex) {
             throw new IllegalArgumentException(resource + " could not be opened", ex);
@@ -70,7 +72,7 @@ public abstract class SmockCommon  {
      */
     public static Source fromResource(String location)
     {
-    	return createResourceSource(resource(location));
+    	return createSource(resource(location));
     }
     /**
      * Loads resource using resourceLoader set by {@link #setResourceLoader(ResourceLoader)}.

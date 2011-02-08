@@ -27,7 +27,6 @@ import net.javacrumbs.smock.common.server.ParametrizableRequestCreator;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
-import org.w3c.dom.Document;
 
 
 /**
@@ -41,7 +40,7 @@ public class TemplateAwareMessageCreator extends MessageCreator  implements Para
 	
 	private final TemplateProcessor templateProcessor;
 
-	public TemplateAwareMessageCreator(Document response, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+	public TemplateAwareMessageCreator(Source response, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(response);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = new HashMap<String, Object>(parameters);
@@ -49,9 +48,9 @@ public class TemplateAwareMessageCreator extends MessageCreator  implements Para
 	}
 
 	@Override
-	protected Document preprocessSource(URI uri, WebServiceMessage input,	WebServiceMessageFactory messageFactory) {
+	protected Source preprocessSource(URI uri, WebServiceMessage input,	WebServiceMessageFactory messageFactory) {
 		Source inputSource = input!=null?input.getPayloadSource():null;
-		return templateProcessor.processTemplate(getSourceDocument(), inputSource, parameters);
+		return templateProcessor.processTemplate(getSource(), inputSource, parameters);
 	}
 	
 	public TemplateAwareMessageCreator withParameter(String name, Object value) {

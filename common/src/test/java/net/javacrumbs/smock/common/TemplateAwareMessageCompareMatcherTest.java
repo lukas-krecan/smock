@@ -75,7 +75,7 @@ public class TemplateAwareMessageCompareMatcherTest extends AbstractSmockTest {
 		expect(responseMessage.getPayloadSource()).andReturn(new StringSource(message));
 		replay(requestMessage, responseMessage);
 
-		TemplateAwareMessageMatcher matcher = new TemplateAwareMessageMatcher(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
+		TemplateAwareMessageMatcher matcher = new TemplateAwareMessageMatcher(new StringSource(template), parameters, new XsltTemplateProcessor());
 		matcher.match(requestMessage, responseMessage);
 
 		verify(requestMessage, responseMessage);

@@ -20,15 +20,13 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 
-import org.w3c.dom.Document;
-
 /**
  * XSLT {@link TemplateProcessor}.
  * @author Lukas Krecan
  *
  */
 public class XsltTemplateProcessor implements TemplateProcessor {
-	public Document processTemplate(Document template, Source input, Map<String, Object> parameters) {
+	public Source processTemplate(Source template, Source input, Map<String, Object> parameters) {
 		XsltUtil xsltUtil = new XsltUtil(parameters);
 		if (xsltUtil.isTemplate(template))
 		{

@@ -32,8 +32,7 @@ import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.SoapVersion;
 import org.springframework.xml.transform.StringResult;
 import org.springframework.xml.transform.TransformerHelper;
-import org.springframework.xml.xpath.XPathExpression;
-import org.springframework.xml.xpath.XPathExpressionFactory;
+import org.springframework.xml.xpath.Jaxp13XPathTemplate;
 import org.w3c.dom.Document;
 
 /**
@@ -73,11 +72,12 @@ public class XmlUtil {
 	 * @param document
 	 * @return
 	 */
-	public static boolean isSoap(Document document) {
+	public static boolean isSoap(Source source) {
 		for (String prefix: SOAP_NAMESPACES.keySet()) {
 			String expression = "/"+prefix+":Envelope";
-			XPathExpression xPathExpression = XPathExpressionFactory.createXPathExpression(expression, SOAP_NAMESPACES);
-			if (xPathExpression.evaluateAsBoolean(document))
+			Jaxp13XPathTemplate xpathTemplate = new Jaxp13XPathTemplate();
+			xpathTemplate.setNamespaces(SOAP_NAMESPACES);
+			if (xpathTemplate.evaluateAsBoolean(expression, source))
 			{
 				return true;
 			}
@@ -138,5 +138,15 @@ public class XmlUtil {
 	public static InputStream getDocumentAsStream(Document document)
 	{
 		return new ByteArrayInputStream(serialize(document).getBytes(UTF8_CHARSET));
+	}
+	
+	/**
+	 * Streams the source as UTF-8 encoded stream.
+	 * @param document
+	 * @return
+	 */
+	public static InputStream getSourceAsStream(Source source)
+	{
+		return new ByteArrayInputStream(serialize(source).getBytes(UTF8_CHARSET));
 	}
 }

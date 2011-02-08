@@ -47,7 +47,7 @@ public class GroovyTemplateProcessor implements TemplateProcessor {
 		this(new SimpleTemplateEngine());
 	}
 
-	public Document processTemplate(Document template, Source input, Map<String, Object> parameters) {
+	public Source processTemplate(Source template, Source input, Map<String, Object> parameters) {
 		try {
 			String templateText = serialize(template);
 			HashMap<String, Object>  binding = new HashMap<String, Object> (parameters);
@@ -56,7 +56,7 @@ public class GroovyTemplateProcessor implements TemplateProcessor {
 				Document inputDocument = loadDocument(input);
 				binding.put(inputDocument.getFirstChild().getNodeName(), new XmlSlurper().parse(new StringReader(serialize(inputDocument))));
 			}
-			return loadDocument(new StringSource(templateEngine.createTemplate(templateText).make(binding).toString()));
+			return new StringSource(templateEngine.createTemplate(templateText).make(binding).toString());
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Can not process Groovy template.",e);
 		}

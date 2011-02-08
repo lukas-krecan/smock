@@ -94,7 +94,7 @@ public class TemplateAwareMessageResponseCreatorTest extends AbstractSmockTest{
 		}
 	
 		private void doCallbackTest(String template, String request, String expectedResponse, Map<String, Object> parameters) throws IOException, TransformerException, SAXException {
-			TemplateAwareMessageCreator callback = new TemplateAwareMessageCreator(loadDocument(new StringSource(template)), parameters, new XsltTemplateProcessor());
+			TemplateAwareMessageCreator callback = new TemplateAwareMessageCreator(new StringSource(template), parameters, new XsltTemplateProcessor());
 			
 			
 			WebServiceMessage response = callback.createResponse(TEST_URI, createMessage(request), FACTORY);

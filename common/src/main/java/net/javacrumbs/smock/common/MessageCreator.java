@@ -16,15 +16,15 @@
 package net.javacrumbs.smock.common;
 
 import static net.javacrumbs.smock.common.XmlUtil.doTransform;
-import static net.javacrumbs.smock.common.XmlUtil.getDocumentAsStream;
 import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
+import static net.javacrumbs.smock.common.XmlUtil.getSourceAsStream;
 import static net.javacrumbs.smock.common.XmlUtil.isSoap;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
 
 import java.io.IOException;
 import java.net.URI;
 
-import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.Source;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +32,6 @@ import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.test.client.ResponseCreator;
 import org.springframework.ws.test.server.RequestCreator;
-import org.w3c.dom.Document;
 
 /**
  * Common class that is able to create a message for both client and server.
@@ -41,12 +40,12 @@ import org.w3c.dom.Document;
  */
 public class MessageCreator implements ResponseCreator, RequestCreator{
 
-	private final Document sourceDocument;
+	private final Source source;
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	public MessageCreator(Document sourceDocument) {
-		this.sourceDocument = sourceDocument;
+	public MessageCreator(Source sourceDocument) {
+		this.source = sourceDocument;
 	}
 	
 
@@ -59,16 +58,17 @@ public class MessageCreator implements ResponseCreator, RequestCreator{
 	 * @throws IOException
 	 */
 	protected final WebServiceMessage createMessage(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) throws IOException {
-		Document source = preprocessSource(uri, input, messageFactory);
+		Source source = preprocessSource(uri, input, messageFactory);
 		WebServiceMessage result;
 		if (isSoap(source))
 		{
-			result = messageFactory.createWebServiceMessage(getDocumentAsStream(source));
+			//TODO optimalize
+			result = messageFactory.createWebServiceMessage(getSourceAsStream(source));
 		}
 		else
 		{
 			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
-			doTransform(new DOMSource(source), webServiceMessage.getPayloadResult());
+			doTransform(source, webServiceMessage.getPayloadResult());
 			result = webServiceMessage;
 		}
 		if (logger.isDebugEnabled())
@@ -93,12 +93,12 @@ public class MessageCreator implements ResponseCreator, RequestCreator{
 	 * @param messageFactory
 	 * @return
 	 */
-	protected Document preprocessSource(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) {
-		return getSourceDocument();
+	protected Source preprocessSource(URI uri, WebServiceMessage input, WebServiceMessageFactory messageFactory) {
+		return getSource();
 	}
 
-	public final Document getSourceDocument() {
-		return sourceDocument;
+	public final Source getSource() {
+		return source;
 	}
 
 }

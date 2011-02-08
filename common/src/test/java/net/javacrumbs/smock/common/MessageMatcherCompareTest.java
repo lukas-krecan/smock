@@ -21,10 +21,11 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
+import javax.xml.transform.Source;
+
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.WebServiceMessage;
-import org.w3c.dom.Document;
 
 
 public class MessageMatcherCompareTest extends AbstractSmockTest{
@@ -33,14 +34,14 @@ public class MessageMatcherCompareTest extends AbstractSmockTest{
 	@Test
 	public void testValid() throws IOException
 	{
-		Document controlDocument = loadDocument("control-message-test.xml");
+		Source controlDocument = loadControl("control-message-test.xml");
 		MessageMatcher matcher = new MessageMatcher(controlDocument);
 		matcher.matchInternal(null, loadMessage("valid-message.xml"));
 	}
 	
 	public void compareDocuments(String control, String test) throws IOException
 	{
-		Document controlDocument = loadDocument(control);
+		Source controlDocument = loadControl(control);
 		MessageMatcher matcher = new MessageMatcher(controlDocument);
 		matcher.matchInternal(null, loadMessage(test));
 	}
@@ -95,9 +96,9 @@ public class MessageMatcherCompareTest extends AbstractSmockTest{
 	
 
 	
-	private Document loadDocument(String name)
+	private Source loadControl(String name)
 	{
-		return loadDocument(fromResource("xml/"+name));
+		return fromResource("xml/"+name);
 	}
 	
 	private WebServiceMessage loadMessage(String name) throws IOException {

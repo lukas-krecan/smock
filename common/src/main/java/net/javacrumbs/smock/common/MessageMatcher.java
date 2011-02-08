@@ -24,6 +24,8 @@ import static net.javacrumbs.smock.common.XmlUtil.serialize;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.xml.transform.Source;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.custommonkey.xmlunit.Diff;
@@ -31,7 +33,6 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.server.ResponseMatcher;
-import org.w3c.dom.Document;
 
 
 
@@ -42,7 +43,7 @@ import org.w3c.dom.Document;
  */
 public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 
-	protected final Document controlMessage;
+	protected final Source controlMessage;
 	
 	private final Log logger = LogFactory.getLog(getClass()); 
 
@@ -50,7 +51,7 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 		XMLUnit.setIgnoreWhitespace(true);
 	}
 
-	public MessageMatcher(Document controlMessage) {
+	public MessageMatcher(Source controlMessage) {
 		this.controlMessage = controlMessage;
 	}
 
@@ -60,16 +61,16 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 	 * @param message
 	 */
 	protected final void matchInternal(WebServiceMessage input, WebServiceMessage message) {
-		Document controlMessage = preprocessControlMessage(input);
+		Source controlMessage = preprocessControlMessage(input);
 		if (isSoapControl(controlMessage))
 		{
-			Document messageDocument = loadDocument(getEnvelopeSource(message));
-			compare(controlMessage, messageDocument);
+			Source messageSource = getEnvelopeSource(message);
+			compare(controlMessage, messageSource);
 		}
 		else //payload only
 		{
-			Document messageDocument = loadDocument(message.getPayloadSource());
-			compare(controlMessage, messageDocument);
+			Source messageSource = message.getPayloadSource();
+			compare(controlMessage, messageSource);
 		}
 	}
 	
@@ -89,12 +90,12 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 	 * @param messageDocument 
 	 * @throws AssertionError
 	 */
-	protected final void compare(Document controlMessage, Document messageDocument) {
+	protected final void compare(Source controlMessage, Source messageSource) {
 		if (logger.isDebugEnabled())
 		{
-			logger.debug("Comparing:\n "+serialize(controlMessage)+"\n with:\n"+serialize(messageDocument));
+			logger.debug("Comparing:\n "+serialize(controlMessage)+"\n with:\n"+serialize(messageSource));
 		}
-		Diff diff = createDiff(controlMessage, messageDocument);
+		Diff diff = createDiff(controlMessage, messageSource);
 		if (!diff.similar())
 		{
 			throw new AssertionError("Messages are different, " + diff.toString());
@@ -107,7 +108,7 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 	 * @param controlMessage
 	 * @return
 	 */
-	protected Document preprocessControlMessage(WebServiceMessage input) {
+	protected Source preprocessControlMessage(WebServiceMessage input) {
 		return getControlMessage();
 	}
 
@@ -117,15 +118,15 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 	 * @param messageDocument
 	 * @return
 	 */
-	protected Diff createDiff(Document controlMessage, Document messageDocument) {
-		return new EnhancedDiff(controlMessage, messageDocument);
+	protected Diff createDiff(Source controlMessage, Source messageSource) {
+		return new EnhancedDiff(loadDocument(controlMessage), loadDocument(messageSource));
 	}
 
-	private boolean isSoapControl(Document controlMessage) {
+	private boolean isSoapControl(Source controlMessage) {
 		return isSoap(controlMessage);
 	}
 
-	public final Document getControlMessage() {
+	public final Source getControlMessage() {
 		return controlMessage;
 	}
 

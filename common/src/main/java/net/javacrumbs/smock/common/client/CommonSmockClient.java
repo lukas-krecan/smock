@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 
 import net.javacrumbs.smock.common.SmockCommon;
 import net.javacrumbs.smock.common.TemplateAwareMessageCreator;
@@ -74,7 +75,7 @@ public abstract class CommonSmockClient extends SmockCommon {
 	 */
 	public static ParametrizableRequestMatcher message(Resource message) {
 		Assert.notNull(message, "'message' must not be null");
-		return message(createResourceSource(message));
+		return message(createSource(message));
 	}	
 	/**
 	 * Expects the given {@link Source} XML message. Message can either be whole SOAP message or just a payload.
@@ -86,7 +87,7 @@ public abstract class CommonSmockClient extends SmockCommon {
 	 */
 	public static ParametrizableRequestMatcher message(Source message) {
 		Assert.notNull(message, "'message' must not be null");
-		return message(loadDocument(message));
+		return new TemplateAwareMessageMatcher(message, EMPTY_MAP, getTemplateProcessor());
 	}
 
 
@@ -100,7 +101,7 @@ public abstract class CommonSmockClient extends SmockCommon {
      */
     public static ParametrizableRequestMatcher message(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new TemplateAwareMessageMatcher(message, EMPTY_MAP, getTemplateProcessor());
+    	return message(new DOMSource(message));
     }	
     
     /**
@@ -125,7 +126,7 @@ public abstract class CommonSmockClient extends SmockCommon {
      */
     public static ParametrizableResponseCreator withMessage(Resource message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return withMessage(createResourceSource(message));
+    	return withMessage(createSource(message));
     }
     /**
      * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
@@ -137,7 +138,7 @@ public abstract class CommonSmockClient extends SmockCommon {
      */
     public static ParametrizableResponseCreator withMessage(Source message) {
         Assert.notNull(message, "'message' must not be null");
-        return withMessage(loadDocument(message));
+        return new TemplateAwareMessageCreator(message, EMPTY_MAP, getTemplateProcessor());
     }
    
     /**
@@ -150,6 +151,6 @@ public abstract class CommonSmockClient extends SmockCommon {
      */
     public static ParametrizableResponseCreator withMessage(Document message) {
     	Assert.notNull(message, "'message' must not be null");
-    	return new TemplateAwareMessageCreator(message, EMPTY_MAP, getTemplateProcessor());
+    	return withMessage(new DOMSource(message));
     }
 }

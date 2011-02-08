@@ -25,7 +25,6 @@ import net.javacrumbs.smock.common.server.ParametrizableResponseMatcher;
 
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
-import org.w3c.dom.Document;
 
 /**
  * {@link MessageCompareMatcher} that processes template before comparison.
@@ -38,7 +37,7 @@ public class TemplateAwareMessageMatcher extends MessageMatcher implements Param
 	
 	private final TemplateProcessor templateProcessor;
 	
-	public TemplateAwareMessageMatcher(Document controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
+	public TemplateAwareMessageMatcher(Source controlMessage, Map<String, Object> parameters, TemplateProcessor templateProcessor) {
 		super(controlMessage);
 		Assert.notNull(templateProcessor,"TemplateProcessor can not be null");
 		this.parameters = new HashMap<String, Object>(parameters);
@@ -46,7 +45,7 @@ public class TemplateAwareMessageMatcher extends MessageMatcher implements Param
 	}
 	
 	@Override
-	protected Document preprocessControlMessage(WebServiceMessage input)
+	protected Source preprocessControlMessage(WebServiceMessage input)
 	{
 		Source inputSource = input!=null?input.getPayloadSource():null;
 		return templateProcessor.processTemplate(getControlMessage(), inputSource, parameters);
