@@ -38,15 +38,14 @@ public class EndpointTest {
 	private static final String ENDPOINT_URL = "/axis2/services/CalculatorService";
 	private Axis2MockWebServiceClient client;
 	
+	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
+
 	@Before
 	public void setUp() throws AxisFault
 	{
 		client = createClient(createConfigurationContextFromResource(resource("file:./src/main/webapp/WEB-INF")));
 	}
 	
-
-
-	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
 	
 	@Test
 	public void testSimple() throws Exception {

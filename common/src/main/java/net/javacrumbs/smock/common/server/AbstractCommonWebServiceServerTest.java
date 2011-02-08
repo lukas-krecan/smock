@@ -194,7 +194,7 @@ public abstract class AbstractCommonWebServiceServerTest implements ApplicationC
 	 * @see org.springframework.ws.soap.SoapBody#addClientOrSenderFault(String, Locale)
 	 */
 	public  ResponseMatcher serverOrReceiverFault(String faultStringOrReason) {
-		return ResponseMatchers.clientOrSenderFault(faultStringOrReason);
+		return ResponseMatchers.serverOrReceiverFault(faultStringOrReason);
 	}
 
 	/**

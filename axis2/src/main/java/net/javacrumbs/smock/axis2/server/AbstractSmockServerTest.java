@@ -17,8 +17,15 @@ package net.javacrumbs.smock.axis2.server;
 
 import net.javacrumbs.smock.common.server.AbstractCommonSmockServerTest;
 
+import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.test.server.RequestCreator;
+import org.springframework.ws.test.server.RequestCreators;
+import org.springframework.ws.test.server.ResponseActions;
 
 /**
  * Creates ServletBasedMockWebServiceClient automatically and provides method for simple use of Smock library.
@@ -26,10 +33,53 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
  *
  */
 public abstract class AbstractSmockServerTest extends AbstractCommonSmockServerTest {
-	//TODO finish
+
 	protected  Axis2MockWebServiceClient mockWebServiceClient;
 	
-	protected Axis2MockWebServiceClient createClient(ConfigurationContext configurationContext, ClientInterceptor[] interceptors) {
-		return SmockServer.createClient(configurationContext);
+	
+	/**
+	 * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request
+	 * creators provided by {@link RequestCreators}.
+	 *
+	 * @param requestCreator the request creator
+	 * @return the response actions
+	 * @see RequestCreators
+	 */
+	public ResponseActions sendRequestTo(String uri, RequestCreator requestCreator) {
+		return mockWebServiceClient.sendRequestTo(uri, requestCreator);
+	}
+	/**
+	 * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request
+	 * creators provided by {@link RequestCreators}.
+	 *
+	 * @param to
+	 * @param soapAction
+	 * @param requestCreator the request creator
+	 * @return the response actions
+	 * @see RequestCreators
+	 */
+	public ResponseActions sendRequestTo(EndpointReference to, String soapAction,  RequestCreator requestCreator) {
+		return mockWebServiceClient.sendRequestTo(to, soapAction, requestCreator);
+	}
+	
+	protected void createClient(ConfigurationContext configurationContext, ClientInterceptor[] interceptors) {
+		setMockWebServiceClient(SmockServer.createClient(configurationContext, interceptors));
+	}
+	
+	protected void createClient(ConfigurationContext configurationContext) {
+		createClient(configurationContext, null);
+	}
+	
+	protected ConfigurationContext createConfigurationContextFromResource(Resource axis2Repository) {
+		return SmockServer.createConfigurationContextFromResource(axis2Repository);
+	}
+
+
+	protected Axis2MockWebServiceClient getMockWebServiceClient() {
+		return mockWebServiceClient;
+	}
+
+	protected void setMockWebServiceClient(Axis2MockWebServiceClient mockWebServiceClient) {
+		this.mockWebServiceClient = mockWebServiceClient;
 	}
 }
