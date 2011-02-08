@@ -17,6 +17,7 @@
 	  <module>cxf-server-test</module>
 	  <module>cxf-client-test</module>
 	  <module>metro-server-test</module>
+	  <module>axis2-server-test</module>
 	</modules>
 
 
