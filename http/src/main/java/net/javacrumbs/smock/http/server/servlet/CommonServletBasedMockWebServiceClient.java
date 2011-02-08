@@ -17,10 +17,8 @@ package net.javacrumbs.smock.http.server.servlet;
 
 import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
-import static org.springframework.ws.test.support.AssertionErrors.fail;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Map;
@@ -29,6 +27,7 @@ import java.util.WeakHashMap;
 import javax.servlet.http.HttpServlet;
 
 import net.javacrumbs.smock.common.InterceptingTemplate;
+import net.javacrumbs.smock.common.server.MockWebServiceClientResponseActions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,7 +47,6 @@ import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.ResponseActions;
-import org.springframework.ws.test.server.ResponseMatcher;
 import org.springframework.ws.test.support.MockStrategiesHelper;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
@@ -111,6 +109,7 @@ public class CommonServletBasedMockWebServiceClient {
 	
 	public ResponseActions sendRequestTo(String path, RequestCreator requestCreator) {
 		try {
+			Assert.notNull(requestCreator, "'requestCreator' must not be null");
 			WebServiceMessage requestMessage = requestCreator.createRequest(messageFactory);
 			final MockHttpServletRequest   request = createRequest(path, requestMessage);
 			MessageContext messageContext = new DefaultMessageContext(requestMessage, messageFactory);
@@ -163,34 +162,4 @@ public class CommonServletBasedMockWebServiceClient {
 			}
 		}
 	}
-	
-	
-	// ResponseActions
-
-    private static class MockWebServiceClientResponseActions implements ResponseActions {
-
-        private final MessageContext messageContext;
-
-        private MockWebServiceClientResponseActions(MessageContext messageContext) {
-            Assert.notNull(messageContext, "'messageContext' must not be null");
-            this.messageContext = messageContext;
-        }
-
-        public ResponseActions andExpect(ResponseMatcher responseMatcher) {
-            WebServiceMessage request = messageContext.getRequest();
-            WebServiceMessage response = messageContext.getResponse();
-            if (response == null) {
-                fail("No response received");
-                return null;
-            }
-            try {
-                responseMatcher.match(request, response);
-                return this;
-            }
-            catch (IOException ex) {
-                fail(ex.getMessage());
-                return null;
-            }
-        }
-    }
 }

@@ -7,28 +7,12 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
-	<artifactId>smock-http-axis2</artifactId>
+	<artifactId>smock-axis2</artifactId>
 	<packaging>jar</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>smock-http-axis2</name>
 
 	<dependencies>
-		<dependency>
-			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-http</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-http-test-package</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-	      <groupId>org.apache.axis2</groupId>
-	      <artifactId>axis2-transport-http</artifactId>
-	      <version>1.5.4</version>
-	    </dependency>
 		<dependency>
 	      <groupId>org.apache.axis2</groupId>
 	      <artifactId>axis2-transport-local</artifactId>
@@ -38,7 +22,19 @@
 	      <groupId>org.apache.axis2</groupId>
 	      <artifactId>axis2-adb</artifactId>
 	      <version>1.5.4</version>
+	      <scope>test</scope>
 	    </dependency>
+		<dependency>
+	      <groupId>org.apache.axis2</groupId>
+	      <artifactId>axis2-transport-http</artifactId>
+	      <version>1.5.4</version>
+	      <scope>test</scope>
+	    </dependency>
+		<dependency>
+			<groupId>net.javacrumbs</groupId>
+			<artifactId>smock-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>
 

@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.smock.http.axis2.server.servlet;
+package net.javacrumbs.smock.axis2.server;
 
 import net.javacrumbs.smock.common.server.CommonSmockServer;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.util.Assert;
+import org.apache.axis2.context.ConfigurationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 /**
@@ -28,12 +27,13 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
  */
 public class SmockServer extends CommonSmockServer {
     
-	public static ServletBasedMockWebServiceClient createClient(String serviceRepositoryPath) {
-		return createClient(serviceRepositoryPath, null, null);
+	public static Axis2MockWebServiceClient createClient(ConfigurationContext configurationContext, ClientInterceptor[] interceptors) {
+		return new Axis2MockWebServiceClient(configurationContext, interceptors);
 	}
-    public static ServletBasedMockWebServiceClient createClient(String serviceRepositoryPath, ApplicationContext applicationContext, ClientInterceptor[] interceptors) {
-        Assert.notNull(serviceRepositoryPath, "'serviceRepositoryPath' must not be null");
-        return new ServletBasedMockWebServiceClient(serviceRepositoryPath, applicationContext, interceptors);
-    }
+	
+	public static Axis2MockWebServiceClient createClient(ConfigurationContext configurationContext) {
+		return new Axis2MockWebServiceClient(configurationContext, null);
+	}
+    
 
 }

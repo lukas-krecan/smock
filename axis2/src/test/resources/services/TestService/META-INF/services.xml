@@ -1,0 +1,13 @@
+<serviceGroup>
+	<service name="TestService"
+             targetNamespace="http://javacrumbs.net/test">
+		<description>
+			Book sample service
+		</description>
+        <schema schemaNamespace="http://javacrumbs.net/test"/>
+        <parameter name="ServiceClass" locked="false">net.javacrumbs.smock.axis2.server.TstWebService</parameter>
+		<operation name="testMethod">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+		</operation>
+	</service>
+</serviceGroup>

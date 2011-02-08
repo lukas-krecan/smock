@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.smock.http.axis2.server.servlet;
+package net.javacrumbs.smock.axis2.server;
 
-import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
-import net.javacrumbs.smock.http.test.server.servlet.AbstractServletBasedMockWebServiceClientTest;
+import net.javacrumbs.smock.common.server.AbstractCommonSmockServerTest;
 
-import org.springframework.context.ApplicationContext;
+import org.apache.axis2.context.ConfigurationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
-public class ServletBasedMockWebServiceClientTest extends AbstractServletBasedMockWebServiceClientTest{
-
-	@Override
-	protected CommonServletBasedMockWebServiceClient createMockClient(ApplicationContext context, ClientInterceptor[] interceptors) {
-		return SmockServer.createClient("", context, interceptors);
+/**
+ * Creates ServletBasedMockWebServiceClient automatically and provides method for simple use of Smock library.
+ * @author Lukas Krecan
+ *
+ */
+public abstract class AbstractSmockServerTest extends AbstractCommonSmockServerTest {
+	
+	protected Axis2MockWebServiceClient createClient(ConfigurationContext configurationContext, ClientInterceptor[] interceptors) {
+		return SmockServer.createClient(configurationContext);
 	}
-	
-	
 }
