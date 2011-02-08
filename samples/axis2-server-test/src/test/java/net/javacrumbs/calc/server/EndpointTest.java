@@ -15,6 +15,7 @@
  */
 package net.javacrumbs.calc.server;
 
+import static net.javacrumbs.smock.axis2.server.SmockServer.createClient;
 import static net.javacrumbs.smock.common.SmockCommon.resource;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
@@ -26,26 +27,25 @@ import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 import java.util.Collections;
 import java.util.Map;
 
-import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.axis2.server.Axis2MockWebServiceClient;
 
-import org.apache.axis2.transport.http.AxisServlet;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.support.GenericApplicationContext;
 
 public class EndpointTest {
-	private static final String ENDPOINT_URL = "/services/CalculatorService.CalculatorServiceHttpSoap11Endpoint";
-	private CommonServletBasedMockWebServiceClient client;
+	private static final String ENDPOINT_URL = "/axis2/services/CalculatorService";
+	private Axis2MockWebServiceClient client;
 	
 	@Before
-	public void setUp()
+	public void setUp() throws AxisFault
 	{
-		client = createClient();
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem("./src/main/webapp/WEB-INF");
+		client = createClient(configurationContext);
 	}
 	
-	private CommonServletBasedMockWebServiceClient createClient() {
-		return new CommonServletBasedMockWebServiceClient(AxisServlet.class, new GenericApplicationContext(),null, null, "file:./src/main/webapp");
-	}
 
 
 	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
