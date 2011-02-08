@@ -10,8 +10,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-http</artifactId>
-			<version>${project.version}</version>
+			<artifactId>smock-http-client</artifactId>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>

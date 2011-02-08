@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-http-metro</artifactId>
-			<version>${project.version}</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.jax-ws-commons.spring</groupId>

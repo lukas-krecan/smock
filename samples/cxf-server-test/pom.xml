@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-http-cxf</artifactId>
-			<version>${project.version}</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
