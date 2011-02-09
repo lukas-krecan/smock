@@ -12,11 +12,13 @@
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-http-cxf</artifactId>
 			<version>0.2-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-groovy-template</artifactId>
 			<version>0.2-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>

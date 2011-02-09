@@ -19,9 +19,7 @@ import net.javacrumbs.smock.common.server.AbstractCommonSmockServerTest;
 
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.ConfigurationContextFactory;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.RequestCreators;
