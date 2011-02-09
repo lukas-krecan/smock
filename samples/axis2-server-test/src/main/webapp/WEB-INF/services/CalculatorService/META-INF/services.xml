@@ -1,13 +1,10 @@
-<serviceGroup>
-	<service name="CalculatorService"
-             targetNamespace="http://javacrumbs.net/calc">
-		<description>
-			Book sample service
-		</description>
-        <schema schemaNamespace="http://javacrumbs.net/calc"/>
-        <parameter name="ServiceClass" locked="false">net.javacrumbs.calc.server.CalcEndpoint</parameter>
-		<operation name="plus">
-			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
-		</operation>
-	</service>
-</serviceGroup>
+<service name="CalculatorService" >
+        <description>
+                TEST web service
+        </description>
+        <messageReceivers>
+                <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.jaxws.server.JAXWSMessageReceiver" />
+                <messageReceiver  mep="http://www.w3.org/2004/08/wsdl/in-out"  class="org.apache.axis2.jaxws.server.JAXWSMessageReceiver"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">net.javacrumbs.calc.server.CalcEndpoint</parameter>
+</service>
