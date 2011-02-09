@@ -28,7 +28,7 @@ public class CalcClient {
 	public long plus(long a, long b)
 	{
 		try {
-			CalculatorServiceStub stub = new CalculatorServiceStub("http://www.localhost.cz:8080/axis2-server-test/services/CalculatorService");
+			CalculatorServiceStub stub = new CalculatorServiceStub();
 			Plus plus = new Plus();
 			plus.setA(a);
 			plus.setB(b);
