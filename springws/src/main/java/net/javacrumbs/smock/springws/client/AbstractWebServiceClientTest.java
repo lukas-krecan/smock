@@ -18,9 +18,8 @@ package net.javacrumbs.smock.springws.client;
 import net.javacrumbs.smock.common.client.AbstractCommonWebServiceClientTest;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.ws.client.core.WebServiceTemplate;
-import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
+import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.test.client.MockWebServiceServer;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.RequestMatchers;
@@ -33,7 +32,7 @@ import org.springframework.ws.test.client.ResponseCreators;
  * @author Lukas Krecan
  *
  */
-public abstract class AbstractWebServiceClientTest extends AbstractCommonWebServiceClientTest implements ApplicationContextAware {
+public abstract class AbstractWebServiceClientTest extends AbstractCommonWebServiceClientTest {
 
 	protected  MockWebServiceServer mockWebServiceServer; 
 
@@ -57,28 +56,27 @@ public abstract class AbstractWebServiceClientTest extends AbstractCommonWebServ
 		mockWebServiceServer.verify();
 	}
 
-
 	/**
-	 * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
-	 * <p/>
-	 * This factory method will try and find a configured {@link WebServiceTemplate} in the given application context.
-	 * If no template can be found, it will try and find a {@link WebServiceGatewaySupport}, and use its configured
-	 * template. If neither can be found, an exception is thrown.
-	 *
-	 * @param applicationContext the application context to base the client on
-	 * @return the created server
-	 * @throws IllegalArgumentException if the given application context contains neither a {@link WebServiceTemplate}
-	 *                                  nor a {@link WebServiceGatewaySupport}.
-	 */
-	public MockWebServiceServer createServer(ApplicationContext applicationContext) {
-		return MockWebServiceServer.createServer(applicationContext);
-	}
-
-	public final void setApplicationContext(ApplicationContext applicationContext) {
-		super.setApplicationContext(applicationContext);
-		this.mockWebServiceServer = createServer(applicationContext);
-	}
-
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
+     * Supports interceptors that will be applied on the incomming message. Please note that acctually the interceptoes will
+     * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
+     * without reimplementing the whole testing library. I hope it will change in next releases.
+     * @param applicationContext
+	 * @param interceptors 
+     * @return
+     */
+    public void createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors) {
+    	mockWebServiceServer = SmockClient.createServer(applicationContext, interceptors);
+    }
+    /**
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
+     * @param applicationContext
+     * @param interceptors 
+     * @return
+     */
+    public void createServer(ApplicationContext applicationContext) {
+    	createServer(applicationContext, null);
+    }
 
 	protected MockWebServiceServer getMockWebServiceServer() {
 		return mockWebServiceServer;

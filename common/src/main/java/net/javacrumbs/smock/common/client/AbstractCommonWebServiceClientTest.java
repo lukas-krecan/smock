@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.ws.soap.SoapBody;
 import org.springframework.ws.test.client.RequestMatcher;
@@ -33,11 +31,7 @@ import org.springframework.ws.test.client.RequestXPathExpectations;
 import org.springframework.ws.test.client.ResponseCreator;
 import org.springframework.ws.test.client.ResponseCreators;
 
-public abstract class AbstractCommonWebServiceClientTest implements ApplicationContextAware {
-
-	protected  ApplicationContext applicationContext;
-
-
+public abstract class AbstractCommonWebServiceClientTest {
 
 	/**
 	 * Respond with the given {@link javax.xml.transform.Source} XML as payload response.
@@ -225,13 +219,4 @@ public abstract class AbstractCommonWebServiceClientTest implements ApplicationC
 	public  RequestMatcher connectionTo(URI uri) {
 		return RequestMatchers.connectionTo(uri);
 	}
-
-	public final ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
-
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
-
 }

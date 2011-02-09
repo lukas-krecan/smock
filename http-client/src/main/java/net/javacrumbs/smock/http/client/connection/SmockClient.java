@@ -15,11 +15,12 @@
  */
 package net.javacrumbs.smock.http.client.connection;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.ws.server.EndpointInterceptor;
-
 import net.javacrumbs.smock.common.client.CommonSmockClient;
 import net.javacrumbs.smock.http.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.server.EndpointInterceptor;
 
 /**
  * Adds extra features to Spring WS client test support.
@@ -27,12 +28,24 @@ import net.javacrumbs.smock.http.client.connection.threadlocal.http.ThreadLocalM
  */
 public class SmockClient extends CommonSmockClient {
 
+	public static MockWebServiceServer createServer(WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors)
+	{
+		return new ThreadLocalMockWebServiceServer(messageFactory, interceptors);
+	}
+	
+	public static MockWebServiceServer createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors)
+	{
+		return createServer(createMessageFactory(applicationContext), interceptors);
+	}
+	
 	public static MockWebServiceServer createServer(ApplicationContext applicationContext)
 	{
 		return createServer(applicationContext, null);
 	}
-	public static MockWebServiceServer createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors)
+
+	public static MockWebServiceServer createServer()
 	{
-		return new ThreadLocalMockWebServiceServer(applicationContext, interceptors);
+		return createServer(createMessageFactory(), null);
 	}
+
 }

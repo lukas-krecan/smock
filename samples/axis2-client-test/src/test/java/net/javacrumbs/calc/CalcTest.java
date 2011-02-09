@@ -15,26 +15,21 @@
  */
 package net.javacrumbs.calc;
 
-import static net.javacrumbs.smock.http.client.connection.SmockClient.*;
+import static net.javacrumbs.smock.common.SmockCommon.resource;
+import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
+import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
+import static net.javacrumbs.smock.http.client.connection.SmockClient.createServer;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
 import static org.springframework.ws.test.client.RequestMatchers.validPayload;
 
 import java.io.IOException;
 
-import javax.xml.ws.soap.SOAPFaultException;
-
 import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 public class CalcTest {
@@ -45,7 +40,7 @@ public class CalcTest {
     
     @Before
     public void setUp(){
-    	mockServer = createServer(new ClassPathXmlApplicationContext());
+    	mockServer = createServer();
     }
     
     @After
@@ -139,7 +134,7 @@ public class CalcTest {
 		assertEquals(5, result);
 	}
 	
-	@Test(expected=SOAPFaultException.class)
+	@Test
 	public void testException() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("fault.xml"));

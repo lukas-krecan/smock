@@ -22,6 +22,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ws.server.EndpointInterceptor;
@@ -33,6 +34,11 @@ public class CalcInterceptorSimpleTest extends AbstractSmockClientTest{
     @Autowired
     private Calc calc;
     
+    @Autowired
+    public void setApplicationContext(ApplicationContext applicationContext)
+    {
+    	createServer(applicationContext, new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
+    }
     
     @After
     public void verify()
@@ -47,10 +53,5 @@ public class CalcInterceptorSimpleTest extends AbstractSmockClientTest{
 
 		int result = calc.plus(1, 2);
 		assertEquals(3, result);
-	}
-	
-	@Override
-	protected EndpointInterceptor[] getInterceptors() {
-		return new EndpointInterceptor[]{new PayloadLoggingInterceptor()};
 	}
 }

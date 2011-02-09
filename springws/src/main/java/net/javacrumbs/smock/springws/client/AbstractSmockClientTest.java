@@ -18,7 +18,6 @@ package net.javacrumbs.smock.springws.client;
 import net.javacrumbs.smock.common.client.AbstractCommonSmockClientTest;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.test.client.MockWebServiceServer;
@@ -30,7 +29,7 @@ import org.springframework.ws.test.client.ResponseActions;
  * @author Lukas Krecan
  *
  */
-public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientTest implements ApplicationContextAware{
+public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientTest {
 	protected  MockWebServiceServer mockWebServiceServer; 
 	
 	/**
@@ -39,20 +38,22 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
      * be added to the {@link ClientInterceptor} set on the client side. it's an ugly hack, but that's the only way to do it 
      * without reimplementing the whole testing library. I hope it will change in next releases.
      * @param applicationContext
+	 * @param interceptors 
      * @return
      */
-    public MockWebServiceServer createServer(ApplicationContext applicationContext) {
-      	return SmockClient.createServer(applicationContext, getInterceptors());
+    public void createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors) {
+    	mockWebServiceServer = SmockClient.createServer(applicationContext, interceptors);
+    }
+    /**
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
+     * @param applicationContext
+     * @param interceptors 
+     * @return
+     */
+    public void createServer(ApplicationContext applicationContext) {
+    	createServer(applicationContext, null);
     }
 
-    /**
-     * To be overriden if subclass needs to create {@link MockWebServiceServer} with interceptors.
-     * @return
-     */
-	protected EndpointInterceptor[] getInterceptors() {
-		return null;
-	}
-	
 	/**
 	 * Records an expectation specified by the given {@link RequestMatcher}. Returns a {@link ResponseActions} object
 	 * that allows for creating the response, or to set up more expectations.
@@ -73,12 +74,6 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 		mockWebServiceServer.verify();
 	}
 	
-	public final void setApplicationContext(ApplicationContext applicationContext) {
-		super.setApplicationContext(applicationContext);
-		this.mockWebServiceServer = createServer(applicationContext);
-	}
-
-
 	protected MockWebServiceServer getMockWebServiceServer() {
 		return mockWebServiceServer;
 	}

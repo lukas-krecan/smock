@@ -19,10 +19,14 @@ import java.io.IOException;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
+import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
+import org.springframework.ws.test.support.MockStrategiesHelper;
 import org.springframework.xml.transform.ResourceSource;
 import org.w3c.dom.Document;
 
@@ -102,4 +106,17 @@ public abstract class SmockCommon  {
     	Assert.notNull(resourceLoader, "'resourceLoader' can not be null");
     	SmockCommon.resourceLoader = resourceLoader;
 	}
+    
+    public static WebServiceMessageFactory createMessageFactory(ApplicationContext applicationContext)
+    {
+    	return new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
+    }
+
+    public static WebServiceMessageFactory createMessageFactory()
+    {
+    	SaajSoapMessageFactory saajSoapMessageFactory = new SaajSoapMessageFactory();
+    	saajSoapMessageFactory.afterPropertiesSet();
+		return saajSoapMessageFactory;
+    }
+    
 }

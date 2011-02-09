@@ -18,42 +18,58 @@ package net.javacrumbs.smock.http.client.connection;
 import net.javacrumbs.smock.common.client.AbstractCommonSmockClientTest;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * Ctreates HTTP specific MockWebServiceServer. To 
+ * Creates HTTP specific MockWebServiceServer.
  * @author Lukas Krecan
  *
  */
-public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientTest implements ApplicationContextAware{
+public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientTest{
 	private MockWebServiceServer mockWebServiceServer;
     /**
-     * Creates a {@code MockWebServiceServer} instance based on the given {@link ApplicationContext}.
+     * Creates a {@code MockWebServiceServer} instance based on the given {@link WebServiceMessageFactory}.
      * Supports interceptors.
      * @param applicationContext
+     * @param interceptors
      * @return
      */
-    public MockWebServiceServer createServer(ApplicationContext applicationContext) {
-      	return SmockClient.createServer(applicationContext, getInterceptors());
-    }
+	public void createServer(WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors)
+	{
+		mockWebServiceServer = SmockClient.createServer(messageFactory, interceptors);
+	}
+	/**
+	 * Creates a {@code MockWebServiceServer} instance.
+	 * @param applicationContext
+	 * @param interceptors
+	 * @return
+	 */
+	public void createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors)
+	{
+		createServer(SmockClient.createMessageFactory(applicationContext), interceptors);
+	}
+	/**
+	 * Creates a {@code MockWebServiceServer} instance.
+	 * @param applicationContext
+	 * @return
+	 */
+	public void createServer(ApplicationContext applicationContext)
+	{
+		createServer(applicationContext, null);
+	}
 
-    /**
-     * To be overriden if subclass needs to create {@link MockWebServiceServer} with interceptors.
-     * @return
-     */
-	protected EndpointInterceptor[] getInterceptors() {
-		return null;
+	/**
+	 * Creates a {@code MockWebServiceServer} instance
+	 * @return
+	 */
+	public void createServer()
+	{
+		createServer(SmockClient.createMessageFactory(), null);
 	}
-	
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		super.setApplicationContext(applicationContext);
-		mockWebServiceServer = createServer(applicationContext);
-	}
-	
+
 	/**
 	 * Records an expectation specified by the given {@link RequestMatcher}. Returns a {@link ResponseActions} object
 	 * that allows for creating the response, or to set up more expectations.
