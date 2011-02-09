@@ -15,17 +15,28 @@
  */
 package net.javacrumbs.calc;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
+import java.rmi.RemoteException;
 
-@WebService(serviceName="CalculatorService", targetNamespace="http://javacrumbs.net/calc")
-public interface CalcService {
+import net.javacrumbs.calc.CalculatorServiceStub.Plus;
 
-	public static final String NS = "http://javacrumbs.net/calc";
+import org.apache.axis2.AxisFault;
 
-	@WebMethod
-	@WebResult(name="result",targetNamespace=NS)
-	public long plus(@WebParam(name="a",targetNamespace=NS) long a, @WebParam(name="b",targetNamespace=NS) long b);
+
+public class CalcClient {
+
+
+	public long plus(long a, long b)
+	{
+		try {
+			CalculatorServiceStub stub = new CalculatorServiceStub("http://www.localhost.cz:8080/axis2-server-test/services/CalculatorService");
+			Plus plus = new Plus();
+			plus.setA(a);
+			plus.setB(b);
+			return stub.plus(plus).get_return();
+		} catch (AxisFault e) {
+			throw new IllegalStateException("Axis error",e);
+		} catch (RemoteException e) {
+			throw new IllegalStateException("Remote error",e);
+		}
+	}
 }

@@ -27,25 +27,25 @@ import javax.xml.ws.soap.SOAPFaultException;
 import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:client-config.xml"})
 public class CalcTest {
-    @Autowired
-    private CalcService calc;
+
+    private CalcClient calc = new CalcClient();
     
     private MockWebServiceServer mockServer;
     
-    @Autowired
-    public void setApplicationContext(ApplicationContext applicationContext){
-    	mockServer = createServer(applicationContext);
+    @Before
+    public void setUp(){
+    	mockServer = createServer(new ClassPathXmlApplicationContext());
     }
     
     @After

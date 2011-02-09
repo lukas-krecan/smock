@@ -36,7 +36,7 @@ import org.springframework.ws.server.endpoint.interceptor.PayloadLoggingIntercep
 @ContextConfiguration(locations={"classpath:client-config.xml"})
 public class CalcInterceptorTest {
     @Autowired
-    private CalcService calc;
+    private CalcClient calc;
     
     private MockWebServiceServer mockServer;
     

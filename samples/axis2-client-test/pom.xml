@@ -12,6 +12,7 @@
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-http-client</artifactId>
 			<version>0.2-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
@@ -21,6 +22,11 @@
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-transport-local</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-adb</artifactId>
 			<version>1.5.4</version>
 		</dependency>
 
@@ -46,8 +52,14 @@
 				<configuration>
 					<packageName>net.javacrumbs.calc</packageName>
 					<wsdlFile>src/main/wsdl/CalculatorService.wsdl</wsdlFile>
-					<databindingName>xmlbeans</databindingName>
+					<databindingName>adb</databindingName>
 				</configuration>
+				<executions>
+					<execution>
+						<goals><goal>wsdl2code</goal></goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
 
 			</plugin>
 		</plugins>

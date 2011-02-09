@@ -42,6 +42,15 @@ public class ThreadLocalMockWebServiceServer implements MockWebServiceServer{
 		System.setProperty("java.protocol.handler.pkgs", "net.javacrumbs.smock.http.client.connection.threadlocal");
 		mockConversation.set(new MockConversation(messageFactory, interceptors));
 	}
+	public ThreadLocalMockWebServiceServer(EndpointInterceptor[] interceptors) {
+		this(createDefaultMessageFactory(), interceptors);
+	}
+
+	private static WebServiceMessageFactory createDefaultMessageFactory() {
+		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
+		messageFactory.afterPropertiesSet();
+		return messageFactory;
+	}
 
 	public ResponseActions expect(RequestMatcher requestMatcher)
 	{

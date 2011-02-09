@@ -34,7 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations={"classpath:client-config.xml"})
 public class CalcSimpleTest extends AbstractSmockClientTest {
     @Autowired
-    private CalcService calc;
+    private CalcClient calc;
     
    
     @After
