@@ -51,7 +51,7 @@
 				<version>1.5.4</version>
 				<configuration>
 					<packageName>net.javacrumbs.calc</packageName>
-					<wsdlFile>src/main/wsdl/CalculatorService.wsdl</wsdlFile>
+					<wsdlFile>${basedir}/src/main/wsdl/CalculatorService.wsdl</wsdlFile>
 					<databindingName>adb</databindingName>
 				</configuration>
 				<executions>
