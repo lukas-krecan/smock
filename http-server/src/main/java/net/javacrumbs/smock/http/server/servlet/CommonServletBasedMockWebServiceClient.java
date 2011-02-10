@@ -25,7 +25,7 @@ import java.nio.charset.Charset;
 import javax.servlet.http.HttpServlet;
 
 import net.javacrumbs.smock.common.InterceptingTemplate;
-import net.javacrumbs.smock.common.server.MockWebServiceClientResponseActions;
+import net.javacrumbs.smock.extended.server.MockWebServiceClientResponseActions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

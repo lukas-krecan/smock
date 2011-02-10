@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
-			<artifactId>smock-common</artifactId>
+			<artifactId>smock-extension</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- Servlet deps -->
