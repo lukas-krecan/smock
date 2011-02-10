@@ -18,7 +18,7 @@ package net.javacrumbs.calc;
 import static net.javacrumbs.smock.http.client.connection.SmockClient.*;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
-import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
+import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.junit.After;
 import org.junit.Before;

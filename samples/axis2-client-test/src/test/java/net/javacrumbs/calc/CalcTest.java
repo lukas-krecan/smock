@@ -25,7 +25,7 @@ import static org.springframework.ws.test.client.RequestMatchers.validPayload;
 
 import java.io.IOException;
 
-import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
+import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.junit.After;
 import org.junit.Before;

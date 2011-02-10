@@ -24,7 +24,7 @@ import java.io.IOException;
 
 import javax.xml.ws.soap.SOAPFaultException;
 
-import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
+import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.junit.After;
 import org.junit.Test;

@@ -15,9 +15,9 @@
  */
 package net.javacrumbs.smock.http.client.connection.staticlink.http;
 
-import net.javacrumbs.smock.http.client.connection.MockConnection;
-import net.javacrumbs.smock.http.client.connection.MockConversation;
-import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
+import net.javacrumbs.smock.extended.client.connection.MockConnection;
+import net.javacrumbs.smock.extended.client.connection.MockConversation;
+import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessageFactory;

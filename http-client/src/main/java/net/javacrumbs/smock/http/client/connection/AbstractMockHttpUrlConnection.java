@@ -22,7 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
-import net.javacrumbs.smock.http.client.connection.MockConnection;
+import net.javacrumbs.smock.extended.client.connection.MockConnection;
 
 /**
  * Mock implementation of HttpURLConnection. It's an entry point for mock client test. It's necessary

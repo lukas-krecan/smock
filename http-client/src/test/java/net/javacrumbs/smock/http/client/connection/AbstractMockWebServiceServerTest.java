@@ -27,7 +27,7 @@ import java.io.IOException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 
-import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
+import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;

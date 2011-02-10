@@ -16,6 +16,7 @@
 package net.javacrumbs.smock.http.client.connection;
 
 import net.javacrumbs.smock.common.client.AbstractCommonSmockClientTest;
+import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.WebServiceMessageFactory;
