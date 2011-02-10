@@ -30,7 +30,11 @@ import org.springframework.ws.test.client.ResponseActions;
  */
 public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientTest{
 	private MockWebServiceServer mockWebServiceServer;
-    /**
+	
+    public AbstractSmockClientTest() {
+		createServer();
+	}
+	/**
      * Creates a {@code MockWebServiceServer} instance based on the given {@link WebServiceMessageFactory}.
      * Supports interceptors.
      * @param applicationContext

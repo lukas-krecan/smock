@@ -15,13 +15,13 @@
  */
 package net.javacrumbs.calc;
 
-import static net.javacrumbs.smock.http.client.connection.SmockClient.*;
+import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
+import static net.javacrumbs.smock.http.client.connection.SmockClient.createServer;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
 import net.javacrumbs.smock.http.client.connection.MockWebServiceServer;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +41,7 @@ public class CalcInterceptorTest {
     private MockWebServiceServer mockServer;
     
     @Autowired
-    private ApplicationContext applicationContext;
-    
-    @Before
-    public void setUpMocks() throws Exception {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         mockServer = createServer(applicationContext, new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
     }
     
