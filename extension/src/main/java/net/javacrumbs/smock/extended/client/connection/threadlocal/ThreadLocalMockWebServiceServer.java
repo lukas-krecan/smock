@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.smock.http.client.connection.staticlink.http;
+package net.javacrumbs.smock.extended.client.connection.threadlocal;
 
 import net.javacrumbs.smock.extended.client.connection.MockConnection;
 import net.javacrumbs.smock.extended.client.connection.MockConversation;
@@ -26,16 +26,15 @@ import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * MockWebServiceServer that stores {@link MockConversation} in a static variable.
+ * Stores mock conversation in {@link ThreadLocal}.
  * @author Lukas Krecan
  */
-public class StaticMockWebServiceServer implements MockWebServiceServer{
-	private static MockConversation mockConversation;
+public class ThreadLocalMockWebServiceServer implements MockWebServiceServer{
+	private static final ThreadLocal<MockConversation> mockConversation = new ThreadLocal<MockConversation>();
 	
-	public StaticMockWebServiceServer(WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors) {
+	public ThreadLocalMockWebServiceServer(WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors) {
 		Assert.notNull(messageFactory, "messageFactory can not be null");
-		System.setProperty("java.protocol.handler.pkgs", "net.javacrumbs.smock.http.client.connection.staticlink");
-		mockConversation = new MockConversation(messageFactory, interceptors);
+		mockConversation.set(new MockConversation(messageFactory, interceptors));
 	}
 
 	public ResponseActions expect(RequestMatcher requestMatcher)
@@ -49,9 +48,8 @@ public class StaticMockWebServiceServer implements MockWebServiceServer{
 	}
 	
 	public static MockConversation getMockConversation() {
-		return mockConversation;
+		return mockConversation.get();
 	}
-
 	public void verify() {
 		getMockConversation().verifyConnections();
 	}

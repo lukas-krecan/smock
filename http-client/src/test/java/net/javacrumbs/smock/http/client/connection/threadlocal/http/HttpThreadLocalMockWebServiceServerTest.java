@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.smock.http.client.connection.staticlink.http;
+package net.javacrumbs.smock.http.client.connection.threadlocal.http;
 
 import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
-import net.javacrumbs.smock.http.client.connection.threadlocal.http.ThreadLocalMockWebServiceServer;
-import net.javacrumbs.smock.http.client.connection.threadlocal.http.ThreadLocalMockWebServiceServerTest;
+import net.javacrumbs.smock.http.client.connection.AbstractMockWebServiceServerTest;
 
-public class StaticMockWebServiceServerTest extends ThreadLocalMockWebServiceServerTest
-{
+public class HttpThreadLocalMockWebServiceServerTest extends AbstractMockWebServiceServerTest{
+
+	@Override
 	protected MockWebServiceServer createServer() {
-		return new ThreadLocalMockWebServiceServer(getMessageFactory(), null);
+		return new HttpThreadLocalMockWebServiceServer(getMessageFactory(), null);
 	}
+
+	
 }

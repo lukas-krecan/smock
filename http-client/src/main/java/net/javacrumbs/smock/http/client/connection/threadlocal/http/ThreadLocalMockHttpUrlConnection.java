@@ -17,6 +17,7 @@ package net.javacrumbs.smock.http.client.connection.threadlocal.http;
 
 import java.net.URL;
 
+import net.javacrumbs.smock.extended.client.connection.threadlocal.ThreadLocalMockWebServiceServer;
 import net.javacrumbs.smock.http.client.connection.AbstractMockHttpUrlConnection;
 
 /**

@@ -41,7 +41,7 @@ import org.w3c.dom.Document;
  *
  */
 public class XmlUtil {
-	private static final Charset UTF8_CHARSET = Charset.availableCharsets().get("UTF-8");
+	public static final Charset UTF8_CHARSET = Charset.availableCharsets().get("UTF-8");
 
 	private static final Map<String, String> SOAP_NAMESPACES = new HashMap<String, String>();
 	

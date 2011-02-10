@@ -24,12 +24,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 
 import net.javacrumbs.smock.common.EndpointInterceptorClientAdapter;
 import net.javacrumbs.smock.common.InterceptingTemplate;
+import net.javacrumbs.smock.common.XmlUtil;
 
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -60,8 +60,6 @@ public class MockConnection implements ResponseActions {
 	
 	private URI uri;
 	
-	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");
-
 	private final EndpointInterceptor[] interceptors; 
 	
 	public MockConnection(RequestMatcher requestMatcher, WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors)
@@ -101,7 +99,7 @@ public class MockConnection implements ResponseActions {
 		} catch (Exception e) {
 			throw new IOException("Error when processing request.",e);
 		}
-		return new ByteArrayInputStream(serialize(getEnvelopeSource(messageContext.getResponse())).getBytes(UTF8));
+		return new ByteArrayInputStream(serialize(getEnvelopeSource(messageContext.getResponse())).getBytes(XmlUtil.UTF8_CHARSET));
 	}
 
 	protected WebServiceMessage crateRequest() throws IOException {

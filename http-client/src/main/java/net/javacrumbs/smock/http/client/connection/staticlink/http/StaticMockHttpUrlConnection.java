@@ -17,6 +17,7 @@ package net.javacrumbs.smock.http.client.connection.staticlink.http;
 
 import java.net.URL;
 
+import net.javacrumbs.smock.extended.client.connection.staticlink.StaticMockWebServiceServer;
 import net.javacrumbs.smock.http.client.connection.AbstractMockHttpUrlConnection;
 
 /**
