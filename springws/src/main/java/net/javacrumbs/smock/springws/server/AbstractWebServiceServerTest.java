@@ -18,6 +18,7 @@ package net.javacrumbs.smock.springws.server;
 import net.javacrumbs.smock.common.server.AbstractCommonWebServiceServerTest;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.soap.server.SoapMessageDispatcher;
@@ -34,7 +35,7 @@ import org.springframework.ws.transport.WebServiceMessageReceiver;
  * @author Lukas Krecan
  *
  */
-public abstract class AbstractWebServiceServerTest extends AbstractCommonWebServiceServerTest{
+public abstract class AbstractWebServiceServerTest extends AbstractCommonWebServiceServerTest implements ApplicationContextAware{
 	protected  MockWebServiceClient mockWebServiceClient;
 	
 
@@ -67,9 +68,8 @@ public abstract class AbstractWebServiceServerTest extends AbstractCommonWebServ
 	public MockWebServiceClient createClient(ApplicationContext applicationContext) {
 		return MockWebServiceClient.createClient(applicationContext);
 	}
-	
+
 	public void setApplicationContext(ApplicationContext applicationContext) {
-		super.setApplicationContext(applicationContext);
 		this.mockWebServiceClient = createClient(applicationContext);
 	}
 

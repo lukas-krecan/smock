@@ -31,6 +31,5 @@ public abstract class AbstractSmockServerTest extends AbstractHttpSmockServerTes
 	protected ServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext, ClientInterceptor[] interceptors) {
 		return SmockServer.createClient(applicationContext, interceptors);
 	}
-	
-	
+
 }

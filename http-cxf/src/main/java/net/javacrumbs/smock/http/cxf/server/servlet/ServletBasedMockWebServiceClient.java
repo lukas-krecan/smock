@@ -15,10 +15,15 @@
  */
 package net.javacrumbs.smock.http.cxf.server.servlet;
 
+import javax.servlet.http.HttpServlet;
+
+import net.javacrumbs.smock.common.SmockCommon;
 import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.server.servlet.ServletUtils;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.context.ApplicationContext;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 /**
@@ -26,8 +31,13 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
  * @author Lukas Krecan
  */
 public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebServiceClient {
+	
+	public ServletBasedMockWebServiceClient(HttpServlet servlet, WebServiceMessageFactory messageFactory,	ClientInterceptor[] clientInterceptors) {
+		super(servlet, messageFactory, clientInterceptors);
+	}
+
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
-		super(CXFServlet.class, applicationContext, clientInterceptors);
+		this(ServletUtils.createServlet(CXFServlet.class, applicationContext, null, null), SmockCommon.createMessageFactory(applicationContext), clientInterceptors);
 	}
 
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext) {

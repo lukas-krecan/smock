@@ -22,8 +22,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
@@ -38,9 +36,7 @@ import org.springframework.ws.test.server.ResponseXPathExpectations;
  * @author Lukas Krecan
  *
  */
-public abstract class AbstractCommonWebServiceServerTest implements ApplicationContextAware {
-
-	protected  ApplicationContext applicationContext;
+public abstract class AbstractCommonWebServiceServerTest {
 
 
 	/**
@@ -215,13 +211,5 @@ public abstract class AbstractCommonWebServiceServerTest implements ApplicationC
 	 */
 	public  ResponseMatcher versionMismatchFault(String faultStringOrReason) {
 		return ResponseMatchers.versionMismatchFault(faultStringOrReason);
-	}
-
-	public ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
-	
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
 	}
 }

@@ -15,9 +15,14 @@
  */
 package net.javacrumbs.smock.http.metro.server.servlet;
 
+import javax.servlet.http.HttpServlet;
+
+import net.javacrumbs.smock.common.SmockCommon;
 import net.javacrumbs.smock.http.server.servlet.CommonServletBasedMockWebServiceClient;
+import net.javacrumbs.smock.http.server.servlet.ServletUtils;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 /**
@@ -28,13 +33,18 @@ public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebS
 
 	private static final String WS_SPRING_SERVLET_CLASS = "com.sun.xml.ws.transport.http.servlet.WSSpringServlet";
 
-	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
-		super(getWSSpringServletClass(), applicationContext, clientInterceptors);
+	public ServletBasedMockWebServiceClient(HttpServlet servlet, WebServiceMessageFactory messageFactory, ClientInterceptor[] clientInterceptors) {
+		super(servlet, messageFactory, clientInterceptors);
 	}
 
-	private static Class<?> getWSSpringServletClass() {
+	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
+		this(ServletUtils.createServlet(getWSSpringServletClass(), applicationContext, null, null), SmockCommon.createMessageFactory(applicationContext), clientInterceptors);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Class<? extends HttpServlet> getWSSpringServletClass() {
 		try {
-			return Class.forName(WS_SPRING_SERVLET_CLASS);
+			return (Class<? extends HttpServlet>) Class.forName(WS_SPRING_SERVLET_CLASS);
 		} catch (ClassNotFoundException e) {
 			throw new IllegalStateException("Package org.jvnet.jax-ws-commons.spring:jaxws-spring is not on classpath.",e);
 		}

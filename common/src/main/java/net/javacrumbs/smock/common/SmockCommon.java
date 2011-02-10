@@ -109,6 +109,7 @@ public abstract class SmockCommon  {
     
     public static WebServiceMessageFactory createMessageFactory(ApplicationContext applicationContext)
     {
+    	if (applicationContext==null) return createMessageFactory();
     	return new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
     }
 

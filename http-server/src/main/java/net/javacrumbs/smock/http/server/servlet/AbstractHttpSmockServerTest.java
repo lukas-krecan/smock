@@ -18,6 +18,7 @@ package net.javacrumbs.smock.http.server.servlet;
 import net.javacrumbs.smock.common.server.AbstractCommonSmockServerTest;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
@@ -29,16 +30,10 @@ import org.springframework.ws.test.server.ResponseActions;
  * @author Lukas Krecan
  *
  */
-public abstract class AbstractHttpSmockServerTest extends AbstractCommonSmockServerTest {
+public abstract class AbstractHttpSmockServerTest extends AbstractCommonSmockServerTest implements ApplicationContextAware{
 	
 	protected  CommonServletBasedMockWebServiceClient mockWebServiceClient;
-	/**
-	 * To be overriden by a subclass that needs to set interceptors.
-	 * @return
-	 */
-	protected ClientInterceptor[] getInterceptors() {
-		return null;
-	}
+
 	/**
 	 * Sends a request message by using the given {@link RequestCreator}. Typically called by using the default request
 	 * creators provided by {@link RequestCreators}.
@@ -52,11 +47,7 @@ public abstract class AbstractHttpSmockServerTest extends AbstractCommonSmockSer
 	}
 	
 	protected abstract CommonServletBasedMockWebServiceClient createClient(ApplicationContext applicationContext, ClientInterceptor[] interceptors);
-	
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		super.setApplicationContext(applicationContext);
-		this.mockWebServiceClient = createClient(applicationContext, getInterceptors());
-	}
+
 
 	protected CommonServletBasedMockWebServiceClient getMockWebServiceClient() {
 		return mockWebServiceClient;
@@ -64,5 +55,17 @@ public abstract class AbstractHttpSmockServerTest extends AbstractCommonSmockSer
 	
 	protected void setMockWebServiceClient(CommonServletBasedMockWebServiceClient mockWebServiceClient) {
 		this.mockWebServiceClient = mockWebServiceClient;
+	}
+	
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		setMockWebServiceClient(createClient(applicationContext, getInterceptors()));	
+	}
+	
+	/**
+	 * To be overriden by a subclasses that need to set interceptors.
+	 * @return
+	 */
+	protected ClientInterceptor[] getInterceptors() {
+		return null;
 	}
 }

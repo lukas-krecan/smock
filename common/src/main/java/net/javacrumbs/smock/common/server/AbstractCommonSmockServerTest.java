@@ -142,11 +142,5 @@ public abstract class AbstractCommonSmockServerTest extends AbstractCommonWebSer
 		return CommonSmockServer.message(message);
 	}
 
-	/**
-	 * To be overriden by a subclass that needs to set interceptors.
-	 * @return
-	 */
-	protected ClientInterceptor[] getInterceptors() {
-		return null;
-	}
+
 }

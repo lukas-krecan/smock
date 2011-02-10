@@ -21,8 +21,6 @@ import static net.javacrumbs.smock.common.XmlUtil.serialize;
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 import javax.servlet.http.HttpServlet;
 
@@ -31,80 +29,42 @@ import net.javacrumbs.smock.common.server.MockWebServiceClientResponseActions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockServletConfig;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.util.Assert;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.DefaultMessageContext;
 import org.springframework.ws.context.MessageContext;
-import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.ResponseActions;
-import org.springframework.ws.test.support.MockStrategiesHelper;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
-
+/**
+ * Common WebService client that calls instance of provided servlet class.
+ * @author Lukas Krecan
+ */
 public class CommonServletBasedMockWebServiceClient {
 
 	private static final String CONTENT_TYPE = "text/xml;charset=UTF-8";
 
-	private HttpServlet servlet;
+	private final HttpServlet servlet;
 	
 	private final WebServiceMessageFactory messageFactory;
 
 	private final InterceptingTemplate interceptingTemplate;
 	
-	private static final WeakHashMap<ApplicationContext, HttpServlet> servletCache = new WeakHashMap<ApplicationContext, HttpServlet>(); 
-	
 	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");  
 	
 	private static final Log LOG = LogFactory.getLog(CommonServletBasedMockWebServiceClient.class);
 	
-	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext) {
-		this(servletClass, applicationContext, null);
-	}
-	
-	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
-		this(servletClass, applicationContext, clientInterceptors, null, null);
-	}
-	
-	public CommonServletBasedMockWebServiceClient(Class<?> servletClass, ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors, Map<String, String> initParameters, String basePath) {
-		Assert.notNull(applicationContext, "ApplicationContext has to be set");
-        messageFactory =  new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
+	public CommonServletBasedMockWebServiceClient(HttpServlet servlet, WebServiceMessageFactory messageFactory, ClientInterceptor[] clientInterceptors) {
+		Assert.notNull(servlet, "servlet has to be set");
+		Assert.notNull(messageFactory, "messageFactory has to be set");
+        this.messageFactory =  messageFactory;
+        this.servlet = servlet;
         interceptingTemplate = new InterceptingTemplate(clientInterceptors);
-        createServlet(servletClass, applicationContext, initParameters, basePath);
-	}
-
-	private void createServlet(Class<?> servletClass, ApplicationContext applicationContext, Map<String, String> initParameters, String basePath) {
-		if (servletCache.containsKey(applicationContext))
-		{
-			servlet = servletCache.get(applicationContext);
-			return;
-		}
-		MockServletContext context = new MockServletContext(basePath, applicationContext);
-		MockServletConfig config = new MockServletConfig(context);
-        config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, new ApplicationContextWrapper(applicationContext, config.getServletContext()));
-        if (initParameters!=null)
-        {
-        	for (Map.Entry<String, String> param: initParameters.entrySet())
-        	{
-        		config.addInitParameter(param.getKey(), param.getValue());
-        	}
-        }
-		try {
-			servlet = (HttpServlet) BeanUtils.instantiate(servletClass);
-			servlet.init(config);
-			servletCache.put(applicationContext, servlet);
-		} catch (Exception e) {
-			throw new IllegalArgumentException("Error when creating servlet "+servletClass.getName(),e);
-		}
 	}
 	
 	public ResponseActions sendRequestTo(String path, RequestCreator requestCreator) {
