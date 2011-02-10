@@ -37,7 +37,7 @@ public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebS
 	}
 
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
-		this(ServletUtils.createServlet(CXFServlet.class, applicationContext, null, null), SmockCommon.createMessageFactory(applicationContext), clientInterceptors);
+		this(ServletUtils.createServlet(CXFServlet.class, applicationContext, null, null), SmockCommon.withMessageFactory(applicationContext), clientInterceptors);
 	}
 
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext) {

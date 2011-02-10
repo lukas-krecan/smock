@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.smock.http.client.connection;
+package net.javacrumbs.smock.axis2.client;
 
 import net.javacrumbs.smock.common.client.AbstractCommonSmockClientTest;
 import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.soap.SoapVersion;
+import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * Creates HTTP specific MockWebServiceServer.
+ * Creates Axis2 specific MockWebServiceServer.
  * @author Lukas Krecan
  *
  */
@@ -47,24 +48,17 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 		mockWebServiceServer = SmockClient.createServer(messageFactory, interceptors);
 	}
 	/**
-	 * Creates a {@code MockWebServiceServer} instance.
+	 * Creates a {@code MockWebServiceServer} instance based on the given {@link WebServiceMessageFactory}.
+	 * Supports interceptors.
 	 * @param applicationContext
 	 * @param interceptors
 	 * @return
 	 */
-	public void createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors)
+	public void createServer(WebServiceMessageFactory messageFactory)
 	{
-		createServer(SmockClient.withMessageFactory(applicationContext), interceptors);
+		createServer(messageFactory, null);
 	}
-	/**
-	 * Creates a {@code MockWebServiceServer} instance.
-	 * @param applicationContext
-	 * @return
-	 */
-	public void createServer(ApplicationContext applicationContext)
-	{
-		createServer(applicationContext, null);
-	}
+
 
 	/**
 	 * Creates a {@code MockWebServiceServer} instance
@@ -72,8 +66,13 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	 */
 	public void createServer()
 	{
-		createServer(SmockClient.withMessageFactory(), null);
+		createServer(SmockClient.withMessageFactory());
 	}
+	
+    public WebServiceMessageFactory withMessageFactory(SoapVersion soapVersion)
+    {
+    	return SmockClient.withMessageFactory(soapVersion);
+    }
 
 	/**
 	 * Records an expectation specified by the given {@link RequestMatcher}. Returns a {@link ResponseActions} object

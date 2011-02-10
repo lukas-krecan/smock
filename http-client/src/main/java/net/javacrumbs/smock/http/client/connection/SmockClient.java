@@ -17,7 +17,7 @@ package net.javacrumbs.smock.http.client.connection;
 
 import net.javacrumbs.smock.common.client.CommonSmockClient;
 import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
-import net.javacrumbs.smock.extended.client.connection.threadlocal.ThreadLocalMockWebServiceServer;
+import net.javacrumbs.smock.http.client.connection.threadlocal.http.HttpThreadLocalMockWebServiceServer;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -31,12 +31,12 @@ public class SmockClient extends CommonSmockClient {
 		
 	public static MockWebServiceServer createServer(WebServiceMessageFactory messageFactory, EndpointInterceptor[] interceptors)
 	{
-		return new ThreadLocalMockWebServiceServer(messageFactory, interceptors);
+		return new HttpThreadLocalMockWebServiceServer(messageFactory, interceptors);
 	}
 	
 	public static MockWebServiceServer createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors)
 	{
-		return createServer(createMessageFactory(applicationContext), interceptors);
+		return createServer(withMessageFactory(applicationContext), interceptors);
 	}
 	
 	public static MockWebServiceServer createServer(ApplicationContext applicationContext)
@@ -46,7 +46,7 @@ public class SmockClient extends CommonSmockClient {
 
 	public static MockWebServiceServer createServer()
 	{
-		return createServer(createMessageFactory(), null);
+		return createServer(withMessageFactory(), null);
 	}
 
 }

@@ -25,6 +25,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.soap.SoapVersion;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.test.support.MockStrategiesHelper;
 import org.springframework.xml.transform.ResourceSource;
@@ -107,17 +108,22 @@ public abstract class SmockCommon  {
     	SmockCommon.resourceLoader = resourceLoader;
 	}
     
-    public static WebServiceMessageFactory createMessageFactory(ApplicationContext applicationContext)
+    public static WebServiceMessageFactory withMessageFactory(ApplicationContext applicationContext)
     {
-    	if (applicationContext==null) return createMessageFactory();
+    	if (applicationContext==null) return withMessageFactory();
     	return new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
     }
 
-    public static WebServiceMessageFactory createMessageFactory()
+    public static WebServiceMessageFactory withMessageFactory()
+    {
+    	return withMessageFactory(SoapVersion.SOAP_11);
+    }
+    public static WebServiceMessageFactory withMessageFactory(SoapVersion soapVersion)
     {
     	SaajSoapMessageFactory saajSoapMessageFactory = new SaajSoapMessageFactory();
+   		saajSoapMessageFactory.setSoapVersion(soapVersion);
     	saajSoapMessageFactory.afterPropertiesSet();
-		return saajSoapMessageFactory;
+    	return saajSoapMessageFactory;
     }
     
 }

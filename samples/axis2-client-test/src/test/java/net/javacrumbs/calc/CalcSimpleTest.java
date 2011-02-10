@@ -19,23 +19,21 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import javax.xml.ws.soap.SOAPFaultException;
-
-import net.javacrumbs.smock.http.client.connection.AbstractSmockClientTest;
+import net.javacrumbs.smock.axis2.client.AbstractSmockClientTest;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:client-config.xml"})
 public class CalcSimpleTest extends AbstractSmockClientTest {
-    @Autowired
-    private CalcClient calc;
+
+    private CalcClient calc = new CalcClient();
     
+    @Before
+    public void setUp()
+    {
+    	createServer();
+    }
    
     @After
     public void verify()
@@ -127,7 +125,7 @@ public class CalcSimpleTest extends AbstractSmockClientTest {
 		assertEquals(5, result);
 	}
 	
-	@Test(expected=SOAPFaultException.class)
+	@Test
 	public void testException() throws IOException
 	{
 		expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("fault.xml"));

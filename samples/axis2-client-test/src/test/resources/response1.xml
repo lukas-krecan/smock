@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <result>3</result>
+  <return>3</return>
 </plusResponse>
