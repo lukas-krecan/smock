@@ -4,20 +4,20 @@
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>cxf-server-test</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>cxf-server-test</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-http-cxf</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-groovy-template</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 

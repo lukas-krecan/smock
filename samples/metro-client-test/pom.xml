@@ -4,14 +4,14 @@
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>metro-client-test</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>metro-client-test</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-http-client</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
