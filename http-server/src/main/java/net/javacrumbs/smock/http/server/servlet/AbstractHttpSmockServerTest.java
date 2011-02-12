@@ -26,7 +26,7 @@ import org.springframework.ws.test.server.RequestCreators;
 import org.springframework.ws.test.server.ResponseActions;
 
 /**
- * Creates {@link MockWebServiceClient} and exposes Smock utility methods. You will want to use a subclass for CSF or Metro packages.
+ * Creates {@link MockWebServiceClient} and exposes Smock utility methods. You will want to use a subclass for CXF or Metro packages.
  * @author Lukas Krecan
  *
  */

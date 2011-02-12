@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 /**
+ * Class to be extended by CXF WS server tests. 
  * Creates ServletBasedMockWebServiceClient automatically and provides method for simple use of Smock library.
  * @author Lukas Krecan
  *

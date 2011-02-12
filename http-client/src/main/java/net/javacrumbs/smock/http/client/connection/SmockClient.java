@@ -23,7 +23,7 @@ import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
 
 /**
- * Adds extra features to Spring WS client test support.
+ * Class to be used by WS client tests.
  * @author Lukas Krecan
  */
 public class SmockClient extends CommonSmockClient {

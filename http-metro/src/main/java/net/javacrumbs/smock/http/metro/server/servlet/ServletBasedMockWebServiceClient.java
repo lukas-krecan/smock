@@ -44,6 +44,7 @@ public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebS
 	@SuppressWarnings("unchecked")
 	private static Class<? extends HttpServlet> getWSSpringServletClass() {
 		try {
+			//The class is located by name because it is not in Maven central repository and I do not want to have such dependency in the project. 
 			return (Class<? extends HttpServlet>) Class.forName(WS_SPRING_SERVLET_CLASS);
 		} catch (ClassNotFoundException e) {
 			throw new IllegalStateException("Package org.jvnet.jax-ws-commons.spring:jaxws-spring is not on classpath.",e);

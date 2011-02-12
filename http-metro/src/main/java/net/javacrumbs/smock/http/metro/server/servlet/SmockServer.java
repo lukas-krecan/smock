@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
 /**
- * Adds extra functionality to Spring WS server test support. 
+ * Class to be used by WS server tests.  
  * @author Lukas Krecan
  *
  */

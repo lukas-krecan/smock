@@ -25,7 +25,7 @@ import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * Creates HTTP specific MockWebServiceServer.
+ * Class to be extended by HTTP client test. Automatically creates {@link MockWebServiceServer}.
  * @author Lukas Krecan
  *
  */

@@ -19,7 +19,7 @@ import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * Common interface for HTTP based mock servers.
+ * Common interface for mock servers.
  * @author Lukas Krecan
  */
 public interface MockWebServiceServer {

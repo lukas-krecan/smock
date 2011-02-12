@@ -23,11 +23,12 @@ import java.net.URI;
 import java.net.URL;
 
 import net.javacrumbs.smock.extended.client.connection.MockConnection;
+import net.javacrumbs.smock.extended.client.connection.threadlocal.ThreadLocalMockWebServiceServer;
 
 /**
  * Mock implementation of HttpURLConnection. It's an entry point for mock client test. It's necessary
  * to register this connection using "java.protocol.handler.pkgs" system property. It's done automatically
- * when using *MockWebServiceServer. 
+ * when using {@link ThreadLocalMockWebServiceServer}. 
  * @author Lukas Krecan
  */
 public abstract class AbstractMockHttpUrlConnection extends HttpURLConnection {

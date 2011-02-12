@@ -11,9 +11,8 @@
 	<packaging>jar</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>smock-http-client</name>
-	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
-		Spring WS Mock extension.	
+		Classes to test WS client. Changes http and https JAaa protocol implementation to use mock framework. 
 	</description>
 
 	<dependencies>

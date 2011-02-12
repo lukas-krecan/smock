@@ -27,7 +27,7 @@ import org.springframework.ws.test.server.ResponseActions;
 import org.springframework.ws.test.server.ResponseMatcher;
 
 /**
- * Response actions implementation
+ * Response actions implementation.
  * @author Lukas Krecan
  *
  */

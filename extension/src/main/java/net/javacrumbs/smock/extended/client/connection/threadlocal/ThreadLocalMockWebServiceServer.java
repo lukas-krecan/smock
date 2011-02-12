@@ -26,7 +26,7 @@ import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * Stores mock conversation in {@link ThreadLocal}.
+ * MockWebServiceServer that stores mock conversation in {@link ThreadLocal}.
  * @author Lukas Krecan
  */
 public class ThreadLocalMockWebServiceServer implements MockWebServiceServer{

@@ -25,7 +25,7 @@ import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
 /**
- * Stores information about mock server communication.
+ * Stores information about communication with mock server.
  * @author Lukas Krecan
  */
 public class MockConversation {

@@ -12,7 +12,6 @@
 	<packaging>jar</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>smock-common</name>
-	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
 		Common classes for Axis2, CXF, Metro etc.
 	</description>
