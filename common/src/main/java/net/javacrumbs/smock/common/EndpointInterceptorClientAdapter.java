@@ -21,7 +21,7 @@ import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.EndpointInterceptor;
 
 /**
- * Converts endpoint intereceptor to client interceptor.
+ * Converts {@link EndpointInterceptor} to {@link ClientInterceptor}.
  * @author Lukas Krecan
  *
  */

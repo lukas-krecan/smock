@@ -85,9 +85,9 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 	
 
 	/**
-	 * Compares document with control document.
-	 * @param messageDocument
-	 * @param messageDocument 
+	 * Compares message with control message.
+	 * @param controlMessage
+	 * @param messageSource 
 	 * @throws AssertionError
 	 */
 	protected final void compare(Source controlMessage, Source messageSource) {

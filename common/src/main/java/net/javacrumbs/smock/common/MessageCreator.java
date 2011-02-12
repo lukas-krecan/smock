@@ -34,7 +34,7 @@ import org.springframework.ws.test.client.ResponseCreator;
 import org.springframework.ws.test.server.RequestCreator;
 
 /**
- * Common class that is able to create a message for both client and server.
+ * Class that is able to create a message for both client and server.
  * @author Lukas Krecan
  *
  */
@@ -62,7 +62,6 @@ public class MessageCreator implements ResponseCreator, RequestCreator{
 		WebServiceMessage result;
 		if (isSoap(source))
 		{
-			//TODO optimalize
 			result = messageFactory.createWebServiceMessage(getSourceAsStream(source));
 		}
 		else

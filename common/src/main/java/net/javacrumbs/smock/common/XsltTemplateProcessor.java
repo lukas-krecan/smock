@@ -26,6 +26,9 @@ import javax.xml.transform.dom.DOMSource;
  *
  */
 public class XsltTemplateProcessor implements TemplateProcessor {
+	/**
+	 * Does XSLT transfromation of the template if it is an XSLT template. If not, returns template withou change.
+	 */
 	public Source processTemplate(Source template, Source input, Map<String, Object> parameters) {
 		XsltUtil xsltUtil = new XsltUtil(parameters);
 		if (xsltUtil.isTemplate(template))

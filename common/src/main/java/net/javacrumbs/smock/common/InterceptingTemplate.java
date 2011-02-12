@@ -19,12 +19,13 @@ import java.io.IOException;
 
 import org.springframework.ws.FaultAwareWebServiceMessage;
 import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.transport.WebServiceMessageReceiver;
 
 /**
- * Common template class for interceptor handling.
+ * Common template class for interceptor handling. Inspired by {@link WebServiceTemplate}.
  * @author Lukas Krecan
  */
 public class InterceptingTemplate {

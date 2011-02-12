@@ -21,7 +21,6 @@ import net.javacrumbs.smock.common.TemplateProcessor;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.w3c.dom.Document;
 
 /**

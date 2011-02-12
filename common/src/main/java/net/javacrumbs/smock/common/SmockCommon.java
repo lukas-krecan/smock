@@ -48,7 +48,7 @@ import org.w3c.dom.Document;
  */
 
 /**
- * Adds extra common features to {@link WebServiceMock}. 
+ * Adds extra features to {@link WebServiceMock}. 
  */
 public abstract class SmockCommon  {
 			
@@ -56,11 +56,20 @@ public abstract class SmockCommon  {
 	
 	private static ResourceLoader resourceLoader = new DefaultResourceLoader();
 	
-	
+	/**
+	 * Loads {@link Document} freom {@link Source} 
+	 * @param message
+	 * @return
+	 */
 	protected static Document loadDocument(Source message) {
 		return XmlUtil.loadDocument(message);
 	}	
     
+	/**
+	 * Creates {@link Source} from {@link Resource}.
+	 * @param resource
+	 * @return
+	 */
     protected static Source createSource(Resource resource) {
         try {
         	//we need to read the source multiple times thus using DOMSource
@@ -103,21 +112,38 @@ public abstract class SmockCommon  {
     public static ResourceLoader getResourceLoader() {
 		return resourceLoader;
 	}
+    /**
+     * Sets {@link ResourceLoader} to be used by Smock.
+     * @param resourceLoader
+     */
     public static void setResourceLoader(ResourceLoader resourceLoader) {
     	Assert.notNull(resourceLoader, "'resourceLoader' can not be null");
     	SmockCommon.resourceLoader = resourceLoader;
 	}
-    
+    /**
+     * Creates a {@link WebServiceMessageFactory} using {@link MockStrategiesHelper}.
+     * @param applicationContext
+     * @return
+     */
     public static WebServiceMessageFactory withMessageFactory(ApplicationContext applicationContext)
     {
     	if (applicationContext==null) return withMessageFactory();
     	return new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
     }
 
+    /**
+     * Creates SAAJ based message factory for SOAP 1.1.
+     * @return
+     */
     public static WebServiceMessageFactory withMessageFactory()
     {
     	return withMessageFactory(SoapVersion.SOAP_11);
     }
+    /**
+     * Creates SAAJ based message factory.
+     * @param soapVersion
+     * @return
+     */
     public static WebServiceMessageFactory withMessageFactory(SoapVersion soapVersion)
     {
     	SaajSoapMessageFactory saajSoapMessageFactory = new SaajSoapMessageFactory();
