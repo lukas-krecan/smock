@@ -19,24 +19,16 @@ import java.rmi.RemoteException;
 
 import net.javacrumbs.calc.CalculatorServiceStub.Plus;
 
-import org.apache.axis2.AxisFault;
-
 
 public class CalcClient {
 
 
-	public long plus(long a, long b)
+	public long plus(long a, long b) throws RemoteException
 	{
-		try {
-			CalculatorServiceStub stub = new CalculatorServiceStub();
-			Plus plus = new Plus();
-			plus.setA(a);
-			plus.setB(b);
-			return stub.plus(plus).get_return();
-		} catch (AxisFault e) {
-			throw new IllegalStateException("Axis error",e);
-		} catch (RemoteException e) {
-			throw new IllegalStateException("Remote error",e);
-		}
+		CalculatorServiceStub stub = new CalculatorServiceStub();
+		Plus plus = new Plus();
+		plus.setA(a);
+		plus.setB(b);
+		return stub.plus(plus).get_return();
 	}
 }

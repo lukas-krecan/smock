@@ -24,6 +24,7 @@ import static org.springframework.ws.test.client.RequestMatchers.anything;
 import static org.springframework.ws.test.client.RequestMatchers.validPayload;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
@@ -51,7 +52,7 @@ public class CalcTest {
 
 
 	@Test
-	public void testSimple()
+	public void testSimple() throws RemoteException
 	{
 		mockServer.expect(anything()).andRespond(withMessage("response1.xml"));
 
@@ -60,7 +61,7 @@ public class CalcTest {
 	}
 	
 	@Test
-	public void testVerifyRequest()
+	public void testVerifyRequest() throws RemoteException
 	{
 		mockServer.expect(message("request1.xml")).andRespond(withMessage("response1.xml"));
 		
@@ -94,7 +95,7 @@ public class CalcTest {
 		assertEquals(8, calc.plus(3, 5));
 	}
 	@Test
-	public void testStrange()
+	public void testStrange() throws RemoteException
 	{
 		mockServer.expect(message("request-ignore.xml")).andRespond(withMessage("response1.xml"));
 		mockServer.expect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
@@ -134,7 +135,7 @@ public class CalcTest {
 		assertEquals(5, result);
 	}
 	
-	@Test
+	@Test(expected=RemoteException.class)
 	public void testException() throws IOException
 	{
 		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("fault.xml"));

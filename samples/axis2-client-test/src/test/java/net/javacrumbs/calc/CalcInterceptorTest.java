@@ -19,6 +19,9 @@ import static net.javacrumbs.smock.axis2.client.SmockClient.createServer;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
+
+import java.rmi.RemoteException;
+
 import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.junit.After;
@@ -48,7 +51,7 @@ public class CalcInterceptorTest {
     }
 
 	@Test
-	public void testSimple()
+	public void testSimple() throws RemoteException
 	{
 		mockServer.expect(anything()).andRespond(withMessage("response1.xml"));
 

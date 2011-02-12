@@ -18,6 +18,7 @@ package net.javacrumbs.calc;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 import net.javacrumbs.smock.axis2.client.AbstractSmockClientTest;
 
@@ -42,7 +43,7 @@ public class CalcSimpleTest extends AbstractSmockClientTest {
     }
 
 	@Test
-	public void testSimple()
+	public void testSimple() throws RemoteException
 	{
 		expect(anything()).andRespond(withMessage("response1.xml"));
 
@@ -51,7 +52,7 @@ public class CalcSimpleTest extends AbstractSmockClientTest {
 	}
 	
 	@Test
-	public void testVerifyRequest()
+	public void testVerifyRequest() throws RemoteException
 	{
 		expect(message("request1.xml")).andRespond(withMessage("response1.xml"));
 		
@@ -85,7 +86,7 @@ public class CalcSimpleTest extends AbstractSmockClientTest {
 		assertEquals(8, calc.plus(3, 5));
 	}
 	@Test
-	public void testStrange()
+	public void testStrange() throws RemoteException
 	{
 		expect(message("request-ignore.xml")).andRespond(withMessage("response1.xml"));
 		expect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
@@ -125,7 +126,7 @@ public class CalcSimpleTest extends AbstractSmockClientTest {
 		assertEquals(5, result);
 	}
 	
-	@Test
+	@Test(expected=RemoteException.class)
 	public void testException() throws IOException
 	{
 		expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("fault.xml"));
