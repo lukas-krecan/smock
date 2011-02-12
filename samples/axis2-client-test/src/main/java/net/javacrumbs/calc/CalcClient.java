@@ -17,15 +17,32 @@ package net.javacrumbs.calc;
 
 import java.rmi.RemoteException;
 
+import org.apache.axis2.AxisFault;
+
 import net.javacrumbs.calc.CalculatorServiceStub.Plus;
 
 
 public class CalcClient {
+	
+	private CalculatorServiceStub stub;
 
+	public CalcClient() {
+		try {
+			stub = new CalculatorServiceStub();
+		} catch (AxisFault e) {
+			throw new IllegalStateException("Can not create stub.",e);
+		}
+	}
+	public CalcClient(String address) {
+		try {
+			stub = new CalculatorServiceStub(address);
+		} catch (AxisFault e) {
+			throw new IllegalStateException("Can not create stub.",e);
+		}
+	}
 
 	public long plus(long a, long b) throws RemoteException
 	{
-		CalculatorServiceStub stub = new CalculatorServiceStub();
 		Plus plus = new Plus();
 		plus.setA(a);
 		plus.setB(b);

@@ -37,15 +37,13 @@ public class SmockClient extends CommonSmockClient {
 		bootstrap();
 	}
 	private static void bootstrap() {
-		if (ListenerManager.defaultConfigurationContext!=null)
-		{
-			throw new IllegalStateException("ListenerManager.defaultConfigurationContext is already set.");
-		}
 		try {
 			ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
 			HashMap<String, TransportOutDescription> transportsOut = configurationContext.getAxisConfiguration().getTransportsOut();
-			setSender(transportsOut.get("http"));
-			setSender(transportsOut.get("https"));
+			for (TransportOutDescription tod: transportsOut.values())
+			{
+				setSender(tod);
+			}
 			ListenerManager.defaultConfigurationContext = configurationContext;
 		} catch (AxisFault e) {
 			throw new IllegalStateException("Can not set ListenerManager.defaultConfigurationContext.",e);

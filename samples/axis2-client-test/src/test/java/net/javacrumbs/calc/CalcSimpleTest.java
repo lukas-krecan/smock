@@ -28,7 +28,7 @@ import org.junit.Test;
 
 public class CalcSimpleTest extends AbstractSmockClientTest {
 
-    private CalcClient calc = new CalcClient();
+    private CalcClient calc = new CalcClient("https://localhost:8443/axis2-server-test/services/CalculatorService.CalculatorServiceHttpSoap12Endpoint/");
     
     @Before
     public void setUp()

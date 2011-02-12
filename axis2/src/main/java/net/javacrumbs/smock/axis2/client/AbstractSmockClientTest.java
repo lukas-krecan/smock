@@ -21,7 +21,6 @@ import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.soap.SoapVersion;
-import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.client.ResponseActions;
 
