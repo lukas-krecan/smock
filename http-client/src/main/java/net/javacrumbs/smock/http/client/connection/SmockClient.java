@@ -43,10 +43,22 @@ public class SmockClient extends CommonSmockClient {
 	{
 		return createServer(applicationContext, null);
 	}
+	
+	public static MockWebServiceServer createServer(EndpointInterceptor[] interceptors)
+	{
+		return createServer(withMessageFactory(), interceptors);
+	}
 
 	public static MockWebServiceServer createServer()
 	{
 		return createServer(withMessageFactory(), null);
+	}
+	/**
+	 * Makes sure that the test is bootstrapped before configuration takes place. 
+	 */
+	public static void bootstrapMock()
+	{
+		createServer();
 	}
 
 }

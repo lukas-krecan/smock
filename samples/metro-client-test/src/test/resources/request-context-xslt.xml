@@ -1,0 +1,10 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+        <xsl:param name="a"/>
+        <xsl:param name="b"/>
+        <xsl:template match="/">
+                        <plus xmlns="http://javacrumbs.net/calc">
+                          <a><xsl:value-of select="$a"/></a>
+                          <b><xsl:value-of select="$b"/></b>
+                        </plus>
+                </xsl:template>
+</xsl:stylesheet>
