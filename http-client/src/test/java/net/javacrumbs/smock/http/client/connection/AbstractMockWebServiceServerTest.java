@@ -40,6 +40,7 @@ import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 public abstract class AbstractMockWebServiceServerTest {
 
 	private static final String ADDRESS = "http://localhost:8080";
+	private static final String ADDRESS2 = "https://localhost:8080";
 
 	protected abstract MockWebServiceServer createServer();
 	
@@ -50,6 +51,18 @@ public abstract class AbstractMockWebServiceServerTest {
 		server.expect(connectionTo(ADDRESS)).andRespond(withMessage("response.xml"));
 
 		WebServiceMessage response = sendMessage(ADDRESS, "request.xml");
+		
+		message("response.xml").match(null, response);
+		server.verify();
+		
+	}
+	@Test
+	public void testOkHttps() throws IOException
+	{
+		MockWebServiceServer server = createServer();
+		server.expect(connectionTo(ADDRESS2)).andRespond(withMessage("response.xml"));
+		
+		WebServiceMessage response = sendMessage(ADDRESS2, "request.xml");
 		
 		message("response.xml").match(null, response);
 		server.verify();

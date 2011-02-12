@@ -25,7 +25,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ws.server.EndpointInterceptor;
@@ -40,9 +39,8 @@ public class CalcInterceptorTest {
     
     private MockWebServiceServer mockServer;
     
-    @Autowired
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        mockServer = createServer(applicationContext, new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
+    public CalcInterceptorTest() {
+        mockServer = createServer(new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
     }
     
     @After
