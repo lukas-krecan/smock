@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-axis2</artifactId>
-			<version>${project.version}</version>
+			<version>0.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

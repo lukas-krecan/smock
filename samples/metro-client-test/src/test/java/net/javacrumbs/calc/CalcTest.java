@@ -44,6 +44,7 @@ public class CalcTest {
     
     private MockWebServiceServer mockServer;
     
+
     public CalcTest(){
     	mockServer = createServer();
     }

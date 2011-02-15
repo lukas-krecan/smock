@@ -35,13 +35,15 @@ import org.junit.Test;
 
 public class CalcTest {
 
-    private CalcClient calc = new CalcClient();
+    private CalcClient calc;
     
     private MockWebServiceServer mockServer;
     
     @Before
     public void setUp(){
     	mockServer = createServer();
+    	//client has to be created after createServer was called.
+    	calc = new CalcClient();
     }
     
     @After

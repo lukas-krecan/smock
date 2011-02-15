@@ -50,7 +50,7 @@ public class MockConversation {
 	}
 
 	/**
-	 * Adds ne expected connection.
+	 * Adds new expected connection.
 	 * @param requestMatcher
 	 * @return
 	 */
