@@ -23,18 +23,12 @@ import java.rmi.RemoteException;
 import net.javacrumbs.smock.axis2.client.AbstractSmockClientTest;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class CalcSimpleTest extends AbstractSmockClientTest {
 
     private CalcClient calc = new CalcClient("https://localhost:8443/axis2-server-test/services/CalculatorService.CalculatorServiceHttpSoap12Endpoint/");
     
-    @Before
-    public void setUp()
-    {
-    	createServer();
-    }
    
     @After
     public void verify()
