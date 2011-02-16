@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>metro-server-test</name>
-	<url>http://maven.apache.org</url>
+	<url>http://code.google.com/p/smock/</url>
 	<dependencies>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>

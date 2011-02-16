@@ -6,21 +6,19 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>smock-samples-root</name>
-	<url>http://javacrumbs.net/spring-ws-test/</url>
+	<url>http://code.google.com/p/smock/</url>
 	<description>
-		Smock parent package.	
+		Smock samples parent package.	
 	</description>
 
 	<modules>
-	  <module>springws-client-test</module>
-	  <module>springws-server-test</module>
-	  <module>cxf-server-test</module>
-	  <module>cxf-client-test</module>
-	  <module>metro-server-test</module>
-	  <module>metro-client-test</module>
-	  <module>axis2-server-test</module>
-	  <module>axis2-client-test</module>
+		<module>springws-client-test</module>
+		<module>springws-server-test</module>
+		<module>cxf-server-test</module>
+		<module>cxf-client-test</module>
+		<module>metro-server-test</module>
+		<module>metro-client-test</module>
+		<module>axis2-server-test</module>
+		<module>axis2-client-test</module>
 	</modules>
-
-
 </project>
