@@ -57,7 +57,7 @@ public abstract class SmockCommon  {
 	private static ResourceLoader resourceLoader = new DefaultResourceLoader();
 	
 	/**
-	 * Loads {@link Document} freom {@link Source} 
+	 * Loads {@link Document} from {@link Source} 
 	 * @param message
 	 * @return
 	 */
