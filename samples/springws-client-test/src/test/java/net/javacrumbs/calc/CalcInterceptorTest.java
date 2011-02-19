@@ -20,6 +20,11 @@ import static net.javacrumbs.smock.springws.client.SmockClient.withMessage;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
 
+import java.util.List;
+
+import net.javacrumbs.airline.client.AirlineClient;
+import net.javacrumbs.airline.model.Flight;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +41,7 @@ import org.springframework.ws.test.client.MockWebServiceServer;
 @ContextConfiguration(locations={"classpath:client-config.xml"})
 public class CalcInterceptorTest {
     @Autowired
-    private Calc calc;
+    private AirlineClient airlineClient;
     
     private MockWebServiceServer mockServer;
     
@@ -60,7 +65,7 @@ public class CalcInterceptorTest {
 	{
 		mockServer.expect(anything()).andRespond(withMessage("response1.xml"));
 
-		int result = calc.plus(1, 2);
-		assertEquals(3, result);
+		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
+		assertEquals(1, flights.size());
 	}
 }

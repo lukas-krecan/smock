@@ -23,6 +23,10 @@ import static org.springframework.ws.test.client.RequestMatchers.anything;
 import static org.springframework.ws.test.client.RequestMatchers.validPayload;
 
 import java.io.IOException;
+import java.util.List;
+
+import net.javacrumbs.airline.client.AirlineClient;
+import net.javacrumbs.airline.model.Flight;
 
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +43,7 @@ import org.springframework.ws.test.client.MockWebServiceServer;
 @ContextConfiguration(locations={"classpath:client-config.xml"})
 public class CalcTest {
     @Autowired
-    private Calc calc;
+    private AirlineClient airlineClient;
     
     private MockWebServiceServer mockServer;
     
@@ -63,8 +67,8 @@ public class CalcTest {
 	{
 		mockServer.expect(anything()).andRespond(withMessage("response1.xml"));
 
-		int result = calc.plus(1, 2);
-		assertEquals(3, result);
+		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
+		assertEquals(1, flights.size());
 	}
 	
 	@Test
@@ -72,34 +76,34 @@ public class CalcTest {
 	{
 		mockServer.expect(message("request1.xml")).andRespond(withMessage("response1.xml"));
 		
-		int result = calc.plus(1, 2);
-		assertEquals(3, result);
+		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
+		assertEquals(1, flights.size());
 	}
 	@Test
 	public void testSchema() throws IOException
 	{
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request1.xml")).andRespond(withMessage("response1.xml"));
+		mockServer.expect(validPayload(resource("xsd/messages.xsd"),resource("xsd/types.xsd"))).andRespond(withMessage("response1.xml"));
 		
-		int result = calc.plus(1, 2);
-		assertEquals(3, result);
+		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
+		assertEquals(1, flights.size());
 	}
 	@Test
 	public void testIgnore() throws IOException
 	{
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
+		mockServer.expect(validPayload(resource("xsd/messages.xsd"),resource("xsd/types.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
 		
-		int result = calc.plus(2, 3);
-		assertEquals(5, result);
+		List<Flight> flights = airlineClient.getFlights("JFK", "LAX");
+		assertEquals(2, flights.size());
 	}
 	@Test
 	public void testMultiple() throws IOException
 	{
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response3.xml"));
+		mockServer.expect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
+		mockServer.expect(message("request-ignore.xml")).andRespond(withMessage("response1.xml"));
 		
 		
-		assertEquals(5, calc.plus(2, 3));
-		assertEquals(8, calc.plus(3, 5));
+		assertEquals(2, airlineClient.getFlights("JFK", "LAX").size());
+		assertEquals(1, airlineClient.getFlights("JFK", "DUB").size());
 	}
 	@Test
 	public void testStrange()
@@ -108,44 +112,49 @@ public class CalcTest {
 		mockServer.expect(message("request-ignore.xml")).andRespond(withMessage("response2.xml"));
 		mockServer.expect(message("request-ignore.xml")).andRespond(withMessage("response1.xml"));
 				
-		assertEquals(3, calc.plus(1, 2));
-		assertEquals(5, calc.plus(2, 3));
-		assertEquals(3, calc.plus(1, 2));
+		assertEquals(1, airlineClient.getFlights("PRG", "DUB").size());
+		assertEquals(2, airlineClient.getFlights("JFK", "LAX").size());
+		assertEquals(1, airlineClient.getFlights("PRG", "DUB").size());
 	}
 	@Test
 	public void testTemplate() throws IOException
 	{
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response-template.xml"));
+		mockServer.expect(validPayload(resource("xsd/messages.xsd"),resource("xsd/types.xsd"))).andRespond(withMessage("response-template.xml"));
 		
-		int result = calc.plus(2, 3);
-		assertEquals(5, result);
+		List<Flight> flights = airlineClient.getFlights("DUB", "LAX");
+		assertEquals(1, flights.size());
+		assertEquals("DUB",flights.get(0).getFrom().getCode());
 	}
 	
 	@Test
 	public void testMultipleTemplate() throws IOException
 	{
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response-template.xml"));
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("response-template.xml"));
+		mockServer.expect(validPayload(resource("xsd/messages.xsd"),resource("xsd/types.xsd"))).andRespond(withMessage("response-template.xml"));
+		mockServer.expect(validPayload(resource("xsd/messages.xsd"),resource("xsd/types.xsd"))).andRespond(withMessage("response-template.xml"));
 		
-		assertEquals(5, calc.plus(2, 3));
-		assertEquals(8, calc.plus(3, 5));
+		List<Flight> flights1 = airlineClient.getFlights("DUB", "LAX");
+		assertEquals(1, flights1.size());
+		assertEquals("DUB",flights1.get(0).getFrom().getCode());
+		
+		List<Flight> flights2 = airlineClient.getFlights("JFK", "LAX");
+		assertEquals(1, flights2.size());
+		assertEquals("JFK",flights2.get(0).getFrom().getCode());
 	}
 
 	@Test
 	public void testContext() throws IOException
 	{
-		mockServer.expect(validPayload(resource("xsd/calc.xsd")))
-			.andExpect(message("request-context-xslt.xml").withParameter("a",1).withParameter("b", 4))
-			.andRespond(withMessage("response-template.xml"));
+		mockServer.expect(message("request-context-xslt.xml").withParameter("from","DUB").withParameter("to", "LAX")).andRespond(withMessage("response-template.xml"));
 		
-		int result = calc.plus(1, 4);
-		assertEquals(5, result);
+		List<Flight> flights1 = airlineClient.getFlights("DUB", "LAX");
+		assertEquals(1, flights1.size());
+		assertEquals("DUB",flights1.get(0).getFrom().getCode());
 	}
 	
 	@Test(expected=SoapFaultClientException.class)
 	public void testException() throws IOException
 	{
-		mockServer.expect(validPayload(resource("xsd/calc.xsd"))).andExpect(message("request-ignore.xml")).andRespond(withMessage("fault.xml"));
-		calc.plus(2, 3);
+		mockServer.expect(anything()).andRespond(withMessage("fault.xml"));
+		airlineClient.getFlights("DUB", "LAX");
 	}
 }

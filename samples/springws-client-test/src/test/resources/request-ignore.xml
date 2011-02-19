@@ -1,4 +1,6 @@
-<plusRequest xmlns="http://javacrumbs.net/calc">
-  <a>${IGNORE}</a>
-  <b>${IGNORE}</b>
-</plusRequest>
+<ns1:GetFlightsRequest xmlns:ns1="http://www.springframework.org/spring-ws/samples/airline/schemas/messages" xmlns:ns2="http://www.springframework.org/spring-ws/samples/airline/schemas/types">
+  <ns1:from>${IGNORE}</ns1:from>
+  <ns1:to>${IGNORE}</ns1:to>
+  <ns1:departureDate>2011-02-19</ns1:departureDate>
+  <ns1:serviceClass>economy</ns1:serviceClass>
+</ns1:GetFlightsRequest>

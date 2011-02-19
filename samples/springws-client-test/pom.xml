@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-springws</artifactId>
-			<version>0.2</version>
+			<version>0.3-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -62,7 +62,7 @@
 					<schemaDirectory>
 						${basedir}/src/main/resources/xsd
   					</schemaDirectory>
-					<packageName>net.javacrumbs.calc.model</packageName>
+					<packageName>net.javacrumbs.airline.model</packageName>
 					<npa>true</npa>
 				</configuration>
 			</plugin>

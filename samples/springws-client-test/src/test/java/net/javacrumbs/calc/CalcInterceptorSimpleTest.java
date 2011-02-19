@@ -16,6 +16,11 @@
 package net.javacrumbs.calc;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
+import net.javacrumbs.airline.client.AirlineClient;
+import net.javacrumbs.airline.model.Flight;
 import net.javacrumbs.smock.springws.client.AbstractSmockClientTest;
 
 import org.junit.After;
@@ -32,7 +37,7 @@ import org.springframework.ws.server.endpoint.interceptor.PayloadLoggingIntercep
 @ContextConfiguration(locations={"classpath:client-config.xml"})
 public class CalcInterceptorSimpleTest extends AbstractSmockClientTest{
     @Autowired
-    private Calc calc;
+    private AirlineClient airlineClient;
     
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext)
@@ -51,7 +56,7 @@ public class CalcInterceptorSimpleTest extends AbstractSmockClientTest{
 	{
 		expect(anything()).andRespond(withMessage("response1.xml"));
 
-		int result = calc.plus(1, 2);
-		assertEquals(3, result);
+		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
+		assertEquals(1, flights.size());
 	}
 }
