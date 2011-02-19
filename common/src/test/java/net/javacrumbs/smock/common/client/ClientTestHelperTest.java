@@ -45,7 +45,7 @@ public class ClientTestHelperTest {
 		Calc calc = new Calc();
 		WebServiceOperations wsTemplate = createMock(WebServiceOperations.class);
 		calc.setWsTemplate(wsTemplate);
-		expect(wsTemplate.marshalSendAndReceive(valid(message("xml/request2.xml")))).andReturn(response("xml/response1.xml", PlusResponse.class));
+		expect(wsTemplate.marshalSendAndReceive(is(message("xml/request2.xml")))).andReturn(response("xml/response1.xml", PlusResponse.class));
 		
 		replay(wsTemplate);
 		
@@ -59,7 +59,7 @@ public class ClientTestHelperTest {
 		Calc calc = new Calc();
 		WebServiceOperations wsTemplate = createMock(WebServiceOperations.class);
 		calc.setWsTemplate(wsTemplate);
-		expect(wsTemplate.marshalSendAndReceive(valid(message("xml/valid-message.xml")))).andReturn(response("xml/response1.xml", PlusResponse.class));
+		expect(wsTemplate.marshalSendAndReceive(is(message("xml/valid-message.xml")))).andReturn(response("xml/response1.xml", PlusResponse.class));
 		
 		replay(wsTemplate);
 		
@@ -67,7 +67,7 @@ public class ClientTestHelperTest {
 		
 	}
 
-	private <T> T valid(final RequestMatcher matcher)
+	private <T> T is(final RequestMatcher matcher)
 	{
 		reportMatcher(new IArgumentMatcher() {
 			public boolean matches(Object argument) {

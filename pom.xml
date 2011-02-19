@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>common</module>
+		<module>easymock</module>
 		<module>extension</module>
 		<module>groovy-template</module>
 		<module>http-server</module>
