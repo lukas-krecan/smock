@@ -9,7 +9,6 @@ import javax.xml.transform.Source;
 
 import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 
@@ -34,5 +33,12 @@ public class MessageHelperTest {
 	{
 		Source source = messageHelper.deserialize(fromResource("xml/request1.xml"), Source.class);
 		assertNotNull(source);
+	}
+	@Test
+	public void testSerializeFromSource() throws Exception
+	{
+		Source source = fromResource("xml/request1.xml");
+		WebServiceMessage message = messageHelper.serialize(source);
+		assertNotNull(message);
 	}
 }
