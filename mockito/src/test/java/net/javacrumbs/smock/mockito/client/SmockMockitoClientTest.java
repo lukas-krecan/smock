@@ -21,7 +21,6 @@ import static org.mockito.Matchers.argThat;
 import static org.springframework.ws.test.client.RequestMatchers.payload;
 
 import org.junit.Test;
-import org.mockito.internal.progress.ThreadSafeMockingProgress;
 import org.springframework.xml.transform.StringSource;
 
 
@@ -31,6 +30,5 @@ public class SmockMockitoClientTest {
 	public void testMatcher()
 	{
 		argThat(is(payload(new StringSource("<a/>"))));
-		assertEquals(SmockArgumentMatcher.class, new ThreadSafeMockingProgress().getArgumentMatcherStorage().pullMatchers().get(0).getClass());
 	}
 }
