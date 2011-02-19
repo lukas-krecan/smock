@@ -18,17 +18,41 @@ package net.javacrumbs.smock.common.server;
 
 import javax.xml.transform.Source;
 
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.context.DefaultMessageContext;
+import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.test.server.ResponseActions;
+
 import net.javacrumbs.smock.common.MessageHelper;
 
-public class ServerAssert {
+import static org.springframework.ws.test.support.AssertionErrors.*;
+
+public class ServerAssert extends CommonSmockServer{
 	private static MessageHelper messageHelper = new MessageHelper();
 
+	public static  <T> T deserialize(String messageSourceLocation, Class<T> targetClass)
+	{
+		return deserialize(fromResource(messageSourceLocation), targetClass);
+	}
+	
+	
 	public static  <T> T deserialize(Source messageSource, Class<T> targetClass)
 	{
 		try {
 			return messageHelper.deserialize(messageSource, targetClass);
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Can not deserialize message.",e);
+		}
+	}
+
+	public static WebServiceMessage serialize(Object object)
+	{
+		try {
+			WebServiceMessage message = messageHelper.serialize(object);
+			if (message==null) fail("Can not serialize object "+object);
+			return message;
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Can not serialize object.",e);
 		}
 	}
 	
@@ -40,6 +64,17 @@ public class ServerAssert {
 		ServerAssert.messageHelper = messageHelper;
 	}
 	
+	public static ResponseActions validate(Object response)
+	{
+		DefaultMessageContext messageContext = new DefaultMessageContext(withMessageFactory());
+		messageContext.setResponse(serialize(response));
+		return validate(messageContext);
+	}
+
+	public static ResponseActions validate(MessageContext messageContext)
+	{
+		return new MockWebServiceClientResponseActions(messageContext);
+	}
 	
 	
 }

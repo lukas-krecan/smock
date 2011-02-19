@@ -23,7 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import net.javacrumbs.smock.common.InterceptingTemplate;
-import net.javacrumbs.smock.extended.server.MockWebServiceClientResponseActions;
+import net.javacrumbs.smock.common.server.MockWebServiceClientResponseActions;
 
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.context.ConfigurationContext;

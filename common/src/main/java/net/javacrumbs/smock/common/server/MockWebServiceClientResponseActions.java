@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.extended.server;
+package net.javacrumbs.smock.common.server;
 
 import static org.springframework.ws.test.support.AssertionErrors.fail;
 

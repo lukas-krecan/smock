@@ -16,8 +16,7 @@
 
 package net.javacrumbs.smock.common.server;
 
-import static net.javacrumbs.smock.common.SmockCommon.fromResource;
-import static net.javacrumbs.smock.common.server.ServerAssert.deserialize;
+import static net.javacrumbs.smock.common.server.ServerAssert.*;
 import static org.junit.Assert.assertEquals;
 import net.javacrumbs.smock.common.server.test.CalcEndpoint;
 import net.javacrumbs.smock.common.server.test.PlusRequest;
@@ -32,11 +31,10 @@ public class ServerAssertTest {
 	@Test
 	public void testAssert()
 	{
-		
-		
-		PlusRequest request = deserialize(fromResource("xml/request1.xml"), PlusRequest.class);
-		PlusResponse respense = endpoint.plus(request);
-		assertEquals(3, respense.getResult());
+		PlusRequest request = deserialize("xml/request1.xml", PlusRequest.class);
+		PlusResponse response = endpoint.plus(request);
+		assertEquals(3, response.getResult());
+		validate(response).andExpect(message("xml/response1.xml"));
 	//	ServerAssert.assertMatches(payload(from(document)));
 	}
 }
