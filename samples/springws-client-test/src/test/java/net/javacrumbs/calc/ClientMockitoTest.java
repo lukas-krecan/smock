@@ -61,6 +61,7 @@ public class ClientMockitoTest {
 		assertEquals(1, flights.size());
 	}
 	
+	
 	@Test
 	public void testVerifyRequest()
 	{
@@ -69,6 +70,14 @@ public class ClientMockitoTest {
 		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
 		assertEquals(1, flights.size());
 	}
+	
+	@Test(expected=AssertionError.class)
+	public void testFail()
+	{
+		when(webServiceTemplate.marshalSendAndReceive(argThat(is(message("request2.xml"))))).thenReturn(response("response1.xml", GetFlightsResponse.class));
+		airlineClient.getFlights("PRG", "DUB");
+	}
+	
 	@Test
 	public void testSchema() throws IOException
 	{

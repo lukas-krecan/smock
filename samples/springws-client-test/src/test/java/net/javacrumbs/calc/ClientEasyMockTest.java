@@ -17,9 +17,9 @@ package net.javacrumbs.calc;
 
 
 import static net.javacrumbs.smock.common.SmockCommon.resource;
+import static net.javacrumbs.smock.common.client.ClientTestHelper.response;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
-import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
-import static net.javacrumbs.smock.easymock.client.SmockEasyMockClient.*;
+import static net.javacrumbs.smock.easymock.client.SmockEasyMockClient.is;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -54,12 +54,7 @@ public class ClientEasyMockTest {
        airlineClient.setWsTemplate(webServiceTemplate);
     }
     
-    @After
-    public void verifyMocks()
-    {
-    	verify(webServiceTemplate);
-    }
-
+  
 	@Test
 	public void testSimple()
 	{
@@ -68,6 +63,8 @@ public class ClientEasyMockTest {
 		
 		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
 		assertEquals(1, flights.size());
+		
+		verify(webServiceTemplate);
 	}
 	
 	@Test
@@ -78,7 +75,18 @@ public class ClientEasyMockTest {
 		
 		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
 		assertEquals(1, flights.size());
+		
+		verify(webServiceTemplate);
 	}
+	
+	@Test(expected=AssertionError.class)
+	public void testFail()
+	{
+		expect(webServiceTemplate.marshalSendAndReceive(is(message("request2.xml")))).andReturn(response("response1.xml", GetFlightsResponse.class));
+		replay(webServiceTemplate);
+		airlineClient.getFlights("PRG", "DUB");
+	}
+	
 	@Test
 	public void testSchema() throws IOException
 	{
@@ -87,5 +95,7 @@ public class ClientEasyMockTest {
 		
 		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
 		assertEquals(1, flights.size());
+		
+		verify(webServiceTemplate);
 	}
 }
