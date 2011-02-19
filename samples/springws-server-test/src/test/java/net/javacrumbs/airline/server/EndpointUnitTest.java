@@ -18,8 +18,8 @@ package net.javacrumbs.airline.server;
 import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static net.javacrumbs.smock.common.server.ServerAssert.createRequest;
-import static net.javacrumbs.smock.common.server.ServerAssert.validate;
+import static net.javacrumbs.smock.common.server.ServerTestHelper.createRequest;
+import static net.javacrumbs.smock.common.server.ServerTestHelper.validate;
 import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 
 import java.util.Collections;

@@ -16,7 +16,7 @@
 
 package net.javacrumbs.smock.common.server;
 
-import static net.javacrumbs.smock.common.server.ServerAssert.*;
+import static net.javacrumbs.smock.common.server.ServerTestHelper.*;
 
 import java.io.IOException;
 
