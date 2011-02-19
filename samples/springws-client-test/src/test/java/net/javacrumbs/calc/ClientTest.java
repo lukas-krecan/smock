@@ -41,7 +41,7 @@ import org.springframework.ws.test.client.MockWebServiceServer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:client-config.xml"})
-public class CalcTest {
+public class ClientTest {
     @Autowired
     private AirlineClient airlineClient;
     

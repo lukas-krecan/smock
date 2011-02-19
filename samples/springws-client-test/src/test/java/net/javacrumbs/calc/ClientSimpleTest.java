@@ -35,7 +35,7 @@ import org.springframework.ws.soap.client.SoapFaultClientException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:client-config.xml"})
-public class CalcSimpleTest extends AbstractSmockClientTest {
+public class ClientSimpleTest extends AbstractSmockClientTest {
     @Autowired
     private AirlineClient airlineClient;
     
