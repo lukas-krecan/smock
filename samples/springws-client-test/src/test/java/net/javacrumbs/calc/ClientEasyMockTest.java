@@ -19,7 +19,7 @@ package net.javacrumbs.calc;
 import static net.javacrumbs.smock.common.SmockCommon.resource;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
-import static net.javacrumbs.smock.easymock.client.SmockEasyMockClientHelper.*;
+import static net.javacrumbs.smock.easymock.client.SmockEasyMockClient.*;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -40,7 +40,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ws.client.core.WebServiceOperations;
 
-public class ClientUnitTest {
+public class ClientEasyMockTest {
     
     private AirlineClient airlineClient;
     

@@ -24,12 +24,12 @@ import org.junit.Test;
 import org.springframework.xml.transform.StringSource;
 
 
-public class SmockEasyMockClientHelperTest {
+public class SmockEasyMockClientTest {
 
 	@Test
 	public void testMatcher()
 	{
-		SmockEasyMockClientHelper.is(payload(new StringSource("<a/>")));
+		SmockEasyMockClient.is(payload(new StringSource("<a/>")));
 		assertEquals(SmockArgumentMatcher.class, LastControl.pullMatchers().get(0).getClass());
 	}
 }

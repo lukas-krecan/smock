@@ -16,28 +16,23 @@
 
 package net.javacrumbs.smock.easymock.client;
 
-import java.io.IOException;
+import static org.easymock.EasyMock.reportMatcher;
+import net.javacrumbs.smock.common.client.ClientTestHelper;
 
-import org.easymock.IArgumentMatcher;
 import org.springframework.ws.test.client.RequestMatcher;
 
-class SmockArgumentMatcher implements IArgumentMatcher {
-	private final RequestMatcher matcher;
+public class SmockEasyMockClient extends ClientTestHelper{
+	
 
-	public SmockArgumentMatcher(RequestMatcher matcher) {
-		this.matcher = matcher;
-	}
-
-	public boolean matches(Object argument) {
-		try {
-			matcher.match(null, SmockEasyMockClient.serialize(argument));
-		} catch (IOException e) {
-			throw new IllegalArgumentException("Can not match the request.",e);
-		} 
-		return true;
-	}
-
-	public void appendTo(StringBuffer buffer) {
-						
+	/**
+	 * Matches a RequestMatcher.
+	 * @param <T>
+	 * @param matcher
+	 * @return
+	 */
+	public static <T> T is(final RequestMatcher matcher)
+	{
+		reportMatcher(new SmockArgumentMatcher(matcher));
+		return null;
 	}
 }

@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package net.javacrumbs.smock.easymock.client;
+package net.javacrumbs.smock.mockito.client;
 
-import static org.easymock.EasyMock.reportMatcher;
-import net.javacrumbs.smock.common.client.ClientTestHelper;
+import java.io.IOException;
 
+import org.mockito.ArgumentMatcher;
 import org.springframework.ws.test.client.RequestMatcher;
 
-public class SmockEasyMockClientHelper extends ClientTestHelper{
-	
+class SmockArgumentMatcher  extends ArgumentMatcher<Object> {
+	private final RequestMatcher matcher;
 
-	/**
-	 * Matches a RequestMatcher.
-	 * @param <T>
-	 * @param matcher
-	 * @return
-	 */
-	public static <T> T is(final RequestMatcher matcher)
-	{
-		reportMatcher(new SmockArgumentMatcher(matcher));
-		return null;
+	public SmockArgumentMatcher(RequestMatcher matcher) {
+		this.matcher = matcher;
+	}
+
+	public boolean matches(Object argument) {
+		try {
+			matcher.match(null, SmockMockitoClient.serialize(argument));
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Can not match the request.",e);
+		} 
+		return true;
 	}
 }

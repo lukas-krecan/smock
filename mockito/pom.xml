@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.javacrumbs</groupId>
+		<artifactId>smock-root</artifactId>
+		<version>0.3-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>net.javacrumbs</groupId>
+	<artifactId>smock-mockito</artifactId>
+	<packaging>jar</packaging>
+	<version>0.3-SNAPSHOT</version>
+	<name>smock-mockito</name>
+	<description>
+		Smock EasyMock support.
+	</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.javacrumbs</groupId>
+			<artifactId>smock-common</artifactId>
+			<version>0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.8.5</version>
+		</dependency>
+	</dependencies>
+</project>
