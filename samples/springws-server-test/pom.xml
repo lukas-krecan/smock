@@ -85,7 +85,7 @@
 					<schemaDirectory>
 						${basedir}/src/main/resources/xsd
   					</schemaDirectory>
-					<packageName>net.javacrumbs.calc.model</packageName>
+					<packageName>net.javacrumbs.airline.model</packageName>
 					<npa>true</npa>
 				</configuration>
 			</plugin>

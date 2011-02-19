@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.calc.server;
+package net.javacrumbs.airline.server;
 
 import static net.javacrumbs.smock.springws.server.SmockServer.message;
 import static net.javacrumbs.smock.springws.server.SmockServer.withMessage;
@@ -44,7 +44,7 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 public class ParametrizedTest {
 
 		
-	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
+	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", AirlineWebServiceConstants.MESSAGES_NAMESPACE);
 	private MockWebServiceClient wsMockClient;
 	private int a;
 	private int b;

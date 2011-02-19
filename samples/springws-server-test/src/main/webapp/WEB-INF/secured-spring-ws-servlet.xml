@@ -1,71 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-    Copyright 2009-2010 the original author or authors.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-         http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sws="http://www.springframework.org/schema/web-services"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/web-services http://www.springframework.org/schema/web-services/web-services-2.0.xsd">
 
 
-	<bean class="net.javacrumbs.calc.server.CalcEndpoint"/>
-	
-	<bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping">
-		<property name="interceptors">
-			<list>
-				<bean class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
-					<property name="schemas">
-						<list>
-							<value>classpath:xsd/calc.xsd</value>
-						</list>
+	<context:component-scan base-package="net.javacrumbs.airline" />
+	<sws:annotation-driven />
+
+	<sws:interceptors>
+
+		<bean class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
+			<property name="schemas">
+				<list>
+					<value>classpath:xsd/types.xsd</value>
+					<value>classpath:xsd/messages.xsd</value>
+				</list>
+			</property>
+		</bean>
+		<bean class="org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor">
+			<property name="validationActions" value="UsernameToken Timestamp" />
+			<property name="validationCallbackHandler">
+				<bean
+					class="org.springframework.ws.soap.security.wss4j.callback.SimplePasswordValidationCallbackHandler">
+					<property name="users">
+						<props>
+							<prop key="Bert">Ernie</prop>
+						</props>
 					</property>
 				</bean>
-				<bean class="org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor">
-    				<property name="validationActions" value="UsernameToken Timestamp"/>
-    				<property name="validationCallbackHandler">
-    					<bean class="org.springframework.ws.soap.security.wss4j.callback.SimplePasswordValidationCallbackHandler">
-						    <property name="users">
-						        <props>
-						            <prop key="Bert">Ernie</prop>
-						        </props>
-						    </property>
-						</bean>
-    				</property>
-    			</bean>
-			</list>
-		</property>
-	</bean>
-	
-	<bean class="org.springframework.ws.server.endpoint.adapter.GenericMarshallingMethodEndpointAdapter">
-        <constructor-arg>
-	        <bean  class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-				<property name="contextPath" value="net.javacrumbs.calc.model"/>
-			</bean>
-        </constructor-arg>
-    </bean>
+			</property>
+		</bean>
+	</sws:interceptors>
 
-	<bean id="calc" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
-		<property name="schema">
-			<bean class="org.springframework.xml.xsd.SimpleXsdSchema">
-				<property name="xsd" value="classpath:xsd/calc.xsd" />
-			</bean>
-		</property>
-		<property name="portTypeName" value="Calc" />
-		<property name="locationUri" value="http://localhost:8080/simple-server-test/soap/calc.do" />
-		<property name="targetNamespace" value="http://javacrumbs.net/calc" />
+	<bean id="exceptionResolver" class="org.springframework.ws.soap.server.endpoint.SoapFaultAnnotationExceptionResolver">
+		<property name="order" value="-1" />
 	</bean>
+
 </beans>
+

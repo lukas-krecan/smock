@@ -1,13 +1,25 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-        <xsl:param name="result"/>
-        <xsl:template match="/">
-			<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-				<soapenv:Header />
-				<soapenv:Body>
-                      <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-						  <result><xsl:value-of select="$result"/></result>
-					  </plusResponse>
-	           	</soapenv:Body>
-			</soapenv:Envelope>
-		</xsl:template>
+	<xsl:param name="serviceClass" />
+	<xsl:template match="/">
+		<ns3:GetFlightsResponse
+			xmlns:ns3="http://www.springframework.org/spring-ws/samples/airline/schemas/messages"
+			xmlns:ns2="http://www.springframework.org/spring-ws/samples/airline/schemas/types">
+			<ns3:flight>
+				<ns2:number>OK1324</ns2:number>
+				<ns2:departureTime>2011-02-19T10:00:00</ns2:departureTime>
+				<ns2:from>
+					<ns2:code><xsl:value-of select="//ns3:from"/></ns2:code>
+					<ns2:name>${IGNORE}</ns2:name>
+					<ns2:city>${IGNORE}</ns2:city>
+				</ns2:from>
+				<ns2:arrivalTime>2011-02-19T12:00:00</ns2:arrivalTime>
+				<ns2:to>
+					<ns2:code><xsl:value-of select="//ns3:to"/></ns2:code>
+					<ns2:name>${IGNORE}</ns2:name>
+					<ns2:city>${IGNORE}</ns2:city>
+				</ns2:to>
+				<ns2:serviceClass><xsl:value-of select="$serviceClass"/></ns2:serviceClass>
+			</ns3:flight>
+		</ns3:GetFlightsResponse>
+	</xsl:template>
 </xsl:stylesheet>

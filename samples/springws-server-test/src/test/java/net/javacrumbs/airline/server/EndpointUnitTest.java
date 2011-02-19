@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.calc.server;
+package net.javacrumbs.airline.server;
 
 import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
@@ -26,17 +26,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.javacrumbs.calc.model.PlusRequest;
-import net.javacrumbs.calc.model.PlusResponse;
+import net.javacrumbs.airline.model.GetFlightsRequest;
+import net.javacrumbs.airline.model.GetFlightsResponse;
 import net.javacrumbs.smock.common.groovy.GroovyTemplateProcessor;
 
 import org.junit.Test;
 
 public class EndpointUnitTest {
 	
-	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
+	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://www.springframework.org/spring-ws/samples/airline/schemas/types");
 	
-	private static CalcEndpoint endpoint = new CalcEndpoint();
+	private static AirlineEndpoint endpoint = new AirlineEndpoint();
 
 	static
 	{
@@ -46,25 +46,26 @@ public class EndpointUnitTest {
 		
 	@Test
 	public void testCompare() throws Exception {
-		PlusRequest request = createRequest("request1.xml", PlusRequest.class);
-		PlusResponse response = endpoint.plus(request);
+		GetFlightsRequest request = createRequest("request1.xml", GetFlightsRequest.class);
+		GetFlightsResponse response = endpoint.getFlights(request);
 		validate(response).andExpect(message("response1.xml"));
 	}
 	@Test
 	public void testAssertXPath() throws Exception {
-		PlusRequest request = createRequest("request1.xml", PlusRequest.class);
-		PlusResponse response = endpoint.plus(request);
-		validate(response).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(3));
+		GetFlightsRequest request = createRequest("request1.xml", GetFlightsRequest.class);
+		GetFlightsResponse response = endpoint.getFlights(request);
+		validate(response).andExpect(xpath("//ns:from/ns:code",NS_MAP).evaluatesTo("PRG"));
 
 	}
 
 	@Test
 	public void testResponseTemplate() throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("a", 1);
-		params.put("b", 2);
-		PlusRequest request = createRequest(withMessage("request-context-groovy.xml").withParameters(params), PlusRequest.class);
-		PlusResponse response = endpoint.plus(request);
-		validate(response, request).andExpect(message("response-context-groovy.xml").withParameter("result", 3));
+		params.put("from", "DUB");
+		params.put("to", "JFK");
+		params.put("serviceClass", "economy");
+		GetFlightsRequest request = createRequest(withMessage("request-context-groovy.xml").withParameters(params), GetFlightsRequest.class);
+		GetFlightsResponse response = endpoint.getFlights(request);
+		validate(response, request).andExpect(message("response-context-groovy.xml").withParameter("serviceClass", "economy"));
 	}
 }

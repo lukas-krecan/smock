@@ -77,7 +77,7 @@
 					<header>header.txt</header>
 					<excludes>
 						<exclude>**/src/test/resources/**</exclude>
-						<exclude>**/src/main/resources/*.xml</exclude>
+						<exclude>**/*.xml</exclude>
 						<exclude>LICENSE.txt</exclude>
 					</excludes>
 				</configuration>

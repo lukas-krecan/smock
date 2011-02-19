@@ -1,3 +1,20 @@
- <plusResponse xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	  <result>${(plusRequest.a.text() as int) + (plusRequest.b.text() as int)}</result>
- </plusResponse>
+<ns3:GetFlightsResponse
+	xmlns:ns3="http://www.springframework.org/spring-ws/samples/airline/schemas/messages"
+	xmlns:ns2="http://www.springframework.org/spring-ws/samples/airline/schemas/types">
+	<ns3:flight>
+		<ns2:number>OK1324</ns2:number>
+		<ns2:departureTime>2011-02-19T10:00:00</ns2:departureTime>
+		<ns2:from>
+			<ns2:code>${GetFlightsRequest.from}</ns2:code>
+			<ns2:name>${IGNORE}</ns2:name>
+			<ns2:city>${IGNORE}</ns2:city>
+		</ns2:from>
+		<ns2:arrivalTime>2011-02-19T12:00:00</ns2:arrivalTime>
+		<ns2:to>
+			<ns2:code>${GetFlightsRequest.to}</ns2:code>
+			<ns2:name>${IGNORE}</ns2:name>
+			<ns2:city>${IGNORE}</ns2:city>
+		</ns2:to>
+		<ns2:serviceClass>${serviceClass}</ns2:serviceClass>
+	</ns3:flight>
+</ns3:GetFlightsResponse>

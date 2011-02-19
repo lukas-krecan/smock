@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.calc.server;
+package net.javacrumbs.airline.server;
 
 import net.javacrumbs.smock.springws.server.AbstractSmockServerTest;
 

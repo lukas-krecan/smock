@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.calc.server;
+package net.javacrumbs.airline.server;
 
 import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
@@ -55,8 +55,9 @@ public class GroovyEndpointTest {
 	@Test
 	public void testResponseTemplate() throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("a", 1);
-		params.put("b", 2);
-		wsMockClient.sendRequest(withMessage("request-context-groovy.xml").withParameters(params)).andExpect(message("response-context-groovy.xml"));
+		params.put("from", "DUB");
+		params.put("to", "JFK");
+		params.put("serviceClass", "economy");
+		wsMockClient.sendRequest(withMessage("request-context-groovy.xml").withParameters(params)).andExpect(message("response-context-groovy.xml").withParameter("serviceClass", "economy"));
 	}
 }
