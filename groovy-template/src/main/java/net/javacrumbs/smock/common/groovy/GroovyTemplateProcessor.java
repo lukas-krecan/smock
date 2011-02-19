@@ -56,6 +56,7 @@ public class GroovyTemplateProcessor implements TemplateProcessor {
 				Document inputDocument = loadDocument(input);
 				binding.put(inputDocument.getFirstChild().getLocalName(), new XmlSlurper().parse(new StringReader(serialize(inputDocument))));
 			}
+			binding.put("IGNORE", "${IGNORE}");
 			return new StringSource(templateEngine.createTemplate(templateText).make(binding).toString());
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Can not process Groovy template.",e);

@@ -41,6 +41,16 @@ public class GroovyTemplateProcessorTest {
 		assertXMLEqual("<a>test</a>", serialize(result));
 	}
 	@Test
+	public void testIgnore() throws SAXException, IOException
+	{
+		GroovyTemplateProcessor processor = new GroovyTemplateProcessor();
+		Source template = new StringSource("<a>$value<b>${IGNORE}</b></a>");
+		
+		
+		Source result = processor.processTemplate(template, null, singletonMap("value", (Object)"test"));
+		assertXMLEqual("<a>test<b>${IGNORE}</b></a>", serialize(result));
+	}
+	@Test
 	public void testWithRequest() throws SAXException, IOException
 	{
 		GroovyTemplateProcessor processor = new GroovyTemplateProcessor();
