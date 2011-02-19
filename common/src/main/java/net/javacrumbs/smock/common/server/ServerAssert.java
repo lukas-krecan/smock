@@ -31,21 +31,21 @@ import org.springframework.ws.test.server.ResponseActions;
 
 public class ServerAssert extends CommonSmockServer{
 	
-	private static WebServiceMessageFactory messageFactory = withMessageFactory();
+	private static WebServiceMessageFactory messageFactory = createMessageFactory();
 
 	private static MessageHelper messageHelper = new MessageHelper(messageFactory);
 
-	public static  <T> T deserialize(String messageSourceLocation, Class<T> targetClass)
+	public static  <T> T createRequest(String messageSourceLocation, Class<T> targetClass)
 	{
-		return deserialize(fromResource(messageSourceLocation), targetClass);
+		return createRequest(fromResource(messageSourceLocation), targetClass);
 	}
 	
-	public static  <T> T deserialize(Source messageSource, Class<T> targetClass)
+	public static  <T> T createRequest(Source messageSource, Class<T> targetClass)
 	{
-		return deserialize(withMessage(messageSource), targetClass);
+		return createRequest(withMessage(messageSource), targetClass);
 	}
 	
-	public static  <T> T deserialize(RequestCreator requestCreator, Class<T> targetClass)
+	public static  <T> T createRequest(RequestCreator requestCreator, Class<T> targetClass)
 	{
 		try {
 			return messageHelper.deserialize(requestCreator.createRequest(messageFactory), targetClass);

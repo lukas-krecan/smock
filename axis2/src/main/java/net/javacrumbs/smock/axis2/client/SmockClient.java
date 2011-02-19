@@ -67,14 +67,14 @@ public class SmockClient extends CommonSmockClient {
 	}
 	public static MockWebServiceServer createServer(EndpointInterceptor[] interceptors)
 	{
-		return createServer(withMessageFactory(), interceptors);
+		return createServer(createMessageFactory(), interceptors);
 	}
 	public static MockWebServiceServer createServer()
 	{
-		return createServer(withMessageFactory(), null);
+		return createServer(createMessageFactory(), null);
 	}
-	public static WebServiceMessageFactory withMessageFactory()
+	public static WebServiceMessageFactory createMessageFactory()
     {
-    	return withMessageFactory(SoapVersion.SOAP_12);
+    	return createMessageFactory(SoapVersion.SOAP_12);
     }
 }

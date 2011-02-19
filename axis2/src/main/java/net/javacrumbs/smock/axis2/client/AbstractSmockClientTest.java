@@ -65,12 +65,12 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	 */
 	public void createServer()
 	{
-		createServer(SmockClient.withMessageFactory());
+		createServer(SmockClient.createMessageFactory());
 	}
 	
-    public WebServiceMessageFactory withMessageFactory(SoapVersion soapVersion)
+    public WebServiceMessageFactory createMessageFactory(SoapVersion soapVersion)
     {
-    	return SmockClient.withMessageFactory(soapVersion);
+    	return SmockClient.createMessageFactory(soapVersion);
     }
 
 	/**

@@ -42,6 +42,6 @@ public abstract class AbstractSmockTest {
 	}
 	
 	protected WebServiceMessageFactory getMessageFactory() {
-		return SmockCommon.withMessageFactory();
+		return SmockCommon.createMessageFactory();
 	}
 }

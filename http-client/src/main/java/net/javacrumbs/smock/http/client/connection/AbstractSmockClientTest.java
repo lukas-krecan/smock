@@ -54,7 +54,7 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	 */
 	public void createServer(ApplicationContext applicationContext, EndpointInterceptor[] interceptors)
 	{
-		createServer(SmockClient.withMessageFactory(applicationContext), interceptors);
+		createServer(SmockClient.createMessageFactory(applicationContext), interceptors);
 	}
 	/**
 	 * Creates a {@code MockWebServiceServer} instance.
@@ -72,7 +72,7 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	 */
 	public void createServer()
 	{
-		createServer(SmockClient.withMessageFactory(), null);
+		createServer(SmockClient.createMessageFactory(), null);
 	}
 
 	/**

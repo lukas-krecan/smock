@@ -40,7 +40,7 @@ public class ServerAssertTest {
 	@Test
 	public void testAssert()
 	{
-		PlusRequest request = deserialize("xml/request1.xml", PlusRequest.class);
+		PlusRequest request = createRequest("xml/request1.xml", PlusRequest.class);
 		PlusResponse response = endpoint.plus(request);
 		assertEquals(3, response.getResult());
 		validate(response).andExpect(message("xml/response1.xml"));
@@ -49,7 +49,7 @@ public class ServerAssertTest {
 	@Test
 	public void testAssertCreator()
 	{
-		PlusRequest request = deserialize(withMessage(fromResource("xml/request1.xml")), PlusRequest.class);
+		PlusRequest request = createRequest(withMessage(fromResource("xml/request1.xml")), PlusRequest.class);
 		PlusResponse response = endpoint.plus(request);
 		assertEquals(3, response.getResult());
 		validate(response).andExpect(message("xml/response1.xml"));

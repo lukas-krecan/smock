@@ -125,9 +125,9 @@ public abstract class SmockCommon  {
      * @param applicationContext
      * @return
      */
-    public static WebServiceMessageFactory withMessageFactory(ApplicationContext applicationContext)
+    public static WebServiceMessageFactory createMessageFactory(ApplicationContext applicationContext)
     {
-    	if (applicationContext==null) return withMessageFactory();
+    	if (applicationContext==null) return createMessageFactory();
     	return new MockStrategiesHelper(applicationContext).getStrategy(WebServiceMessageFactory.class, SaajSoapMessageFactory.class);
     }
 
@@ -135,16 +135,16 @@ public abstract class SmockCommon  {
      * Creates SAAJ based message factory for SOAP 1.1.
      * @return
      */
-    public static WebServiceMessageFactory withMessageFactory()
+    public static WebServiceMessageFactory createMessageFactory()
     {
-    	return withMessageFactory(SoapVersion.SOAP_11);
+    	return createMessageFactory(SoapVersion.SOAP_11);
     }
     /**
      * Creates SAAJ based message factory.
      * @param soapVersion
      * @return
      */
-    public static WebServiceMessageFactory withMessageFactory(SoapVersion soapVersion)
+    public static WebServiceMessageFactory createMessageFactory(SoapVersion soapVersion)
     {
     	SaajSoapMessageFactory saajSoapMessageFactory = new SaajSoapMessageFactory();
    		saajSoapMessageFactory.setSoapVersion(soapVersion);

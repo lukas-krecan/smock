@@ -18,7 +18,7 @@ package net.javacrumbs.calc.server;
 import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
 import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static net.javacrumbs.smock.common.server.ServerAssert.deserialize;
+import static net.javacrumbs.smock.common.server.ServerAssert.createRequest;
 import static net.javacrumbs.smock.common.server.ServerAssert.validate;
 import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 
@@ -46,13 +46,13 @@ public class EndpointUnitTest {
 		
 	@Test
 	public void testCompare() throws Exception {
-		PlusRequest request = deserialize("request1.xml", PlusRequest.class);
+		PlusRequest request = createRequest("request1.xml", PlusRequest.class);
 		PlusResponse response = endpoint.plus(request);
 		validate(response).andExpect(message("response1.xml"));
 	}
 	@Test
 	public void testAssertXPath() throws Exception {
-		PlusRequest request = deserialize("request1.xml", PlusRequest.class);
+		PlusRequest request = createRequest("request1.xml", PlusRequest.class);
 		PlusResponse response = endpoint.plus(request);
 		validate(response).andExpect(xpath("//ns:result",NS_MAP).evaluatesTo(3));
 
@@ -63,7 +63,7 @@ public class EndpointUnitTest {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("a", 1);
 		params.put("b", 2);
-		PlusRequest request = deserialize(withMessage("request-context-groovy.xml").withParameters(params), PlusRequest.class);
+		PlusRequest request = createRequest(withMessage("request-context-groovy.xml").withParameters(params), PlusRequest.class);
 		PlusResponse response = endpoint.plus(request);
 		validate(response, request).andExpect(message("response-context-groovy.xml").withParameter("result", 3));
 	}

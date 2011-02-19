@@ -2,8 +2,8 @@ package net.javacrumbs.smock.common;
 
 
 
+import static net.javacrumbs.smock.common.SmockCommon.createMessageFactory;
 import static net.javacrumbs.smock.common.SmockCommon.fromResource;
-import static net.javacrumbs.smock.common.SmockCommon.withMessageFactory;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 
 
 public class MessageHelperTest {
-	private MessageHelper messageHelper = new MessageHelper(withMessageFactory());
+	private MessageHelper messageHelper = new MessageHelper(createMessageFactory());
 	
 	@Test
 	public void testDeserializeToDom() throws Exception
@@ -38,7 +38,7 @@ public class MessageHelperTest {
 		assertNotNull(source);
 	}
 	private WebServiceMessage createMessage(String location) throws IOException {
-		WebServiceMessage message = withMessageFactory().createWebServiceMessage();
+		WebServiceMessage message = createMessageFactory().createWebServiceMessage();
 		XmlUtil.transform(fromResource(location),message.getPayloadResult());
 		return message;
 	}

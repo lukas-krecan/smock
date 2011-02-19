@@ -38,7 +38,7 @@ public class ServletBasedMockWebServiceClient extends CommonServletBasedMockWebS
 	}
 
 	public ServletBasedMockWebServiceClient(ApplicationContext applicationContext, ClientInterceptor[] clientInterceptors) {
-		this(ServletUtils.createServlet(getWSSpringServletClass(), applicationContext, null, null), SmockCommon.withMessageFactory(applicationContext), clientInterceptors);
+		this(ServletUtils.createServlet(getWSSpringServletClass(), applicationContext, null, null), SmockCommon.createMessageFactory(applicationContext), clientInterceptors);
 	}
 
 	@SuppressWarnings("unchecked")
