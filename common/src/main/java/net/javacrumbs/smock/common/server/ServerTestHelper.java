@@ -83,7 +83,7 @@ public class ServerTestHelper extends CommonSmockServer{
 	}
 	
 	/**
-	 * Serilalizes object to {@link WebServiceMessage}.
+	 * Serializes object to {@link WebServiceMessage}.
 	 * @param object
 	 * @return
 	 */
@@ -138,6 +138,14 @@ public class ServerTestHelper extends CommonSmockServer{
 
 	public static void setMessageHelper(MessageHelper messageHelper) {
 		ServerTestHelper.messageHelper = messageHelper;
+	}
+
+	static WebServiceMessageFactory getMessageFactory() {
+		return messageFactory;
+	}
+
+	static void setMessageFactory(WebServiceMessageFactory messageFactory) {
+		ServerTestHelper.messageFactory = messageFactory;
 	}
 	
 	

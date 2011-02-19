@@ -34,7 +34,7 @@ import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.server.ResponseMatcher;
 
 
-public class ServerAssertTest {
+public class ServerTestHelperTest {
 	private CalcEndpoint endpoint = new CalcEndpoint();
 	
 	@Test
