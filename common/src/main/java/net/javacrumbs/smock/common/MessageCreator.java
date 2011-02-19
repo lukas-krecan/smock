@@ -15,7 +15,7 @@
  */
 package net.javacrumbs.smock.common;
 
-import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+import static net.javacrumbs.smock.common.XmlUtil.transform;
 import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
 import static net.javacrumbs.smock.common.XmlUtil.getSourceAsStream;
 import static net.javacrumbs.smock.common.XmlUtil.isSoap;
@@ -67,7 +67,7 @@ public class MessageCreator implements ResponseCreator, RequestCreator{
 		else
 		{
 			WebServiceMessage webServiceMessage = messageFactory.createWebServiceMessage();
-			doTransform(source, webServiceMessage.getPayloadResult());
+			transform(source, webServiceMessage.getPayloadResult());
 			result = webServiceMessage;
 		}
 		if (logger.isDebugEnabled())

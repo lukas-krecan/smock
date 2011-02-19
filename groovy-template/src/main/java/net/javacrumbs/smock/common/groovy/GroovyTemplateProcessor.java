@@ -54,7 +54,7 @@ public class GroovyTemplateProcessor implements TemplateProcessor {
 			if (input!=null)
 			{
 				Document inputDocument = loadDocument(input);
-				binding.put(inputDocument.getFirstChild().getNodeName(), new XmlSlurper().parse(new StringReader(serialize(inputDocument))));
+				binding.put(inputDocument.getFirstChild().getLocalName(), new XmlSlurper().parse(new StringReader(serialize(inputDocument))));
 			}
 			return new StringSource(templateEngine.createTemplate(templateText).make(binding).toString());
 		} catch (Exception e) {

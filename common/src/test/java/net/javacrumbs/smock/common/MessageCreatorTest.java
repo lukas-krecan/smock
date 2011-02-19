@@ -19,8 +19,8 @@ import javax.xml.transform.Source;
 
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.soap.SoapMessage;
-import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.xml.transform.StringSource;
 import org.w3c.dom.Document;
 
@@ -30,7 +30,7 @@ public class MessageCreatorTest extends AbstractSmockTest {
 	{
 		Source source = new StringSource(MESSAGE);
 		MessageCreator responseCreator = new MessageCreator(source);
-		SaajSoapMessageFactory messageFactory = getMessageFactory();
+		WebServiceMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createMessage(TEST_URI, null, messageFactory);
 		
@@ -42,7 +42,7 @@ public class MessageCreatorTest extends AbstractSmockTest {
 	{
 		Source source = new StringSource(PAYLOAD);
 		MessageCreator responseCreator = new MessageCreator(source);
-		SaajSoapMessageFactory messageFactory = getMessageFactory();
+		WebServiceMessageFactory messageFactory = getMessageFactory();
 		
 		SoapMessage response = (SoapMessage) responseCreator.createMessage(TEST_URI, null, messageFactory);
 		

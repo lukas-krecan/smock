@@ -17,12 +17,21 @@
 package net.javacrumbs.smock.common.server;
 
 import static net.javacrumbs.smock.common.server.ServerAssert.*;
+
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import javax.xml.transform.Source;
+
 import net.javacrumbs.smock.common.server.test.CalcEndpoint;
 import net.javacrumbs.smock.common.server.test.PlusRequest;
 import net.javacrumbs.smock.common.server.test.PlusResponse;
 
 import org.junit.Test;
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.test.server.ResponseMatcher;
 
 
 public class ServerAssertTest {
@@ -37,4 +46,26 @@ public class ServerAssertTest {
 		validate(response).andExpect(message("xml/response1.xml"));
 	//	ServerAssert.assertMatches(payload(from(document)));
 	}
+	@Test
+	public void testAssertCreator()
+	{
+		PlusRequest request = deserialize(withMessage(fromResource("xml/request1.xml")), PlusRequest.class);
+		PlusResponse response = endpoint.plus(request);
+		assertEquals(3, response.getResult());
+		validate(response).andExpect(message("xml/response1.xml"));
+		//	ServerAssert.assertMatches(payload(from(document)));
+	}
+	@Test
+	public void testValidate()
+	{
+		Source response = fromResource("xml/response1.xml");
+		Source request = fromResource("xml/request1.xml");
+		validate(response,request).andExpect(new ResponseMatcher() {
+			public void match(WebServiceMessage request, WebServiceMessage response) throws IOException, AssertionError {
+				assertNotNull(request);
+				assertNotNull(response);
+			}
+		});
+	}
+	
 }

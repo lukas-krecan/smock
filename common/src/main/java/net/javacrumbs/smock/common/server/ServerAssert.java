@@ -16,35 +16,44 @@
 
 package net.javacrumbs.smock.common.server;
 
-import javax.xml.transform.Source;
+import static org.springframework.ws.test.support.AssertionErrors.fail;
 
-import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.context.DefaultMessageContext;
-import org.springframework.ws.context.MessageContext;
-import org.springframework.ws.test.server.ResponseActions;
+import javax.xml.transform.Source;
 
 import net.javacrumbs.smock.common.MessageHelper;
 
-import static org.springframework.ws.test.support.AssertionErrors.*;
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.WebServiceMessageFactory;
+import org.springframework.ws.context.DefaultMessageContext;
+import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.test.server.RequestCreator;
+import org.springframework.ws.test.server.ResponseActions;
 
 public class ServerAssert extends CommonSmockServer{
-	private static MessageHelper messageHelper = new MessageHelper();
+	
+	private static WebServiceMessageFactory messageFactory = withMessageFactory();
+
+	private static MessageHelper messageHelper = new MessageHelper(messageFactory);
 
 	public static  <T> T deserialize(String messageSourceLocation, Class<T> targetClass)
 	{
 		return deserialize(fromResource(messageSourceLocation), targetClass);
 	}
 	
-	
 	public static  <T> T deserialize(Source messageSource, Class<T> targetClass)
 	{
+		return deserialize(withMessage(messageSource), targetClass);
+	}
+	
+	public static  <T> T deserialize(RequestCreator requestCreator, Class<T> targetClass)
+	{
 		try {
-			return messageHelper.deserialize(messageSource, targetClass);
+			return messageHelper.deserialize(requestCreator.createRequest(messageFactory), targetClass);
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Can not deserialize message.",e);
 		}
 	}
-
+	
 	public static WebServiceMessage serialize(Object object)
 	{
 		try {
@@ -66,14 +75,14 @@ public class ServerAssert extends CommonSmockServer{
 	
 	public static ResponseActions validate(Object response)
 	{
-		DefaultMessageContext messageContext = new DefaultMessageContext(withMessageFactory());
+		DefaultMessageContext messageContext = new DefaultMessageContext(messageFactory);
 		messageContext.setResponse(serialize(response));
 		return validate(messageContext);
 	}
 
 	public static ResponseActions validate(Object response, Object request)
 	{
-		DefaultMessageContext messageContext = new DefaultMessageContext(serialize(request), withMessageFactory());
+		DefaultMessageContext messageContext = new DefaultMessageContext(serialize(request), messageFactory);
 		messageContext.setResponse(serialize(response));
 		return validate(messageContext);
 	}

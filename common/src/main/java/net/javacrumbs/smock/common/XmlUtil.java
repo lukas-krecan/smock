@@ -63,7 +63,7 @@ public class XmlUtil {
 	public static Document loadDocument(Source source)
 	{
 		DOMResult result = new DOMResult();
-		doTransform(source, result);
+		transform(source, result);
 		return (Document)result.getNode();
 	}
 	
@@ -112,7 +112,7 @@ public class XmlUtil {
 	public static String serialize(Source source)
 	{
 		StringResult result = new StringResult();
-		doTransform(source, result);
+		transform(source, result);
 		return result.toString();
 		
 	}
@@ -122,7 +122,7 @@ public class XmlUtil {
 	 * @param source
 	 * @param result
 	 */
-	public static void doTransform(Source source, Result result) {
+	public static void transform(Source source, Result result) {
 		try {
 			new TransformerHelper().transform(source, result);
 		} catch (TransformerException e) {

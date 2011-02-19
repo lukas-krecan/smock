@@ -15,7 +15,7 @@
  */
 package net.javacrumbs.smock.http.client.connection;
 
-import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+import static net.javacrumbs.smock.common.XmlUtil.transform;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
 import static org.junit.Assert.assertEquals;
@@ -157,7 +157,7 @@ public abstract class AbstractMockWebServiceServerTest {
 				
 		WebServiceMessage response = template.sendAndReceive(uri, new WebServiceMessageCallback() {
 			public void doWithMessage(WebServiceMessage message) throws IOException, TransformerException {
-				doTransform(loadMessage(request), message.getPayloadResult());			
+				transform(loadMessage(request), message.getPayloadResult());			
 			}
 		}, new WebServiceMessageExtractor<WebServiceMessage>() {
 			public WebServiceMessage extractData(WebServiceMessage message) throws IOException, TransformerException {

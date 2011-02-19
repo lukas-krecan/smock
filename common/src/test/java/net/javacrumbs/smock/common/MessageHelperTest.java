@@ -3,7 +3,10 @@ package net.javacrumbs.smock.common;
 
 
 import static net.javacrumbs.smock.common.SmockCommon.fromResource;
+import static net.javacrumbs.smock.common.SmockCommon.withMessageFactory;
 import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
 
 import javax.xml.transform.Source;
 
@@ -13,12 +16,12 @@ import org.w3c.dom.Element;
 
 
 public class MessageHelperTest {
-	private MessageHelper messageHelper = new MessageHelper();
+	private MessageHelper messageHelper = new MessageHelper(withMessageFactory());
 	
 	@Test
 	public void testDeserializeToDom() throws Exception
 	{
-		Element element = messageHelper.deserialize(fromResource("xml/request1.xml"), Element.class);
+		Element element = messageHelper.deserialize(createMessage("xml/request1.xml"), Element.class);
 		assertNotNull(element);
 	}
 	@Test
@@ -31,8 +34,13 @@ public class MessageHelperTest {
 	@Test
 	public void testDeserializeToSource() throws Exception
 	{
-		Source source = messageHelper.deserialize(fromResource("xml/request1.xml"), Source.class);
+		Source source = messageHelper.deserialize(createMessage("xml/request1.xml"), Source.class);
 		assertNotNull(source);
+	}
+	private WebServiceMessage createMessage(String location) throws IOException {
+		WebServiceMessage message = withMessageFactory().createWebServiceMessage();
+		XmlUtil.transform(fromResource(location),message.getPayloadResult());
+		return message;
 	}
 	@Test
 	public void testSerializeFromSource() throws Exception

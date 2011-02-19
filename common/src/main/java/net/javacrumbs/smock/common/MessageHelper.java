@@ -1,11 +1,6 @@
 package net.javacrumbs.smock.common;
 
-import static net.javacrumbs.smock.common.SmockCommon.withMessageFactory;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-
 import java.lang.reflect.Method;
-
-import javax.xml.transform.Source;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.util.Assert;
@@ -24,10 +19,12 @@ public class MessageHelper {
 	
 	private DefaultMethodEndpointAdapter adapter;
 	
-	private WebServiceMessageFactory messageFactory = withMessageFactory();
+	private final WebServiceMessageFactory messageFactory;
 	
-	public MessageHelper() {
+	public MessageHelper(WebServiceMessageFactory messageFactory) {
+		 Assert.notNull(messageFactory, "Message factory can not be null");
 		 adapter = new DefaultMethodEndpointAdapter();
+		 this.messageFactory = messageFactory;
 		 try {
 			adapter.afterPropertiesSet();
 		} catch (Exception e) {
@@ -36,10 +33,9 @@ public class MessageHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T deserialize(Source messageSource, Class<T> targetClass) throws Exception {
-		Assert.notNull(messageSource, "messageSource can not be null");
+	public <T> T deserialize(WebServiceMessage message, Class<T> targetClass) throws Exception {
+		Assert.notNull(message, "message can not be null");
 		Assert.notNull(targetClass, "targetClass can not be null");
-		WebServiceMessage message = withMessage(messageSource).createRequest(messageFactory);
 		MethodParameter parameter = new SmockMethodParameter(targetClass,0); 
 		MessageContext messageContext = new DefaultMessageContext(message, messageFactory);
 		for (MethodArgumentResolver resolver: adapter.getMethodArgumentResolvers())
@@ -81,14 +77,7 @@ public class MessageHelper {
 		}
 		return data.getClass();
 	}
-	
-	public WebServiceMessageFactory getMessageFactory() {
-		return messageFactory;
-	}
-	
-	public void setMessageFactory(WebServiceMessageFactory messageFactory) {
-		this.messageFactory = messageFactory;
-	}
+
 	
 	private static class SmockMethodParameter extends MethodParameter
 	{

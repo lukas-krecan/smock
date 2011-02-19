@@ -15,7 +15,7 @@
  */
 package net.javacrumbs.smock.springws.common;
 
-import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+import static net.javacrumbs.smock.common.XmlUtil.transform;
 
 import java.net.URI;
 
@@ -40,7 +40,7 @@ public abstract class AbstractSmockTest {
 	}
 	
 	protected void transform(Source source, Result result) {
-		doTransform(source, result);
+		transform(source, result);
 	}
 	
 	protected SaajSoapMessageFactory getMessageFactory() {

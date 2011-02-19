@@ -15,14 +15,14 @@
  */
 package net.javacrumbs.smock.common;
 
-import static net.javacrumbs.smock.common.XmlUtil.doTransform;
+
 
 import java.net.URI;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
-import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
+import org.springframework.ws.WebServiceMessageFactory;
 import org.w3c.dom.Document;
 
 public abstract class AbstractSmockTest {
@@ -38,12 +38,10 @@ public abstract class AbstractSmockTest {
 	}
 	
 	protected void transform(Source source, Result result) {
-		doTransform(source, result);
+		XmlUtil.transform(source, result);
 	}
 	
-	protected SaajSoapMessageFactory getMessageFactory() {
-		SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
-		messageFactory.afterPropertiesSet();
-		return messageFactory;
+	protected WebServiceMessageFactory getMessageFactory() {
+		return SmockCommon.withMessageFactory();
 	}
 }
