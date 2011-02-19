@@ -71,6 +71,13 @@ public class ServerAssert extends CommonSmockServer{
 		return validate(messageContext);
 	}
 
+	public static ResponseActions validate(Object response, Object request)
+	{
+		DefaultMessageContext messageContext = new DefaultMessageContext(serialize(request), withMessageFactory());
+		messageContext.setResponse(serialize(response));
+		return validate(messageContext);
+	}
+
 	public static ResponseActions validate(MessageContext messageContext)
 	{
 		return new MockWebServiceClientResponseActions(messageContext);
