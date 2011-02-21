@@ -3,13 +3,13 @@
 	<parent>
 		<groupId>net.javacrumbs</groupId>
 		<artifactId>smock-root</artifactId>
-		<version>0.3</version>
+		<version>0.4-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock-groovy-template</artifactId>
 	<packaging>jar</packaging>
-	<version>0.3</version>
+	<version>0.4-SNAPSHOT</version>
 	<name>smock-groovy-template</name>
 	<description>
 		Smock Groovy template.	

@@ -3,13 +3,13 @@
 	<parent>
 		<groupId>net.javacrumbs</groupId>
 		<artifactId>smock-root</artifactId>
-		<version>0.3</version>
+		<version>0.4-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock-http-metro</artifactId>
 	<packaging>jar</packaging>
-	<version>0.3</version>
+	<version>0.4-SNAPSHOT</version>
 	<name>smock-http-metro</name>
 
 	<dependencies>
