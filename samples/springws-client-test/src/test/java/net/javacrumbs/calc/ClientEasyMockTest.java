@@ -16,15 +16,9 @@
 package net.javacrumbs.calc;
 
 
-import static net.javacrumbs.smock.common.SmockCommon.resource;
-import static net.javacrumbs.smock.common.client.ClientTestHelper.response;
-import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
-import static net.javacrumbs.smock.easymock.client.SmockEasyMockClient.is;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static net.javacrumbs.smock.easymock.client.SmockEasyMockClient.*;
+import static org.easymock.EasyMock.*;
+
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.validPayload;
 
@@ -35,7 +29,6 @@ import net.javacrumbs.airline.client.AirlineClient;
 import net.javacrumbs.airline.model.Flight;
 import net.javacrumbs.airline.model.GetFlightsResponse;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ws.client.core.WebServiceOperations;
@@ -43,7 +36,6 @@ import org.springframework.ws.client.core.WebServiceOperations;
 public class ClientEasyMockTest {
     
     private AirlineClient airlineClient;
-    
     
     private WebServiceOperations webServiceTemplate;
     
