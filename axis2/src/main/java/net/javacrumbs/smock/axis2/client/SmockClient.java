@@ -36,7 +36,7 @@ public class SmockClient extends CommonSmockClient {
 	{
 		bootstrap();
 	}
-	private static void bootstrap() {
+	public static void bootstrap() {
 		try {
 			ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
 			HashMap<String, TransportOutDescription> transportsOut = configurationContext.getAxisConfiguration().getTransportsOut();
