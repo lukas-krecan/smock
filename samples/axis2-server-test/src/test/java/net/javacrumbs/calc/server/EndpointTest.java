@@ -15,15 +15,8 @@
  */
 package net.javacrumbs.calc.server;
 
-import static net.javacrumbs.smock.axis2.server.SmockServer.createClient;
-import static net.javacrumbs.smock.axis2.server.SmockServer.createConfigurationContextFromResource;
-import static net.javacrumbs.smock.common.SmockCommon.resource;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static org.springframework.ws.test.server.ResponseMatchers.noFault;
-import static org.springframework.ws.test.server.ResponseMatchers.serverOrReceiverFault;
-import static org.springframework.ws.test.server.ResponseMatchers.validPayload;
-import static org.springframework.ws.test.server.ResponseMatchers.xpath;
+import static net.javacrumbs.smock.axis2.server.SmockServer.*;
+import static org.springframework.ws.test.server.ResponseMatchers.*;
 
 import java.util.Collections;
 import java.util.Map;

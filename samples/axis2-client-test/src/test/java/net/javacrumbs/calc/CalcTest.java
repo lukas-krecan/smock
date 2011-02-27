@@ -15,13 +15,9 @@
  */
 package net.javacrumbs.calc;
 
-import static net.javacrumbs.smock.axis2.client.SmockClient.createServer;
-import static net.javacrumbs.smock.common.SmockCommon.resource;
-import static net.javacrumbs.smock.common.client.CommonSmockClient.message;
-import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
+import static net.javacrumbs.smock.axis2.client.SmockClient.*;
+import static org.springframework.ws.test.client.RequestMatchers.*;
 import static org.junit.Assert.assertEquals;
-import static org.springframework.ws.test.client.RequestMatchers.anything;
-import static org.springframework.ws.test.client.RequestMatchers.validPayload;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

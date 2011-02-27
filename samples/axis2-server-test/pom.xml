@@ -11,13 +11,13 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-axis2</artifactId>
-			<version>0.2</version>
+			<version>0.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-groovy-template</artifactId>
-			<version>0.2</version>
+			<version>0.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
