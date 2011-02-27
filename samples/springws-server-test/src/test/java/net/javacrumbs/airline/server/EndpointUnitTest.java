@@ -15,12 +15,10 @@
  */
 package net.javacrumbs.airline.server;
 
-import static net.javacrumbs.smock.common.SmockCommon.setTemplateProcessor;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static net.javacrumbs.smock.common.server.ServerTestHelper.createRequest;
-import static net.javacrumbs.smock.common.server.ServerTestHelper.validate;
-import static org.springframework.ws.test.server.ResponseMatchers.xpath;
+
+import static net.javacrumbs.smock.common.server.ServerTestHelper.*;
+import static org.springframework.ws.test.server.ResponseMatchers.*;
+
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,7 +34,7 @@ public class EndpointUnitTest {
 	
 	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://www.springframework.org/spring-ws/samples/airline/schemas/types");
 	
-	private static AirlineEndpoint endpoint = new AirlineEndpoint();
+	private AirlineEndpoint endpoint = new AirlineEndpoint();
 
 	static
 	{
