@@ -21,13 +21,13 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-springws</artifactId>
-			<version>0.3-SNAPSHOT</version>
+			<version>0.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-groovy-template</artifactId>
-			<version>0.3-SNAPSHOT</version>
+			<version>0.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
