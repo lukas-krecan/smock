@@ -92,3 +92,4 @@ public class MessageMatcherTest extends AbstractSmockTest{
 		verify(request);
 	}
 }
+

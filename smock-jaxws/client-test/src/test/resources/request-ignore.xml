@@ -1,0 +1,4 @@
+<plusRequest xmlns="http://javacrumbs.net/calc">
+  <a>${IGNORE}</a>
+  <b>${IGNORE}</b>
+</plusRequest>

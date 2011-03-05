@@ -1,5 +1,5 @@
-/**
- * Copyright 2009-2010 the original author or authors.
+/*
+ * Copyright 2005-2010 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.smock.common;
+
+package net.javacrumbs.smock.springws.server;
 
 import java.util.Map;
 
-import javax.xml.transform.Source;
+import org.springframework.ws.test.server.RequestCreator;
 
 /**
- * Processes a template.
+ * {@link RequestCreator} that can be parametrized. 
  * @author Lukas Krecan
  *
  */
-public interface TemplateProcessor {
-	
+public interface ParametrizableRequestCreator extends RequestCreator {
 	/**
-	 * Processes a template.
-	 * @param template
-	 * @param input Template can use values from the input. Can be null. 
-	 * @param parameters
+	 * Adds parameter to the {@link RequestCreator} 
+	 * @param name
+	 * @param value
 	 * @return
 	 */
-	public Source processTemplate(Source template, Source input, Map<String, Object> parameters);
+	ParametrizableRequestCreator withParameter(String name, Object value);
+	/**
+	 * Adds parameters to the {@link RequestCreator} 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
+	ParametrizableRequestCreator withParameters(Map<String, Object> parameters);
 }

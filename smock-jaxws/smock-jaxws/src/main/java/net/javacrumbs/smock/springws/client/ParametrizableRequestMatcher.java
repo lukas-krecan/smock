@@ -1,5 +1,5 @@
-/**
- * Copyright 2009-2010 the original author or authors.
+/*
+ * Copyright 2005-2010 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.javacrumbs.smock.common;
+
+package net.javacrumbs.smock.springws.client;
 
 import java.util.Map;
 
-import javax.xml.transform.Source;
+import org.springframework.ws.test.client.RequestMatcher;
 
 /**
- * Processes a template.
+ * {@link RequestMatcher} that accepts parameters. 
  * @author Lukas Krecan
  *
  */
-public interface TemplateProcessor {
-	
+public interface ParametrizableRequestMatcher extends RequestMatcher {
+
 	/**
-	 * Processes a template.
-	 * @param template
-	 * @param input Template can use values from the input. Can be null. 
-	 * @param parameters
+	 * Adds parameter to the {@link RequestMatcher} 
+	 * @param name
+	 * @param value
 	 * @return
 	 */
-	public Source processTemplate(Source template, Source input, Map<String, Object> parameters);
+	ParametrizableRequestMatcher withParameter(String name, Object value);
+
+	/**
+	 * Adds parameters to the {@link RequestMatcher} 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
+	ParametrizableRequestMatcher withParameters(Map<String, Object> parameters);
 }

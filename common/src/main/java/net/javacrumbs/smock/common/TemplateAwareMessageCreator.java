@@ -64,3 +64,4 @@ public class TemplateAwareMessageCreator extends MessageCreator  implements Para
 	}
 
 }
+
