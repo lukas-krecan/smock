@@ -34,7 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ws.test.server.MockWebServiceClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring-ws-servlet.xml"})
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring-ws-servlet.xml")
 public class GroovyEndpointTest {
 	
 	static
