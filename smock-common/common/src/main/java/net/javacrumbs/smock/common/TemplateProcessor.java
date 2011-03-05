@@ -28,6 +28,7 @@ import org.w3c.dom.Document;
  *
  */
 public interface TemplateProcessor {
+	
 	/**
 	 * Processes a template.
 	 * @param template
