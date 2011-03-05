@@ -15,10 +15,6 @@
  */
 package net.javacrumbs.airline.server;
 
-import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
-import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
-import static org.springframework.ws.test.server.ResponseMatchers.clientOrSenderFault;
-
 import java.util.Collections;
 import java.util.Map;
 

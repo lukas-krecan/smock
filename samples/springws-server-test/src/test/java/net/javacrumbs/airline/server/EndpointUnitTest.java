@@ -62,8 +62,11 @@ public class EndpointUnitTest {
 		params.put("from", "DUB");
 		params.put("to", "JFK");
 		params.put("serviceClass", "economy");
+		
 		GetFlightsRequest request = createRequest(withMessage("request-context-groovy.xml").withParameters(params), GetFlightsRequest.class);
+		
 		GetFlightsResponse response = endpoint.getFlights(request);
 		validate(response, request).andExpect(message("response-context-groovy.xml").withParameter("serviceClass", "economy"));
+		validate(response).andExpect(validPayload(resource("xsd/messages.xsd")));
 	}
 }

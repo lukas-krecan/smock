@@ -37,19 +37,19 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring-ws-servlet.xml"})
 public class GroovyEndpointTest {
 	
-	private MockWebServiceClient wsMockClient;
-
 	static
 	{
 		setTemplateProcessor(new GroovyTemplateProcessor());
 	}
+
+	private MockWebServiceClient wsMockClient;
+
 	
 	@Autowired
 	public void setApplicationContext(ApplicationContext context)
 	{
 		wsMockClient = createClient(context);
 	}
-
 	
 
 	@Test
