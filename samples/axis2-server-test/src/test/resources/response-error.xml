@@ -1,1 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><soapenv:Fault xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><faultcode>soapenv:Server</faultcode><faultstring>For input string: "aaa"</faultstring><detail><Exception>${IGNORE}</Exception></detail></soapenv:Fault>
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Fault xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+	<faultcode>soapenv:Server</faultcode>
+	<faultstring>Departure and destination airport has to differ.</faultstring>
+	<detail><Exception>${IGNORE}</Exception></detail>
+</soapenv:Fault>

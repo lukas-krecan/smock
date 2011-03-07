@@ -15,8 +15,15 @@
  */
 package net.javacrumbs.calc.server;
 
-import static net.javacrumbs.smock.axis2.server.SmockServer.*;
-import static org.springframework.ws.test.server.ResponseMatchers.*;
+import static net.javacrumbs.smock.axis2.server.SmockServer.createClient;
+import static net.javacrumbs.smock.axis2.server.SmockServer.createConfigurationContextFromResource;
+import static net.javacrumbs.smock.common.SmockCommon.resource;
+import static net.javacrumbs.smock.common.server.CommonSmockServer.message;
+import static net.javacrumbs.smock.common.server.CommonSmockServer.withMessage;
+import static org.springframework.ws.test.server.ResponseMatchers.noFault;
+import static org.springframework.ws.test.server.ResponseMatchers.serverOrReceiverFault;
+import static org.springframework.ws.test.server.ResponseMatchers.validPayload;
+import static org.springframework.ws.test.server.ResponseMatchers.xpath;
 
 import java.util.Collections;
 import java.util.Map;
@@ -28,10 +35,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class EndpointTest {
-	private static final String ENDPOINT_URL = "/axis2/services/CalculatorService";
+	private static final String ENDPOINT_URL = "/axis2/services/AirlineService";
 	private Axis2MockWebServiceClient client;
 	
-	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
+	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://www.springframework.org/spring-ws/samples/airline/schemas/types");
 
 	@Before
 	public void setUp() throws AxisFault
@@ -51,11 +58,11 @@ public class EndpointTest {
 	}
 	@Test
 	public void testValidateResponse() throws Exception {
-		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/calc.xsd")));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/messages.xsd")));
 	}
 	@Test
 	public void testAssertXPath() throws Exception {
-		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:return",NS_MAP).evaluatesTo(3));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:from/ns:code",NS_MAP).evaluatesTo("PRG"));
 	}
 
 	@Test
@@ -64,11 +71,11 @@ public class EndpointTest {
 	}
 	@Test
 	public void testErrorMessage() throws Exception {
-		client.sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(serverOrReceiverFault("For input string: \"aaa\""));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(serverOrReceiverFault("Departure and destination airport has to differ."));
 	}
 
 	@Test
 	public void testResponseTemplate() throws Exception {
-		client.sendRequestTo(ENDPOINT_URL,withMessage("request-context-xslt.xml").withParameter("a",1).withParameter("b", 2)).andExpect(message("response-context-xslt.xml").withParameter("result", 3));
+		client.sendRequestTo(ENDPOINT_URL,withMessage("request-context-xslt.xml").withParameter("serviceClass","first")).andExpect(message("response-context-xslt.xml").withParameter("serviceClass", "first"));
 	}
 }

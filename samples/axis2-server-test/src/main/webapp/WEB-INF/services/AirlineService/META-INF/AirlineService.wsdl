@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.springframework.org/spring-ws/samples/airline/schemas/messages" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.springframework.org/spring-ws/samples/airline/schemas/messages" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sch="http://www.springframework.org/spring-ws/samples/airline/schemas/messages">
+  <wsdl:types>
+    <schema elementFormDefault="qualified" targetNamespace="http://www.springframework.org/spring-ws/samples/airline/schemas/messages" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:types="http://www.springframework.org/spring-ws/samples/airline/schemas/types">
+
+    <import namespace="http://www.springframework.org/spring-ws/samples/airline/schemas/types" schemaLocation="types.xsd"/>
+
+    <element name="GetFlightsRequest">
+        <complexType>
+            <all>
+                <element name="from" type="types:AirportCode"/>
+                <element name="to" type="types:AirportCode"/>
+                <element name="departureDate" type="date"/>
+                <element minOccurs="0" name="serviceClass" type="types:ServiceClass"/>
+            </all>
+        </complexType>
+    </element>
+
+    <element name="GetFlightsResponse">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" minOccurs="0" name="flight" type="types:Flight"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="GetFlightsResponse">
+    <wsdl:part name="GetFlightsResponse" element="tns:GetFlightsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetFlightsRequest">
+    <wsdl:part name="GetFlightsRequest" element="tns:GetFlightsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Airline">
+    <wsdl:operation name="GetFlights">
+      <wsdl:input name="GetFlightsRequest" message="tns:GetFlightsRequest">
+    </wsdl:input>
+      <wsdl:output name="GetFlightsResponse" message="tns:GetFlightsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AirlineSoap11" type="tns:Airline">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetFlights">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="GetFlightsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetFlightsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AirlineService">
+    <wsdl:port name="AirlineSoap11" binding="tns:AirlineSoap11">
+      <soap:address location="http://localhost:8080/soap/airlineService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -9,9 +9,13 @@
 
   <context:component-scan base-package="net.javacrumbs.airline"/>
   <sws:annotation-driven/>
+  <sws:dynamic-wsdl id="airlineService"  portTypeName="Airline" locationUri="http://localhost:8080/soap/airlineService">
+  		<sws:xsd location="classpath:xsd/messages.xsd"/>
+   </sws:dynamic-wsdl>
+  
   
   <bean id="exceptionResolver" class="org.springframework.ws.soap.server.endpoint.SoapFaultAnnotationExceptionResolver">
   	<property name="order" value="-1"/>
   </bean>
-
+  
 </beans>

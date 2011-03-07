@@ -16,12 +16,16 @@
 package net.javacrumbs.calc;
 
 import static net.javacrumbs.smock.axis2.client.SmockClient.createServer;
+import static net.javacrumbs.smock.common.SmockCommon.createMessageFactory;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
+import net.javacrumbs.airline.AirlineClient;
+import net.javacrumbs.calc.AirlineServiceStub.Flight;
 import net.javacrumbs.smock.extended.client.connection.MockWebServiceServer;
 
 import org.junit.After;
@@ -29,19 +33,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor;
+import org.springframework.ws.soap.SoapVersion;
 
 
 
 public class CalcInterceptorTest {
 
-    private CalcClient calc = new CalcClient();
+    private AirlineClient airlineClient;
     
     private MockWebServiceServer mockServer;
     
     
     @Before
     public void setUpMocks() throws Exception {
-        mockServer = createServer(new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
+        mockServer = createServer(createMessageFactory(SoapVersion.SOAP_11), new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
+        airlineClient = new AirlineClient();
     }
     
     @After
@@ -55,7 +61,7 @@ public class CalcInterceptorTest {
 	{
 		mockServer.expect(anything()).andRespond(withMessage("response1.xml"));
 
-		long result = calc.plus(1, 2);
-		assertEquals(3, result);
+		List<Flight> flights = airlineClient.getFlights("PRG", "DUB");
+		assertEquals(1, flights.size());
 	}
 }

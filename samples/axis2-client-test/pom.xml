@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>net.javacrumbs</groupId>
 			<artifactId>smock-axis2</artifactId>
-			<version>0.2</version>
+			<version>0.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -59,7 +59,7 @@
 				<version>1.5.4</version>
 				<configuration>
 					<packageName>net.javacrumbs.calc</packageName>
-					<wsdlFile>${basedir}/src/main/wsdl/CalculatorService.wsdl</wsdlFile>
+					<wsdlFile>${basedir}/src/main/wsdl/airline-service.wsdl</wsdlFile>
 					<databindingName>adb</databindingName>
 				</configuration>
 				<executions>

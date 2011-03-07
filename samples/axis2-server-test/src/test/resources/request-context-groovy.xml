@@ -1,6 +1,9 @@
-<plus xmlns="http://javacrumbs.net/calc">
-	<a>${a}</a>
-	<b>${b}</b>
-</plus>
-
+<ns1:GetFlightsRequest
+	xmlns:ns1="http://www.springframework.org/spring-ws/samples/airline/schemas/messages"
+	xmlns:ns2="http://www.springframework.org/spring-ws/samples/airline/schemas/types">
+	<ns1:from>${from}</ns1:from>
+	<ns1:to>${to}</ns1:to>
+	<ns1:departureDate>2001-01-01</ns1:departureDate>
+	<ns1:serviceClass>${serviceClass}</ns1:serviceClass>
+</ns1:GetFlightsRequest>
 

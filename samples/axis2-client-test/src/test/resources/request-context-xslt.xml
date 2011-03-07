@@ -1,10 +1,15 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-        <xsl:param name="a"/>
-        <xsl:param name="b"/>
-        <xsl:template match="/">
-                        <plus xmlns="http://javacrumbs.net/calc">
-                          <a><xsl:value-of select="$a"/></a>
-                          <b><xsl:value-of select="$b"/></b>
-                        </plus>
-                </xsl:template>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	version="1.0">
+	<xsl:param name="from" />
+	<xsl:param name="to" />
+	<xsl:template match="/">
+		<ns1:GetFlightsRequest
+			xmlns:ns1="http://www.springframework.org/spring-ws/samples/airline/schemas/messages"
+			xmlns:ns2="http://www.springframework.org/spring-ws/samples/airline/schemas/types">
+			<ns1:from><xsl:value-of select="$from"/></ns1:from>
+			<ns1:to><xsl:value-of select="$to"/></ns1:to>
+			<ns1:departureDate>${IGNORE}</ns1:departureDate>
+			<ns1:serviceClass>economy</ns1:serviceClass>
+		</ns1:GetFlightsRequest>
+	</xsl:template>
 </xsl:stylesheet>

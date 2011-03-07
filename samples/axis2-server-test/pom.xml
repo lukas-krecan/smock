@@ -93,6 +93,25 @@
 					<wtpversion>1.5</wtpversion>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.axis2</groupId>
+				<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+				<version>1.5.4</version>
+				<configuration>
+					<packageName>net.javacrumbs.airilne</packageName>
+					<wsdlFile>${basedir}/src/main/wsdl/airline-service.wsdl</wsdlFile>
+					<databindingName>adb</databindingName>
+					<generateServerSide>true</generateServerSide>
+					<generateServerSideInterface>true</generateServerSideInterface>
+					<generateServicesXml>true</generateServicesXml>
+				</configuration>
+				<executions>
+					<execution>
+						<goals><goal>wsdl2code</goal></goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

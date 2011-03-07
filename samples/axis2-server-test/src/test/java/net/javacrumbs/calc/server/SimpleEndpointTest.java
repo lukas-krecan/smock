@@ -24,8 +24,8 @@ import org.junit.Test;
 
 public class SimpleEndpointTest extends AbstractSmockServerTest {
 	
-	private static final String ENDPOINT_URL = "/axis2/services/CalculatorService";
-	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://javacrumbs.net/calc");
+	private static final String ENDPOINT_URL = "/axis2/services/AirlineService";
+	private static final Map<String, String> NS_MAP = Collections.singletonMap("ns", "http://www.springframework.org/spring-ws/samples/airline/schemas/types");
 	
 	public SimpleEndpointTest()
 	{
@@ -43,11 +43,11 @@ public class SimpleEndpointTest extends AbstractSmockServerTest {
 	}
 	@Test
 	public void testValidateResponse() throws Exception {
-		sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/calc.xsd")));
+		sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(validPayload(resource("xsd/messages.xsd")));
 	}
 	@Test
 	public void testAssertXPath() throws Exception {
-		sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:return",NS_MAP).evaluatesTo(3));
+		sendRequestTo(ENDPOINT_URL,withMessage("request1.xml")).andExpect(noFault()).andExpect(xpath("//ns:from/ns:code",NS_MAP).evaluatesTo("PRG"));
 	}
 
 	@Test
@@ -56,11 +56,11 @@ public class SimpleEndpointTest extends AbstractSmockServerTest {
 	}
 	@Test
 	public void testErrorMessage() throws Exception {
-		sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(serverOrReceiverFault("For input string: \"aaa\""));
+		sendRequestTo(ENDPOINT_URL,withMessage("request-error.xml")).andExpect(serverOrReceiverFault("Departure and destination airport has to differ."));
 	}
 
 	@Test
 	public void testResponseTemplate() throws Exception {
-		sendRequestTo(ENDPOINT_URL,withMessage("request-context-xslt.xml").withParameter("a",1).withParameter("b", 2)).andExpect(message("response-context-xslt.xml").withParameter("result", 3));
+		sendRequestTo(ENDPOINT_URL,withMessage("request-context-xslt.xml").withParameter("serviceClass","first")).andExpect(message("response-context-xslt.xml").withParameter("serviceClass", "first"));
 	}
 }
