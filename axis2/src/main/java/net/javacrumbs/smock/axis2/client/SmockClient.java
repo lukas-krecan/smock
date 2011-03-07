@@ -29,7 +29,6 @@ import org.apache.axis2.description.TransportOutDescription;
 import org.apache.axis2.engine.ListenerManager;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
-import org.springframework.ws.soap.SoapVersion;
 
 public class SmockClient extends CommonSmockClient {
 	static
@@ -73,8 +72,4 @@ public class SmockClient extends CommonSmockClient {
 	{
 		return createServer(createMessageFactory(), null);
 	}
-	public static WebServiceMessageFactory createMessageFactory()
-    {
-    	return createMessageFactory(SoapVersion.SOAP_12);
-    }
 }
