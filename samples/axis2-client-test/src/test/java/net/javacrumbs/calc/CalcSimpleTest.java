@@ -28,17 +28,11 @@ import net.javacrumbs.smock.axis2.client.AbstractSmockClientTest;
 import org.apache.axis2.AxisFault;
 import org.junit.After;
 import org.junit.Test;
-import org.springframework.ws.soap.SoapVersion;
 
 public class CalcSimpleTest extends AbstractSmockClientTest {
 
     private AirlineClient airlineClient = new AirlineClient("https://localhost:8443/axis2-server-test/services/CalculatorService.CalculatorServiceHttpSoap12Endpoint/");
     
-   
-	public CalcSimpleTest() {
-		createServer(createMessageFactory(SoapVersion.SOAP_11));
-	}
-	
     @After
     public void verify()
     {

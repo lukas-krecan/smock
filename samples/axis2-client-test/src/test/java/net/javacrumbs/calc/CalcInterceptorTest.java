@@ -16,7 +16,6 @@
 package net.javacrumbs.calc;
 
 import static net.javacrumbs.smock.axis2.client.SmockClient.createServer;
-import static net.javacrumbs.smock.common.SmockCommon.createMessageFactory;
 import static net.javacrumbs.smock.common.client.CommonSmockClient.withMessage;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.anything;
@@ -33,7 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor;
-import org.springframework.ws.soap.SoapVersion;
 
 
 
@@ -46,7 +44,7 @@ public class CalcInterceptorTest {
     
     @Before
     public void setUpMocks() throws Exception {
-        mockServer = createServer(createMessageFactory(SoapVersion.SOAP_11), new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
+        mockServer = createServer(new EndpointInterceptor[]{new PayloadLoggingInterceptor()});
         airlineClient = new AirlineClient();
     }
     
