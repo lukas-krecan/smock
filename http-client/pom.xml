@@ -3,13 +3,13 @@
 	<parent>
 		<groupId>net.javacrumbs</groupId>
 		<artifactId>smock-root</artifactId>
-		<version>0.4</version>
+		<version>0.5-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock-http-client</artifactId>
 	<packaging>jar</packaging>
-	<version>0.4</version>
+	<version>0.5-SNAPSHOT</version>
 	<name>smock-http-client</name>
 	<description>
 		Classes to test WS client. Changes http and https JAaa protocol implementation to use mock framework. 
