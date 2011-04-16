@@ -33,6 +33,7 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.client.RequestMatcher;
 import org.springframework.ws.test.server.ResponseMatcher;
+import org.springframework.ws.test.support.AssertionErrors;
 
 
 
@@ -98,7 +99,7 @@ public class MessageMatcher implements RequestMatcher, ResponseMatcher{
 		Diff diff = createDiff(controlMessage, messageSource);
 		if (!diff.similar())
 		{
-			throw new AssertionError("Messages are different, " + diff.toString());
+			throw new SourceAndControlAssertionError("Messages are different, " + diff.toString(), "Message", messageSource, "Control message", controlMessage);
 		}
 	}
 	

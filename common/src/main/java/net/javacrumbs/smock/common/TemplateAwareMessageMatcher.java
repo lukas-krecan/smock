@@ -26,7 +26,6 @@ import net.javacrumbs.smock.common.server.ParametrizableResponseMatcher;
 
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
-import org.w3c.dom.Document;
 
 /**
  * {@link MessageCompareMatcher} that processes template before comparison.

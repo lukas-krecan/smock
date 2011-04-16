@@ -28,12 +28,18 @@ import org.junit.Test;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.xml.transform.StringSource;
 
-public class TemplateAwareMessageCompareMatcherTest extends AbstractSmockTest {
+public class TemplateAwareMessageMatcherTest extends AbstractSmockTest {
 	@Test
 	public void match() throws Exception {
 		String template = "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\"><xsl:template match=\"/\">"
 				+ "<element xmlns='http://example.com'/></xsl:template></xsl:stylesheet>";
 		String xml = "<element xmlns='http://example.com'/>";
+		doTest(template, xml, Collections.<String, Object> emptyMap());
+	}
+	@Test
+	public void matchWhitespace() throws Exception {
+		String template = "<element xmlns='http://example.com'>\n<element2/>\n</element>";
+		String xml = "<element xmlns='http://example.com'><element2/></element>";
 		doTest(template, xml, Collections.<String, Object> emptyMap());
 	}
 
