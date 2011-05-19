@@ -18,7 +18,7 @@ package net.javacrumbs.smock.common;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +42,6 @@ import org.w3c.dom.Document;
  *
  */
 public class XmlUtil {
-	public static final Charset UTF8_CHARSET = Charset.availableCharsets().get("UTF-8");
 
 	private static final Map<String, String> SOAP_NAMESPACES = new HashMap<String, String>();
 	
@@ -138,7 +137,7 @@ public class XmlUtil {
 	 */
 	public static InputStream getDocumentAsStream(Document document)
 	{
-		return new ByteArrayInputStream(serialize(document).getBytes(UTF8_CHARSET));
+		return new ByteArrayInputStream(stringToBytes(serialize(document)));
 	}
 	
 	/**
@@ -148,6 +147,15 @@ public class XmlUtil {
 	 */
 	public static InputStream getSourceAsStream(Source source)
 	{
-		return new ByteArrayInputStream(serialize(source).getBytes(UTF8_CHARSET));
+		return new ByteArrayInputStream(stringToBytes(serialize(source)));
+	}
+	
+	private static byte[] stringToBytes(String string)
+	{
+		try {
+			return string.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException("UTF8 not supported",e);
+		}
 	}
 }
