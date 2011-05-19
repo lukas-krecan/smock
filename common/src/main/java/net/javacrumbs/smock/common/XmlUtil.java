@@ -150,7 +150,7 @@ public class XmlUtil {
 		return new ByteArrayInputStream(stringToBytes(serialize(source)));
 	}
 	
-	private static byte[] stringToBytes(String string)
+	public static byte[] stringToBytes(String string)
 	{
 		try {
 			return string.getBytes("UTF-8");

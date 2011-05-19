@@ -17,6 +17,7 @@ package net.javacrumbs.smock.extended.client.connection;
 
 import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
+import static net.javacrumbs.smock.common.XmlUtil.stringToBytes;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,7 +30,6 @@ import java.util.List;
 
 import net.javacrumbs.smock.common.EndpointInterceptorClientAdapter;
 import net.javacrumbs.smock.common.InterceptingTemplate;
-import net.javacrumbs.smock.common.XmlUtil;
 
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.WebServiceMessageFactory;
@@ -97,9 +97,9 @@ public class MockConnection implements ResponseActions {
 				}
 			});
 		} catch (Exception e) {
-			throw new IOException("Error when processing request.",e);
+			throw new IllegalStateException("Error when processing request.",e);
 		}
-		return new ByteArrayInputStream(serialize(getEnvelopeSource(messageContext.getResponse())).getBytes(XmlUtil.UTF8_CHARSET));
+		return new ByteArrayInputStream(stringToBytes(serialize(getEnvelopeSource(messageContext.getResponse()))));
 	}
 
 	protected WebServiceMessage crateRequest() throws IOException {

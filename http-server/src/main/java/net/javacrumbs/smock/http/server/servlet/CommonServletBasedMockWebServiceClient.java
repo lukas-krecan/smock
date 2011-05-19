@@ -17,10 +17,10 @@ package net.javacrumbs.smock.http.server.servlet;
 
 import static net.javacrumbs.smock.common.XmlUtil.getEnvelopeSource;
 import static net.javacrumbs.smock.common.XmlUtil.serialize;
+import static net.javacrumbs.smock.common.XmlUtil.stringToBytes;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServlet;
 
@@ -54,8 +54,6 @@ public class CommonServletBasedMockWebServiceClient {
 	private final WebServiceMessageFactory messageFactory;
 
 	private final InterceptingTemplate interceptingTemplate;
-	
-	private static final Charset UTF8 = (Charset)Charset.availableCharsets().get("UTF-8");  
 	
 	private static final Log LOG = LogFactory.getLog(CommonServletBasedMockWebServiceClient.class);
 	
@@ -96,7 +94,7 @@ public class CommonServletBasedMockWebServiceClient {
 		request.setMethod("POST");
 		request.setPathInfo(path);
 		request.setRequestURI(path);
-		request.setContent(requestXml.getBytes(UTF8));
+		request.setContent(stringToBytes(requestXml));
 		request.setContentType(CONTENT_TYPE);
 		request.addHeader("Content-Type", CONTENT_TYPE);
 		return request;
