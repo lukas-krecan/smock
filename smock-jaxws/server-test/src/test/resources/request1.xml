@@ -1,4 +1,0 @@
-<plusRequest xmlns="http://javacrumbs.net/calc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://javacrumbs.net/calc ../../main/resources/xsd/calc.xsd ">
-  <a>1</a>
-  <b>2</b>
-</plusRequest>
