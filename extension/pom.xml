@@ -3,13 +3,13 @@
 	<parent>
 		<groupId>net.javacrumbs</groupId>
 		<artifactId>smock-root</artifactId>
-		<version>0.7</version>
+		<version>0.8-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock-extension</artifactId>
 	<packaging>jar</packaging>
-	<version>0.7</version>
+	<version>0.8-SNAPSHOT</version>
 	<name>smock-common</name>
 	<description>
 		Common classes for Axis2, CXF, Metro etc.
@@ -19,7 +19,7 @@
 		<dependency>
 			<artifactId>smock-common</artifactId>
 			<groupId>net.javacrumbs</groupId>
-			<version>0.7</version>
+			<version>0.8-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

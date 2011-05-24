@@ -3,13 +3,13 @@
 	<parent>
 		<groupId>net.javacrumbs</groupId>
 		<artifactId>smock-root</artifactId>
-		<version>0.7</version>
+		<version>0.8-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock-http-server</artifactId>
 	<packaging>jar</packaging>
-	<version>0.7</version>
+	<version>0.8-SNAPSHOT</version>
 	<name>smock-http-server</name>
 	<description>
 		Support for Servlet based tests. 

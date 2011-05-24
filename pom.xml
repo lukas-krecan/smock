@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.javacrumbs</groupId>
 	<artifactId>smock-root</artifactId>
-	<version>0.7</version>
+	<version>0.8-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>smock-root</name>
 	<url>http://code.google.com/p/smock/</url>
