@@ -6,7 +6,6 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>smock-jaxws-root</name>
-	<url>http://javacrumbs.net/spring-ws-test/</url>
 	<description>
 		Spring WS Mock extension parent package.	
 	</description>
