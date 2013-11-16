@@ -214,9 +214,9 @@
 	</reporting>
 
 	<scm>
-		<connection>scm:hg:https://smock.googlecode.com/hg</connection>
-		<developerConnection>scm:hg:https://smock.googlecode.com/hg</developerConnection>
-		<url>scm:hg:https://smock.googlecode.com/hg</url>
+		<connection>scm:git:git@github.com:lukas-krecan/smock.git</connection>
+		<developerConnection>scm:git:git@github.com:lukas-krecan/smock.git</developerConnection>
+		<url>scm:git:git@github.com:lukas-krecan/smock.git</url>
 	</scm>
 
 	<distributionManagement>
