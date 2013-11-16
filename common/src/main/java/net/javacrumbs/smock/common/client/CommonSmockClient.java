@@ -109,7 +109,7 @@ public abstract class CommonSmockClient extends SmockCommon {
      * it will be wrapped into a SOAP.
      * Message will be preprocessed by {@link TemplateProcessor}.
      *
-     * @param loaction of the resource
+     * @param location of the resource
      * @return the response callback
      */
     public static ParametrizableResponseCreator withMessage(String location) {
@@ -121,19 +121,19 @@ public abstract class CommonSmockClient extends SmockCommon {
      * it will be wrapped into a SOAP.
      * Message will be preprocessed by {@link TemplateProcessor}.
      *
-     * @param loaction of the resource
+     * @param location of the resource
      * @return the response callback
      */
-    public static ParametrizableResponseCreator withMessage(Resource message) {
-    	Assert.notNull(message, "'message' must not be null");
-    	return withMessage(createSource(message));
+    public static ParametrizableResponseCreator withMessage(Resource location) {
+    	Assert.notNull(location, "'message' must not be null");
+    	return withMessage(createSource(location));
     }
     /**
      * Respond with the given {@link Source} XML as response. If message is SOAP, it will be returned as response, if message is payload, 
      * it will be wrapped into a SOAP.
      * Message will be preprocessed by {@link TemplateProcessor}.
      *
-     * @param payload the response message
+     * @param message the response message
      * @return the response callback
      */
     public static ParametrizableResponseCreator withMessage(Source message) {
@@ -146,7 +146,7 @@ public abstract class CommonSmockClient extends SmockCommon {
      * it will be wrapped into a SOAP.
      * Message will be preprocessed by {@link TemplateProcessor}.
      *
-     * @param payload the response message
+     * @param message the response message
      * @return the response callback
      */
     public static ParametrizableResponseCreator withMessage(Document message) {

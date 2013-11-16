@@ -23,7 +23,7 @@ import org.springframework.ws.test.client.ResponseCreator;
  * {@link ResponseCreator} that can be parametrized.
  * @author Lukas Krecan
  */
-public interface ParametrizableResponseCreator extends ResponseCreator{
+public interface ParametrizableResponseCreator extends ResponseCreator {
 	
 	/**
 	 * Adds parameter to the {@link ResponseCreator} 
@@ -34,8 +34,7 @@ public interface ParametrizableResponseCreator extends ResponseCreator{
 	ParametrizableResponseCreator withParameter(String name, Object value);
 	/**
 	 * Adds parameters to the {@link ResponseCreator} 
-	 * @param name
-	 * @param value
+	 * @param parameters
 	 * @return
 	 */
 	ParametrizableResponseCreator withParameters(Map<String, Object> parameters);

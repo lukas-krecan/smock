@@ -28,7 +28,7 @@ import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
 
 /**
- * {@link MessageCompareMatcher} that processes template before comparison.
+ * {@link MessageMatcher} that processes template before comparison.
  * @author Lukas Krecan
  *
  */

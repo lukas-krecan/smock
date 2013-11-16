@@ -36,8 +36,7 @@ public interface ParametrizableRequestMatcher extends RequestMatcher {
 
 	/**
 	 * Adds parameters to the {@link RequestMatcher} 
-	 * @param name
-	 * @param value
+	 * @param parameters
 	 * @return
 	 */
 	ParametrizableRequestMatcher withParameters(Map<String, Object> parameters);

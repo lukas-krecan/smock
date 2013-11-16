@@ -30,7 +30,7 @@ import org.springframework.ws.WebServiceMessageFactory;
 
 
 /**
- * {@link MessageResponseCreator} that preprocesses response using {@link TemplateProcessor}.
+ * {@link MessageCreator} that preprocesses response using {@link TemplateProcessor}.
  * @author Lukas Krecan
  *
  */

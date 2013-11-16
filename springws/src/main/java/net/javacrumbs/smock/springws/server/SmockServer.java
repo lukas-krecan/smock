@@ -51,8 +51,8 @@ public class SmockServer extends CommonSmockServer {
      * Creates a {@code MockWebServiceClient} instance based on the given {@link WebServiceMessageReceiver} and {@link
      * WebServiceMessageFactory}. Supports interceptors that can be applied on the outgoing message.
      *
-     * @param messageReceiver the message receiver, typically a {@link SoapMessageDispatcher}
-     * @param messageFactory  the message factory
+     * @param applicationContext to extract mocks from
+     * @param interceptors
      * @return the created client
      */
     public static MockWebServiceClient createClient(ApplicationContext applicationContext, ClientInterceptor[] interceptors) {
