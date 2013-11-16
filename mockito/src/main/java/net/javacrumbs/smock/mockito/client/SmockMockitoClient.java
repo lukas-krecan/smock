@@ -25,7 +25,6 @@ import org.springframework.ws.test.client.RequestMatcher;
 public class SmockMockitoClient extends ClientTestHelper{
 	/**
 	 * Matches a RequestMatcher.
-	 * @param <T>
 	 * @param matcher
 	 * @return
 	 */
