@@ -72,7 +72,6 @@ public abstract class AbstractSmockServerTest extends AbstractCommonSmockServerT
 		return SmockServer.createConfigurationContextFromResource(axis2Repository);
 	}
 
-
 	protected Axis2MockWebServiceClient getMockWebServiceClient() {
 		return mockWebServiceClient;
 	}

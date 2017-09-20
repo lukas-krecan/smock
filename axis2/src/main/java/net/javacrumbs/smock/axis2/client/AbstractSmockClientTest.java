@@ -38,7 +38,7 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	/**
      * Creates a {@code MockWebServiceServer} instance based on the given {@link WebServiceMessageFactory}.
      * Supports interceptors.
-     * @param applicationContext
+     * @param messageFactory
      * @param interceptors
      * @return
      */
@@ -49,8 +49,7 @@ public abstract class AbstractSmockClientTest extends AbstractCommonSmockClientT
 	/**
 	 * Creates a {@code MockWebServiceServer} instance based on the given {@link WebServiceMessageFactory}.
 	 * Supports interceptors.
-	 * @param applicationContext
-	 * @param interceptors
+	 * @param messageFactory
 	 * @return
 	 */
 	public void createServer(WebServiceMessageFactory messageFactory)

@@ -15,7 +15,6 @@ import org.apache.axis2.transport.TransportUtils;
 
 public class MockTransportSender extends AbstractHandler implements TransportSender {
 
-
 	public InvocationResponse invoke(MessageContext msgContext)	throws AxisFault {
 		MockConnection activeConnection = ThreadLocalMockWebServiceServer.getActiveConnection();
 		TransportUtils.writeMessage(msgContext, activeConnection.getOutputStream());
@@ -36,6 +35,4 @@ public class MockTransportSender extends AbstractHandler implements TransportSen
 
 	public void stop() {
 	}
-
-	
 }

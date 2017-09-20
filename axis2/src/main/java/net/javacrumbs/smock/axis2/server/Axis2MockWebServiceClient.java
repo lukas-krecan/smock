@@ -27,6 +27,8 @@ import net.javacrumbs.smock.common.server.MockWebServiceClientResponseActions;
 
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.description.Flow;
+import org.apache.axis2.description.TransportInDescription;
 import org.apache.axis2.transport.local.LocalTransportReceiver;
 import org.springframework.util.Assert;
 import org.springframework.ws.WebServiceMessage;
@@ -49,12 +51,15 @@ public class Axis2MockWebServiceClient {
 	private final WebServiceMessageFactory messageFactory;
 	private final InterceptingTemplate interceptingTemplate;
 	private final LocalTransportReceiver receiver;
+	private final ConfigurationContext configurationContext;
 	
 	public Axis2MockWebServiceClient(WebServiceMessageFactory messageFactory, ConfigurationContext configurationContext, ClientInterceptor[] interceptors) {
 		this.messageFactory =  messageFactory;
 		interceptingTemplate = new InterceptingTemplate(interceptors);
 		receiver = new LocalTransportReceiver(configurationContext);
+		this.configurationContext = configurationContext;
 	}
+
 	public Axis2MockWebServiceClient(ConfigurationContext configurationContext, ClientInterceptor[] interceptors) {
 		this(createDefaultMessageFactory(), configurationContext, interceptors);
 	}
@@ -82,7 +87,7 @@ public class Axis2MockWebServiceClient {
 				public void receive(MessageContext messageContext) throws Exception {
 					ByteArrayOutputStream response = new ByteArrayOutputStream();
 					InputStream request = getSourceAsStream(getEnvelopeSource(messageContext.getRequest()));
-					receiver.processMessage(request, to, action, response);
+					receiver.processMessage(createMessageContext(action, to), request, response);
 					messageContext.setResponse(messageFactory.createWebServiceMessage(new ByteArrayInputStream(response.toByteArray())));
 				}
 			});
@@ -107,4 +112,11 @@ public class Axis2MockWebServiceClient {
 		return sendRequestTo(to , null, requestCreator);
     }
 
+	private org.apache.axis2.context.MessageContext createMessageContext(final String action, final EndpointReference to)
+	{
+		org.apache.axis2.context.MessageContext mc = configurationContext.createMessageContext();
+		mc.setSoapAction(action);
+		mc.setTo(to);
+		return mc;
+	}
 }

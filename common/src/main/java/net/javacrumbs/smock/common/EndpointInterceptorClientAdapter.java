@@ -62,6 +62,14 @@ public class EndpointInterceptorClientAdapter implements ClientInterceptor {
 		}
 	}
 
+	public void afterCompletion(MessageContext messageContext, Exception ex) throws WebServiceClientException {
+		try {
+			interceptor.afterCompletion(messageContext, null, ex);
+		} catch (Exception e) {
+			throw new ServerSideInterceptorWebServiceClientException(e);
+		}
+	}
+
 	public boolean handleRequest(MessageContext messageContext)	throws WebServiceClientException {
 		try {
 			return interceptor.handleRequest(messageContext, null);

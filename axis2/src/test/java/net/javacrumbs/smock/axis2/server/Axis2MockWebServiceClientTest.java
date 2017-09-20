@@ -66,7 +66,4 @@ public class Axis2MockWebServiceClientTest{
 		
 		verify(interceptor);
 	}
-	
-	
-	
 }
