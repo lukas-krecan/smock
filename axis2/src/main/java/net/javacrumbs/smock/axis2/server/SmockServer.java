@@ -38,7 +38,6 @@ public class SmockServer extends CommonSmockServer {
 		return createClient(configurationContext, null);
 	}
 
-
 	public static ConfigurationContext createConfigurationContextFromResource(Resource axis2Repository) {
 		try {
 			Assert.notNull(axis2Repository, "axis2Repository can not be null");
@@ -47,6 +46,4 @@ public class SmockServer extends CommonSmockServer {
 			throw new IllegalStateException("Can not load Axis2 repository.",e);
 		}
 	}
-    
-
 }

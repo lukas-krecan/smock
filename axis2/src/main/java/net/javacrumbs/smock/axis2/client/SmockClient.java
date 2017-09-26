@@ -25,16 +25,19 @@ import net.javacrumbs.smock.extended.client.connection.threadlocal.ThreadLocalMo
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.description.TransportOutDescription;
 import org.apache.axis2.engine.ListenerManager;
 import org.springframework.ws.WebServiceMessageFactory;
 import org.springframework.ws.server.EndpointInterceptor;
 
 public class SmockClient extends CommonSmockClient {
+
 	static
 	{
 		bootstrap();
 	}
+
 	public static void bootstrap() {
 		try {
 			ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
@@ -43,11 +46,12 @@ public class SmockClient extends CommonSmockClient {
 			{
 				setSender(tod);
 			}
-			ListenerManager.defaultConfigurationContext = configurationContext;
+			MessageContext.getCurrentMessageContext().setConfigurationContext(configurationContext);
 		} catch (AxisFault e) {
 			throw new IllegalStateException("Can not set ListenerManager.defaultConfigurationContext.",e);
 		}
 	}
+
 	private static void setSender(TransportOutDescription transportOutDescription)
 	{
 		if (transportOutDescription!=null)
@@ -60,14 +64,17 @@ public class SmockClient extends CommonSmockClient {
 	{
 		return new ThreadLocalMockWebServiceServer(messageFactory, interceptors);
 	}
+
 	public static MockWebServiceServer createServer(WebServiceMessageFactory messageFactory)
 	{
 		return createServer(messageFactory, null);
 	}
+
 	public static MockWebServiceServer createServer(EndpointInterceptor[] interceptors)
 	{
 		return createServer(createMessageFactory(), interceptors);
 	}
+
 	public static MockWebServiceServer createServer()
 	{
 		return createServer(createMessageFactory(), null);

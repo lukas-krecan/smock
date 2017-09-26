@@ -35,6 +35,7 @@ import org.springframework.ws.context.MessageContext;
 public abstract class AbstractServletBasedMockWebServiceClientTest {
 	
 	protected abstract CommonServletBasedMockWebServiceClient createMockClient(ApplicationContext context, ClientInterceptor[] interceptors);
+
 	@Test
 	public void testNormal()
 	{

@@ -30,6 +30,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.core.ResolvableType;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -57,6 +59,10 @@ class ApplicationContextWrapper implements WebApplicationContext{
 	
 	public void publishEvent(ApplicationEvent event) {
 		wrappedApplicationContext.publishEvent(event);
+	}
+
+	public void publishEvent(Object o) {
+		wrappedApplicationContext.publishEvent(o);
 	}
 
 	public BeanFactory getParentBeanFactory() {
@@ -90,6 +96,10 @@ class ApplicationContextWrapper implements WebApplicationContext{
 		return wrappedApplicationContext.getId();
 	}
 
+	public String getApplicationName() {
+		return wrappedApplicationContext.getApplicationName();
+	}
+
 	public ClassLoader getClassLoader() {
 		return wrappedApplicationContext.getClassLoader();
 	}
@@ -121,6 +131,10 @@ class ApplicationContextWrapper implements WebApplicationContext{
 
 	public String[] getBeanDefinitionNames() {
 		return wrappedApplicationContext.getBeanDefinitionNames();
+	}
+
+	public String[] getBeanNamesForType(ResolvableType resolvableType) {
+		return wrappedApplicationContext.getBeanNamesForType(resolvableType);
 	}
 
 	public AutowireCapableBeanFactory getAutowireCapableBeanFactory()
@@ -160,11 +174,19 @@ class ApplicationContextWrapper implements WebApplicationContext{
 		return wrappedApplicationContext.getBean(name, args);
 	}
 
+	public <T> T getBean(Class<T> aClass, Object... objects) throws BeansException {
+		return wrappedApplicationContext.getBean(aClass, objects);
+	}
+
 	public <T> Map<String, T> getBeansOfType(Class<T> type,
 			boolean includeNonSingletons, boolean allowEagerInit)
 			throws BeansException {
 		return wrappedApplicationContext.getBeansOfType(type,
 				includeNonSingletons, allowEagerInit);
+	}
+
+	public String[] getBeanNamesForAnnotation(Class<? extends Annotation> aClass) {
+		return wrappedApplicationContext.getBeanNamesForAnnotation(aClass);
 	}
 
 	public boolean containsBean(String name) {
@@ -179,6 +201,10 @@ class ApplicationContextWrapper implements WebApplicationContext{
 	public boolean isPrototype(String name)
 			throws NoSuchBeanDefinitionException {
 		return wrappedApplicationContext.isPrototype(name);
+	}
+
+	public boolean isTypeMatch(String s, ResolvableType resolvableType) throws NoSuchBeanDefinitionException {
+		return wrappedApplicationContext.isTypeMatch(s, resolvableType);
 	}
 
 	public Map<String, Object> getBeansWithAnnotation(
@@ -206,4 +232,7 @@ class ApplicationContextWrapper implements WebApplicationContext{
 	}
 
 
+	public Environment getEnvironment() {
+		return wrappedApplicationContext.getEnvironment();
+	}
 }

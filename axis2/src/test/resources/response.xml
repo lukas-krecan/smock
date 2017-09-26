@@ -1,4 +1,5 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Header/>
    <soap:Body>
       <ns2:testMethodResponse xmlns:ns2="http://javacrumbs.net/test">
          <ns2:return>Hallo Lukas!</ns2:return>

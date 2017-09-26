@@ -24,8 +24,7 @@
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
-			<version>2.5.2</version>
-			<type>jar</type>
+			<version>${easymock.version}</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This file was auto-generated from WSDL -->
-<!-- by the Apache Axis2 version: 1.5.4  Built on : Dec 19, 2010 (08:18:42 CET) -->
+<!-- by the Apache Axis2 version: 1.7.6  Built on : Dec 19, 2010 (08:18:42 CET) -->
 <serviceGroup>
     <service name="AirlineService">
         <messageReceivers>

@@ -21,12 +21,10 @@ import net.javacrumbs.smock.http.test.server.servlet.AbstractServletBasedMockWeb
 import org.springframework.context.ApplicationContext;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
-public class ServletBasedMockWebServiceClientTest extends AbstractServletBasedMockWebServiceClientTest{
+public class ServletBasedMockWebServiceClientTest extends AbstractServletBasedMockWebServiceClientTest {
 
 	@Override
 	protected CommonServletBasedMockWebServiceClient createMockClient(ApplicationContext context, ClientInterceptor[] interceptors) {
 		return SmockServer.createClient(context, interceptors);
 	}
-	
-	
 }
